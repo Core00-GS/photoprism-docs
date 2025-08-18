@@ -56,7 +56,7 @@ Please note, however, that we have a [zero-bug policy](../known-issues.md) and d
 
 ## Getting Support
 
-Common problems can be quickly diagnosed and solved using our [Troubleshooting Checklists](troubleshooting/index.md). If you need help installing our software at home, you can also post your questions on [GitHub Discussions](https://link.photoprism.app/discussions), ask in our [Community Chat](https://link.photoprism.app/chat), or consult our virtual [PhotoPrism Expert on ChatGPT](https://link.photoprism.app/chatgpt).[^6]
+Common problems can be quickly diagnosed and solved using our [Troubleshooting Checklists](troubleshooting/index.md). You can also post your questions on [GitHub Discussions](https://link.photoprism.app/discussions), ask in our [Community Chat](https://link.photoprism.app/chat), or consult our virtual [PhotoPrism Expert on ChatGPT](https://link.photoprism.app/chatgpt).[^6]
 
 [Silver, Gold, and Platinum](https://link.photoprism.app/membership) members, as well as [users with a team plan](http://link.photoprism.app/team-editions), are welcome to email us for technical support and advice.
 
