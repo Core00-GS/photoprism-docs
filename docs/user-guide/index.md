@@ -22,7 +22,7 @@ Our members can activate [additional features](https://link.photoprism.app/membe
 
 ## Getting Support ##
 
-Common problems can be quickly diagnosed and solved using our [Troubleshooting Checklists](../getting-started/troubleshooting/index.md). If you need help installing our software at home, you can also post your question on [GitHub Discussions](https://link.photoprism.app/discussions), ask in our [Community Chat](https://link.photoprism.app/chat), or consult our virtual [PhotoPrism Expert on ChatGPT](https://link.photoprism.app/chatgpt).[^1]
+Common problems can be quickly diagnosed and solved using our [Troubleshooting Checklists](../getting-started/troubleshooting/index.md). If you need help using our software at home, you can also post your question on [GitHub Discussions](https://link.photoprism.app/discussions), ask in our [Community Chat](https://link.photoprism.app/chat), or consult our virtual [PhotoPrism Expert on ChatGPT](https://link.photoprism.app/chatgpt).[^1]
 
 [Silver, Gold, and Platinum](https://link.photoprism.app/membership) members, as well as [users with a team plan](http://link.photoprism.app/team-editions), are welcome to email us for technical support and advice.
 
