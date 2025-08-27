@@ -23,7 +23,7 @@ What's new?
 - Config: [`PHOTOPRISM_DISABLE_FRONTEND` disables the web user interface](https://github.com/photoprism/photoprism/issues/5111)
 - Setup: [Updated `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
-- Docker: [Improved cmd.sh script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
+- Docker: [Improved `cmd.sh` script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
 - Security: [Upgraded Go to v1.25, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25)
 - Translations: [Updated Spanish and Vietnamese](https://docs.photoprism.app/developer-guide/translations-weblate/)
 
