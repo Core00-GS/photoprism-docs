@@ -15,6 +15,7 @@ What's new?
 - AI: [Improved vision model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
 - Search: [Added a reverse sort query parameter for initial testing (work in progress)](https://github.com/photoprism/photoprism/issues/683#issuecomment-3070215533)
+- Search: [Added escaping capability for `|` and `&`](https://github.com/photoprism/photoprism/pull/5188) by [@keif888](https://github.com/keif888)
 - Index: [Selecting "Complete Rescan" refreshes the detected media types](https://github.com/photoprism/photoprism/issues/5096)
 - Index: [Underlying errors are logged when file type detection fails](https://github.com/photoprism/photoprism/issues/5149)
 - Index: [Improved error logging when PDF documents cannot be indexed](https://github.com/photoprism/photoprism/issues/5166)
