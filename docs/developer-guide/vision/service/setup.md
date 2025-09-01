@@ -72,18 +72,24 @@ The file consists of a list of `Models` and a `Thresholds` section.
 !!! example "`storage/config/vision.yml`"
     ```yaml
     Models:
+    - Type: nsfw
+      Default: true
+    - Type: face
+      Default: true
     - Type: caption
+      Name: gemma3
+      Version: latest
+      Prompt: Create a caption with exactly one sentence in the active voice that describes
+        the main visual content. Begin with the main subject and clear action. Avoid text
+        formatting, meta-language, and filler words.
       Resolution: 720
-      Name: "llava-phi3"
-      Version: "latest"
-      Prompt: |
-        Write a journalistic caption that is informative and briefly describes the most important visual content in up to 3 sentences.
+      Options:
+        Temperature: 0.1
       Service:
         Uri: "http://<vision-service-ip>:5000/api/v1/vision"
-        FileScheme: base64
+        FileScheme: data
         RequestFormat: vision
         ResponseFormat: vision
-
     - Type: labels
       Resolution: 720
       Name: "kosmos-2"
@@ -93,7 +99,6 @@ The file consists of a list of `Models` and a `Thresholds` section.
         FileScheme: base64
         RequestFormat: vision
         ResponseFormat: vision
-
     Thresholds:
       Confidence: 50
     ```
