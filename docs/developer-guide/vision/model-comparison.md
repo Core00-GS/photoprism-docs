@@ -58,7 +58,7 @@ atmosphere (e.g., time of day). If possible, include the subject's
 gender and general age group.
 ```
 
-> **Recommendation:** Use Qwen2.5-VL:7B for the best accuracy. Use the 3B version for faster performance on lower-spec systems.
+> **Recommendation:** For maximum accuracy, use `qwen2.5vl:7b`. On lower-spec systems, try the 3b variant. Note that this model requires Ollama 0.7.0 and may not be compatible with later versions.
 
 ### Gemma 3:4B — **Best Lightweight Model**
 
@@ -78,13 +78,11 @@ Gemma 3, a Google Gemini-based model, offers **fast and lightweight captioning**
 #### Best Prompt for Gemma 3
 
 ```text
-You are a photo captioner.
-Output exactly ONE sentence in the active voice using present tense
-American English.
-- Start with the main subject and clear action.
+Create a caption with exactly one sentence in the active voice that describes the main visual content.
+Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
 ```
 
-> **Recommendation:** Use Gemma 3:4B when speed and simplicity are more important than detailed captions.
+> **Recommendation:** Use `gemma3:4b` / `gemma3:latest` if you prioritize speed and simplicity over detailed captions. This model should be compatible with the latest Ollama versions.
 
 ### Key Takeaways
 
