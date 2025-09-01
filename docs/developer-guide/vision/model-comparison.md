@@ -20,7 +20,8 @@ The results were evaluated based on the following **quality criteria**:
 5. Date and/or time estimation based on visible information
 6. Image type classification (e.g. illustration, drawing, watercolor)
 
-> To ensure comparability, all tests were run on an **AMD Ryzen AI 9 365 CPU**, and three different prompts were used for each model. A GPU will significantly reduce the time needed per image.
+!!! tldr ""
+    To ensure comparability, all tests were run on an **AMD Ryzen AI 9 365 CPU**, and three different prompts were used for each model. A GPU will significantly reduce the time needed per image.
 
 ### General Observations
 
@@ -48,17 +49,10 @@ Qwen2.5-VL:7B, developed by Alibaba, provided the **most accurate and consistent
 
 #### Best Prompt for Qwen2.5-VL
 
-```text
-Write a descriptive caption in 3 sentences or less that captures
-the essence of the visual content. Avoid text formatting,
-meta-language, and filler words. Do not start captions with phrases
-such as 'This image', 'The picture', or 'Here are'. Begin with the
-subject(s), then describe the surroundings, and finally add
-atmosphere (e.g., time of day). If possible, include the subject's
-gender and general age group.
-```
+> Write a descriptive caption in 3 sentences or less that captures the essence of the visual content. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as 'This image', 'The picture', or 'Here are'. Begin with the subject(s), then describe the surroundings, and finally add atmosphere (e.g., time of day). If possible, include the subject's gender and general age group.
 
-> **Recommendation:** For maximum accuracy, use `qwen2.5vl:7b`. On lower-spec systems, try the 3b variant. Note that this model requires Ollama 0.7.0 and may not be compatible with later versions.
+!!! tip ""
+    For *maximum accuracy*, use `qwen2.5vl:7b`. On lower-spec systems, try the 3b variant. This model requires Ollama 0.7.0 and may not be compatible with later versions.
 
 ### Gemma 3:4B — **Best Lightweight Model**
 
@@ -77,12 +71,11 @@ Gemma 3, a Google Gemini-based model, offers **fast and lightweight captioning**
 
 #### Best Prompt for Gemma 3
 
-```text
-Create a caption with exactly one sentence in the active voice that describes the main visual content.
+> Create a caption with exactly one sentence in the active voice that describes the main visual content.
 Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
-```
 
-> **Recommendation:** Use `gemma3:4b` / `gemma3:latest` if you prioritize speed and simplicity over detailed captions. This model should be compatible with the latest Ollama versions.
+!!! tip ""
+    Use `gemma3:4b` / `gemma3:latest` if you prioritize *speed and simplicity* over detailed captions. This model should be compatible with the latest Ollama versions.
 
 ### Key Takeaways
 
