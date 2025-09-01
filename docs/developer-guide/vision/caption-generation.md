@@ -50,21 +50,22 @@ docker compose --profile ollama up -d
         environment:
           ## Ollama Configuration Options:
           OLLAMA_HOST: "0.0.0.0:11434"
-          OLLAMA_MODELS: "/root/.ollama" # model storage path (see volumes section below)
-          OLLAMA_MAX_QUEUE: "100"        # maximum number of queued requests
-          OLLAMA_NUM_PARALLEL: "1"       # maximum number of parallel requests
-          OLLAMA_MAX_LOADED_MODELS: "1"  # maximum number of loaded models per GPU
-          OLLAMA_LOAD_TIMEOUT: "5m"      # maximum time for loading models (default "5m")
-          OLLAMA_KEEP_ALIVE: "10m"       # duration that models stay loaded in memory (default "5m")
-          OLLAMA_CONTEXT_LENGTH: "4096"  # maximum input context length
-          OLLAMA_MULTIUSER_CACHE: "1"    # optimize prompt caching for multi-user scenarios
-          # OLLAMA_DEBUG: "1"              # shows additional debug information
-          # OLLAMA_NOPRUNE: "1"            # disables pruning of model blobs at startup
-          # OLLAMA_NOHISTORY: "1"          # disables readline history
-          # OLLAMA_FLASH_ATTENTION: "1"    # enables the experimental flash attention feature
-          # OLLAMA_SCHED_SPREAD: "1"       # allows scheduling models across all GPUs.
-          # OLLAMA_GPU_OVERHEAD: "0"       # reserves a portion of VRAM per GPU (bytes)
-          # OLLAMA_INTEL_GPU: "1"          # enables experimental Intel GPU detection
+          OLLAMA_MODELS: "/root/.ollama"   # model storage path (see volumes section below)
+          OLLAMA_MAX_QUEUE: "100"          # maximum number of queued requests
+          OLLAMA_NUM_PARALLEL: "1"         # maximum number of parallel requests
+          OLLAMA_MAX_LOADED_MODELS: "1"    # maximum number of loaded models per GPU
+          OLLAMA_LOAD_TIMEOUT: "5m"        # maximum time for loading models (default "5m")
+          OLLAMA_KEEP_ALIVE: "5m"          # duration that models stay loaded in memory (default "5m")
+          OLLAMA_CONTEXT_LENGTH: "4096"    # maximum input context length
+          OLLAMA_MULTIUSER_CACHE: "false"  # optimize prompt caching for multi-user scenarios
+          OLLAMA_NOPRUNE: "false"          # disables pruning of model blobs at startup
+          OLLAMA_NOHISTORY: "true"         # disables readline history
+          OLLAMA_FLASH_ATTENTION: "false"  # enables the experimental flash attention feature
+          OLLAMA_KV_CACHE_TYPE: "f16"      # cache quantization (f16, q8_0, or q4_0)
+          OLLAMA_SCHED_SPREAD: "false"     # allows scheduling models across all GPUs.
+          OLLAMA_NEW_ENGINE: "true"        # enables the new Ollama engine
+          # OLLAMA_DEBUG: "true"             # shows additional debug information
+          # OLLAMA_INTEL_GPU: "true"         # enables experimental Intel GPU detection
           ## NVIDIA GPU Hardware Acceleration (optional):
           # NVIDIA_VISIBLE_DEVICES: "all"
           # NVIDIA_DRIVER_CAPABILITIES: "compute,utility"
@@ -115,15 +116,17 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
     - Type: face
       Default: true
     - Type: caption
+      Name: gemma3
+      Version: latest
+      Prompt: Create a caption with exactly one sentence in the active voice that describes
+        the main visual content. Begin with the main subject and clear action. Avoid text
+        formatting, meta-language, and filler words.
       Resolution: 720
-      Name: "qwen2.5vl:3b"
-      Prompt: |
-        Write a journalistic caption that is informative
-        and briefly describes the most important visual
-        content in up to 3 sentences.
+      Options:
+        Temperature: 0.1
       Service:
         # Ollama API endpoint (adjust as needed):
-        Uri: "http://ollama:11434/api/generate"
+        Uri: http://ollama:11434/api/generate
         FileScheme: base64
         RequestFormat: ollama
         ResponseFormat: ollama
