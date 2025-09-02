@@ -186,7 +186,9 @@ nav:
       - Color Detection: developer-guide/metadata/colors.md
       - Camera Models: developer-guide/metadata/cameras.md
     - Computer Vision:
-      - Image Classification: developer-guide/vision/classification.md
+      - Image Classification:
+        - Introduction: developer-guide/vision/classification.md
+        - Custom Models: developer-guide/vision/custom-classification-model.md
       - Face Recognition: developer-guide/vision/face-recognition.md
       - Caption Generation: developer-guide/vision/caption-generation.md
       - Model Comparison: developer-guide/vision/model-comparison.md
