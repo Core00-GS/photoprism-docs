@@ -32,29 +32,44 @@ The results were evaluated based on the following **quality criteria**:
     - **Non-English or partially obscured text**.
     - OCR accuracy was highest for **clear English text**.
 
-### Qwen2.5-VL:7B — **Overall Winner**
+### Qwen2.5-VL — **Overall Winner**
 
-Qwen2.5-VL:7B, developed by Alibaba, provided the **most accurate and consistent captions** across nearly all criteria:
+Qwen2.5-VL, developed by Alibaba, provided the **most accurate and consistent captions** across nearly all criteria:
 
 * Strong in **OCR, subject age, gender, location, landmark, and image type recognition**.
 * Captions were **natural, detailed, and well-structured**.
 * Rarely (<1%) inserted Chinese characters.
 * Always generated **medium-to-long captions** (3+ sentences) — does not follow requests to shorten.
 
-#### Performance Metrics
+#### Performance
 
 * **Average time per image:** 36.34s (7B) / 24.12s (3B)
 * **Hallucination rate:** 0.33% (7B) / 1.33% (3B)
 * **Error rate:** 18% (7B) / 19% (3B)
 
-#### Best Prompt for Qwen2.5-VL
+#### Compatibility
 
-> Write a descriptive caption in 3 sentences or less that captures the essence of the visual content. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as 'This image', 'The picture', or 'Here are'. Begin with the subject(s), then describe the surroundings, and finally add atmosphere (e.g., time of day). If possible, include the subject's gender and general age group.
+Qwen2.5-VL [requires Ollama 0.7.0](https://ollama.com/library/qwen2.5vl#readme) and may not be compatible with [later versions](https://github.com/ollama/ollama/releases). If the regular version doesn't work, try the FP16 variant as a workaround, e.g. `qwen2.5vl:3b-fp16`.
 
-!!! tip ""
-    For *maximum accuracy*, use `qwen2.5vl:7b`. On lower-spec systems, try the 3b variant. This model requires Ollama 0.7.0 and may not be compatible with later versions.
+#### Prompts
 
-### Gemma 3:4B — **Best Lightweight Model**
+We recommend the following prompt to generate detailed captions of up to three sentences:
+
+> Write a descriptive caption in 3 sentences or fewer that captures the essence of the visual content. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as "This image", "The picture", or "Here are". Begin with the subject(s), then describe the surroundings, and finally add atmosphere (e.g., time of day). If possible, include the subject's gender and general age group.
+
+Example: *A gray cat with a fluffy coat is lounging on a cushion, its eyes closed in a peaceful slumber. The background features a blurred view of trees and a blue sky, suggesting it's daytime. The cat's relaxed posture and the serene outdoor setting create a tranquil and cozy atmosphere.*
+
+Alternatively, this prompt will generate shorter captions that are still relatively detailed:
+
+> Create an interesting caption that sounds natural and briefly describes the visual content in 1 to 2 sentences. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as "This image", "The image", "This picture", "The picture", "A picture of", "Here are", or "There is". Instead, start describing the content by identifying the subjects, location, and any actions that might be performed. Use explicit language to describe the scene if necessary for a proper understanding.
+
+Example: *In the darkness, a lone figure stands still, their silhouette barely visible against the pitch-black background.*
+
+#### Summary
+
+Use `qwen2.5vl:7b` for **detailed captions** with **high accuracy**. For better performance on lower-spec systems, we recommend using `qwen2.5vl:3b` instead, which provides slightly lower detail and accuracy. To generate captions in other languages, keep the prompt in English and specify the desired language.
+
+### Gemma 3 — **Best Lightweight Model**
 
 Gemma 3, a Google Gemini-based model, offers **fast and lightweight captioning** with reasonable accuracy:
 
@@ -63,19 +78,28 @@ Gemma 3, a Google Gemini-based model, offers **fast and lightweight captioning**
 * Performs best with **short prompts** (<500 characters).
 * More prone to hallucination with longer prompts.
 
-#### Performance Metrics
+#### Performance
 
 * **Average time per image:** 31.02s
 * **Hallucination rate:** 2%
 * **Error rate:** 25%
 
-#### Best Prompt for Gemma 3
+#### Compatibility
+
+[Gemma 3](https://ollama.com/library/gemma3) should be compatible with the [latest Ollama versions](https://github.com/ollama/ollama/releases). Please [report](https://github.com/photoprism/photoprism-docs/tree/develop/docs/developer-guide/vision/model-comparison.md) any issues you experience so that we can include them in our documentation.
+
+#### Prompt
+
+We recommend using the following prompt to generate short, concise captions:
 
 > Create a caption with exactly one sentence in the active voice that describes the main visual content.
 Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
 
-!!! tip ""
-    Use `gemma3:4b` / `gemma3:latest` if you prioritize *speed and simplicity* over detailed captions. This model should be compatible with the latest Ollama versions.
+Example: *A snow-covered church stands prominently on a winter street.*
+
+#### Summary
+
+If you prioritize **speed** and **simplicity** over detailed captions, the `gemma3:4b` / `gemma3:latest` model is a great choice. To generate captions in other languages, keep the prompt in English and specify the desired language.
 
 ### Key Takeaways
 
