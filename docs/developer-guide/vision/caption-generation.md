@@ -38,7 +38,7 @@ docker compose --profile ollama up -d
       ## Ollama AI Model Runner (optional)
       ## Run "ollama pull [name]:[version]" to download a vision model
       ## listed at <https://ollama.com/search?c=vision>, for example:
-      ## docker compose exec ollama ollama pull qwen2.5vl:3b
+      ## docker compose exec ollama ollama pull gemma3:latest
       ollama:
         image: ollama/ollama:latest
         restart: unless-stopped
@@ -99,7 +99,7 @@ If Ollama does not start as expected when using one of our configuration example
 You can then download [any of the listed vision models](https://ollama.com/search?c=vision) that match your hardware capabilities and preferences, as you will need it for the next step. For example:
 
 ```bash
-docker compose exec ollama ollama pull qwen2.5vl:3b
+docker compose exec ollama ollama pull gemma3:latest
 ```
 
 ### Step 3: Configure PhotoPrism
