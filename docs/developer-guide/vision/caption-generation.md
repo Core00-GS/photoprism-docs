@@ -102,6 +102,8 @@ You can then download [any of the listed vision models](https://ollama.com/searc
 docker compose exec ollama ollama pull gemma3:latest
 ```
 
+[View Model Comparison ›](model-comparison.md)
+
 ### Step 3: Configure PhotoPrism
 
 Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
