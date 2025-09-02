@@ -34,7 +34,7 @@ The results were evaluated based on the following **quality criteria**:
 
 ### Qwen2.5-VL — **Overall Winner**
 
-Qwen2.5-VL, developed by Alibaba, provided the **most accurate and consistent captions** across nearly all criteria:
+[Qwen2.5-VL](https://ollama.com/library/qwen2.5vl, developed by Alibaba, provided the **most accurate and consistent captions** across nearly all criteria:
 
 * Strong in **OCR, subject age, gender, location, landmark, and image type recognition**.
 * Captions were **natural, detailed, and well-structured**.
@@ -71,7 +71,7 @@ Use `qwen2.5vl:7b` for **detailed captions** with **high accuracy**. For better 
 
 ### Gemma 3 — **Best Lightweight Model**
 
-Gemma 3, a Google Gemini-based model, offers **fast and lightweight captioning** with reasonable accuracy:
+[Gemma 3](https://ollama.com/library/gemma3), a Google Gemini-based model, offers **fast and lightweight captioning** with reasonable accuracy:
 
 * Excels at **single-sentence captions**.
 * Good **OCR for large, clear text**.
