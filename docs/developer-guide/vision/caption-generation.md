@@ -150,6 +150,10 @@ When using a custom `vision.yml` config file, you can apply the default settings
       Default: true
     - Type: face
       Default: true
+    - Type: caption
+      Default: true
+    Thresholds:
+      Confidence: 10
     ```
 
 This simplifies your configuration, allowing you to customize only specific model types.
