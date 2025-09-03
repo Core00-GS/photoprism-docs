@@ -117,7 +117,7 @@ Add caching only after correctness is proven and a bottleneck is measured; keep 
 ### Definition of Done
 
 - [ ] All of the [acceptance criteria](pull-requests.md#acceptance-criteria) have been met, so we can [merge your changes](pull-requests.md#how-to-create-and-submit-a-pull-request)
-- [ ] All [tests pass locally](tests.md), and [coverage has been added](#test-automation-guidelines) for new logic
+- [ ] All [tests pass](tests.md), and [coverage has been added](#test-automation-guidelines) for new logic
 - [ ] Benchmarks/profile updated if performance was a goal
 - [ ] [Docs](documentation.md) and comments reflect current behavior and trade-offs
 - [ ] Change is observable (metrics/logs) and reversible (flag/config)
