@@ -35,8 +35,8 @@ Add [caching](#be-careful-with-caching) only after correctness is proven and a b
 
 ### Definition of Ready
 
-- [ ] [Use cases](issues.md#writing-user-stories), [problems, and constraints](#go-slow-before-you-go-fast) have been documented
-- [ ] [Test cases](#test-automation-guidelines) (happy path and key edge cases) are identified
+- [ ] [User stories](issues.md#writing-user-stories), [success criteria](issues.md#acceptance-criteria), [context and constraints](#go-slow-before-you-go-fast) have been documented
+- [ ] Key [test cases](#test-automation-guidelines) (happy path and key edge cases) are identified
 - [ ] A rollout/rollback plan is in place if needed, e.g. via feature flag
 
 ### Definition of Done
