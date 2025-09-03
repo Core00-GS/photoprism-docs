@@ -19,7 +19,7 @@
 
 ## Go Slow Before You Go Fast 🐰 ##
 
-Read the docs, understand the context and constraints, and talk to others before you write code. Start by [writing tests](#test-automation-guidelines) (or at least a test plan), implement the [simplest working solution](#opportunistic-refactoring), and iterate in [small, reviewable steps](#bottom-up-development). Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
+Read the docs, understand the context and constraints, and [talk to others](index.md#join-the-community) before you write code. Start by [writing tests](#test-automation-guidelines) (or at least a test plan), implement the [simplest working solution](#opportunistic-refactoring), and iterate in [small, reviewable steps](#bottom-up-development). Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
 
 * **Clarify intent:** Define inputs/outputs, failure modes, and success criteria in one paragraph before coding
 * **Tests first:** [Write unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
