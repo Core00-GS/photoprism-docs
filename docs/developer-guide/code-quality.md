@@ -81,7 +81,7 @@ In computer science, there are two hard problems: [naming things](#naming-things
 - **Test both paths.** Unit tests should pass with the cache disabled; integration tests should cover cache hits, misses, expiry, and invalidation.
 
 !!! example ""
-    A cache is just a memory leak you haven't met yet. — <cite>[Dave Cheney](https://devblogs.microsoft.com/oldnewthing/20060502-07/?p=31333)</cite>
+    A cache with a bad policy is another name for a memory leak. — <cite>[Raymond Chen](https://devblogs.microsoft.com/oldnewthing/20060502-07/?p=31333)</cite>
 
 ## Use Safe Concurrency ##
 
