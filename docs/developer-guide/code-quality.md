@@ -19,7 +19,7 @@
 
 ## Go Slow Before You Go Fast 🐰 ##
 
-Read the docs, understand the context and constraints, and talk to others before you write code. Start by writing tests (or at least a test plan), implement the simplest working solution, and iterate in small, reviewable steps. Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
+Read the docs, understand the context and constraints, and talk to others before you write code. Start by [writing tests](#test-automation-guidelines) (or at least a test plan), implement the [simplest working solution](#opportunistic-refactoring), and iterate in [small, reviewable steps](#bottom-up-development). Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
 
 * **Clarify intent:** Define inputs/outputs, failure modes, and success criteria in one paragraph before coding
 * **Tests first:** [Write unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
@@ -27,7 +27,7 @@ Read the docs, understand the context and constraints, and talk to others before
 * **Spike, then build:** When uncertain, timebox a throwaway spike to learn, then implement the real solution cleanly
 * **Measure, don’t guess:** Use profiling/metrics to identify bottlenecks; [optimize](#premature-optimization) only where data supports it
 
-Add caching only after correctness is proven and a bottleneck is measured; keep it optional and easy to disable. Introduce [concurrency](#use-safe-concurrency) only when it simplifies the design or removes a measured bottleneck—otherwise prefer simple, sequential code.
+Add [caching](#be-careful-with-caching) only after correctness is proven and a bottleneck is measured; keep it optional and easy to disable. Introduce [concurrency](#use-safe-concurrency) only when it simplifies the design or removes a measured bottleneck—otherwise prefer simple, sequential code.
 
 !!! example ""
     Simple, elegant solutions are [more effective](#effectiveness-efficiency), but they are harder to find than complex ones, and they require more
