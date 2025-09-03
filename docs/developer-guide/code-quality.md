@@ -17,6 +17,36 @@
     to go fast! You will not make the deadline by making a mess. Indeed, the mess will slow you down instantly, and
     will force you to miss the deadline. — <cite>Robert C. Martin</cite>
 
+## Go Slow Before You Go Fast 🐰 ##
+
+Read the docs, understand the context and constraints, and talk to others before you write code. Start by writing tests (or at least a test plan), implement the simplest working solution, and iterate in small, reviewable steps. Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
+
+* **Clarify intent:** Define inputs/outputs, failure modes, and success criteria in one paragraph before coding
+* **Tests first:** [Write unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
+* **Small PRs:** Prefer focused changes with clear commit messages over large “mixed” PRs
+* **Spike, then build:** When uncertain, timebox a throwaway spike to learn, then implement the real solution cleanly
+* **Measure, don’t guess:** Use profiling/metrics to identify bottlenecks; [optimize](#premature-optimization) only where data supports it
+
+Add caching only after correctness is proven and a bottleneck is measured; keep it optional and easy to disable. Introduce [concurrency](#use-safe-concurrency) only when it simplifies the design or removes a measured bottleneck—otherwise prefer simple, sequential code.
+
+!!! example ""
+    Simple, elegant solutions are [more effective](#effectiveness-efficiency), but they are harder to find than complex ones, and they require more
+    time, which we too often believe to be unaffordable. — <cite>Niklaus Wirth, [Communications of the ACM](https://dl.acm.org/doi/10.1145/2786.2789), 1985</cite>
+
+### Definition of Ready
+
+- [ ] [Use cases, problems, and constraints](#go-slow-before-you-go-fast) have been documented
+- [ ] [Test cases](#test-automation-guidelines) (happy path and key edge cases) are identified
+- [ ] A rollout/rollback plan is in place if needed, e.g. via feature flag
+
+### Definition of Done
+
+- [ ] All of the [acceptance criteria](pull-requests.md#acceptance-criteria) have been met, so we can [merge your changes](pull-requests.md#how-to-create-and-submit-a-pull-request)
+- [ ] All [tests pass](tests.md), and [coverage has been added](#test-automation-guidelines) for new logic
+- [ ] Benchmarks/profile updated if performance was a goal
+- [ ] [Docs](documentation.md) and comments reflect current behavior and trade-offs
+- [ ] Change is observable (metrics/logs) and reversible (flag/config)
+
 ## Bottom-Up Development ##
 
 Breaking a problem down into small, coherent fragments lends itself to organization. Start with the basic low-level
@@ -59,13 +89,14 @@ Also keep in mind that it's much easier and less effort to maintain small amount
 !!! example ""
     Premature optimization is the root of all evil. — <cite>Donald Knuth</cite>
 
-## Naming Things Is Hard ##
+## Use Safe Concurrency ##
 
-Use short, [descriptive names](https://go.dev/doc/effective_go) with idiomatic casing:
+Go makes it easy to run work concurrently with [goroutines](https://gobyexample.com/goroutines), but correctness still depends on *safely* accessing shared, mutable state. A mutex (`sync.Mutex` / `sync.RWMutex`) provides mutual exclusion so only one goroutine manipulates protected data at a time, and it also serves as a synchronization point that *publishes* changes according to the Go memory model. Use [mutexes](https://gobyexample.com/mutexes) when multiple goroutines must share the same data; prefer channels, immutability, or ownership transfer when you can avoid sharing altogether.
 
-- **lowerCamelCase** for locals/unexported, **MixedCaps** for exported, and *package names* that are short, lower-case, *singular*, and underscore-free. We can make exceptions when there's a naming conflict, for example, with a reserved word.
-- Avoid stutter (`bytes.Buffer` not `bytes.BytesBuffer`); prefer positive booleans (`is/has/can`), standard initialisms (`ID`, `URL`, `JSON`), `Err…` for error vars, and small behavior-based interfaces (use the `…er` suffix only when it adds clarity).
-- Choose names that reflect behavior rather than types or frameworks; keep receiver names short and consistent (e.g., `db *DB`), use verbs for functions and nouns for types.
+- Prefer simple `sync.Mutex` over `RWMutex` unless reads clearly dominate and profiles show contention; hold locks briefly and never across slow I/O or long computations.
+- Document what the mutex protects (`// mu guards: …`), keep the mutex next to the protected fields in the same struct, and avoid exporting or copying types containing a mutex.
+- Establish a consistent lock order to prevent deadlocks, don’t start goroutines while holding a lock, and consider `sync/atomic` or channels for simple counters or ownership transfer.
+- Use `defer mu.Unlock()` for clarity in short functions, but in hot paths unlock explicitly to reduce overhead, and always run the race detector to catch misuse.
 
 ## Be Careful with Caching ##
 
@@ -83,44 +114,13 @@ In computer science, there are two hard problems: [naming things](#naming-things
 !!! example ""
     A cache with a bad policy is another name for a memory leak. — <cite>[Raymond Chen](https://devblogs.microsoft.com/oldnewthing/20060502-07/?p=31333)</cite>
 
-## Use Safe Concurrency ##
+## Naming Things Is Hard ##
 
-Go makes it easy to run work concurrently with [goroutines](https://gobyexample.com/goroutines), but correctness still depends on *safely* accessing shared, mutable state. A mutex (`sync.Mutex` / `sync.RWMutex`) provides mutual exclusion so only one goroutine manipulates protected data at a time, and it also serves as a synchronization point that *publishes* changes according to the Go memory model. Use [mutexes](https://gobyexample.com/mutexes) when multiple goroutines must share the same data; prefer channels, immutability, or ownership transfer when you can avoid sharing altogether.
+Use [short, descriptive names](https://go.dev/doc/effective_go#names) with idiomatic casing:
 
-- Prefer simple `sync.Mutex` over `RWMutex` unless reads clearly dominate and profiles show contention; hold locks briefly and never across slow I/O or long computations.
-- Document what the mutex protects (`// mu guards: …`), keep the mutex next to the protected fields in the same struct, and avoid exporting or copying types containing a mutex.
-- Establish a consistent lock order to prevent deadlocks, don’t start goroutines while holding a lock, and consider `sync/atomic` or channels for simple counters or ownership transfer.
-- Use `defer mu.Unlock()` for clarity in short functions, but in hot paths unlock explicitly to reduce overhead, and always run the race detector to catch misuse.
-
-## Go Slow Before You Go Fast 🐰 ##
-
-Read the docs, understand the context and constraints, and talk to others before you write code. Start by writing tests (or at least a test plan), implement the simplest working solution, and iterate in small, reviewable steps. Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
-
-* **Clarify intent:** Define inputs/outputs, failure modes, and success criteria in one paragraph before coding
-* **Tests first:** [Write unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
-* **Small PRs:** Prefer focused changes with clear commit messages over large “mixed” PRs
-* **Spike, then build:** When uncertain, timebox a throwaway spike to learn, then implement the real solution cleanly
-* **Measure, don’t guess:** Use profiling/metrics to identify bottlenecks; [optimize](#premature-optimization) only where data supports it
-
-Add caching only after correctness is proven and a bottleneck is measured; keep it optional and easy to disable. Introduce [concurrency](#use-safe-concurrency) only when it simplifies the design or removes a measured bottleneck—otherwise prefer simple, sequential code.
-
-!!! example ""
-    Simple, elegant solutions are [more effective](#effectiveness-efficiency), but they are harder to find than complex ones, and they require more
-    time, which we too often believe to be unaffordable. — <cite>Niklaus Wirth, [Communications of the ACM](https://dl.acm.org/doi/10.1145/2786.2789), 1985</cite>
-
-### Definition of Ready
-
-- [ ] [Use cases, problems, and constraints](#go-slow-before-you-go-fast) have been documented
-- [ ] [Test cases](#test-automation-guidelines) (happy path and key edge cases) are identified
-- [ ] A rollout/rollback plan is in place if needed, e.g. via feature flag
-
-### Definition of Done
-
-- [ ] All of the [acceptance criteria](pull-requests.md#acceptance-criteria) have been met, so we can [merge your changes](pull-requests.md#how-to-create-and-submit-a-pull-request)
-- [ ] All [tests pass](tests.md), and [coverage has been added](#test-automation-guidelines) for new logic
-- [ ] Benchmarks/profile updated if performance was a goal
-- [ ] [Docs](documentation.md) and comments reflect current behavior and trade-offs
-- [ ] Change is observable (metrics/logs) and reversible (flag/config)
+- **lowerCamelCase** for locals/unexported, **MixedCaps** for exported, and [package names](https://go.dev/doc/effective_go#package-names) that are short, lower-case, *singular*, and underscore-free. We can make exceptions when there's a naming conflict, for example, with a reserved word.
+- Avoid stutter (`bytes.Buffer` not `bytes.BytesBuffer`); prefer positive booleans (`is/has/can`), standard initialisms (`ID`, `URL`, `JSON`), `Err…` for error vars, and small behavior-based interfaces (use the `…er` suffix only when it adds clarity).
+- Choose names that reflect behavior rather than types or frameworks; keep receiver names short and consistent (e.g., `db *DB`), use verbs for functions and nouns for types.
 
 ## Effectiveness > Efficiency ##
 
