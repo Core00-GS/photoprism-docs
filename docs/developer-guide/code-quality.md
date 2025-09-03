@@ -76,7 +76,7 @@ In computer science, there are two hard problems: [naming things](#naming-things
 - **Define scope & lifecycle.** Document what is cached, where (in-memory vs shared), and when entries expire (TTL/size limit/event-based invalidation).
 - **Design stable keys.** Use deterministic, lower-cased keys; include a version/salt when formats change; namespace by resource type to avoid collisions.
 - **Plan invalidation.** Purge or update entries on writes/updates; avoid caching mutable results unless you know how they’ll be refreshed.
-- **Guard concurrency.** Prevent thundering herds (e.g., collapse duplicate loads), and avoid holding locks around slow I/O.
+- **Guard concurrency.** Prevent thundering herds (e.g., collapse duplicate loads), and [avoid holding locks](#use-safe-concurrency) around slow I/O.
 - **Observe & tune.** Track hit/miss/eviction rates and latency; alert on high miss rates or stampedes; keep memory usage bounded.
 - **Test both paths.** Unit tests should pass with the cache disabled; integration tests should cover cache hits, misses, expiry, and invalidation.
 
@@ -94,15 +94,15 @@ Go makes it easy to run work concurrently with [goroutines](https://gobyexample.
 
 ## Go Slow Before You Go Fast 🐰 ##
 
-Read the docs, understand the context and constraints, and talk to others before you write code. Start by writing tests (or at least a test plan), implement the simplest working solution, and iterate in small, reviewable steps. Profile before you optimize; measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
+Read the docs, understand the context and constraints, and talk to others before you write code. Start by writing tests (or at least a test plan), implement the simplest working solution, and iterate in small, reviewable steps. Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
 
 * **Clarify intent:** Define inputs/outputs, failure modes, and success criteria in one paragraph before coding
-* **Tests first:** Write unit tests (and a minimal benchmark if performance matters) so behavior is locked in before optimization
+* **Tests first:** [Write unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
 * **Small PRs:** Prefer focused changes with clear commit messages over large “mixed” PRs
 * **Spike, then build:** When uncertain, timebox a throwaway spike to learn, then implement the real solution cleanly
-* **Measure, don’t guess:** Use profiling/metrics to identify bottlenecks; optimize only where data supports it
+* **Measure, don’t guess:** Use profiling/metrics to identify bottlenecks; [optimize](#premature-optimization) only where data supports it
 
-Add caching only after correctness is proven and a bottleneck is measured; keep it optional and easy to disable. Introduce concurrency only when it simplifies the design or removes a measured bottleneck—otherwise prefer simple, sequential code.
+Add caching only after correctness is proven and a bottleneck is measured; keep it optional and easy to disable. Introduce [concurrency](#use-safe-concurrency) only when it simplifies the design or removes a measured bottleneck—otherwise prefer simple, sequential code.
 
 !!! example ""
     Simple, elegant solutions are [more effective](#effectiveness-efficiency), but they are harder to find than complex ones, and they require more
