@@ -21,9 +21,9 @@
 
 Read the docs, understand the context and constraints, and [talk to others](index.md#join-the-community) before you write code. Start by [writing tests](#test-automation-guidelines) (or at least a test plan), implement the [simplest working solution](#opportunistic-refactoring), and iterate in [small, reviewable steps](#bottom-up-development). Profile [before you optimize](#premature-optimization); measure after you change. Staying calm and methodical is the fastest—and only sustainable—way to deliver durable improvements:
 
-* **Clarify intent:** Define inputs/outputs, failure modes, and success criteria in one paragraph before coding
-* **Tests first:** [Write unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
-* **Small PRs:** Prefer focused changes with clear commit messages over large “mixed” PRs
+* **Clarify intent:** List inputs/outputs, failure modes, and [success criteria](issues.md#acceptance-criteria) before coding
+* **Tests first:** Write [unit tests](#test-automation-guidelines) (and a minimal benchmark if performance matters) so behavior is locked in [before optimization](#premature-optimization)
+* **Small PRs:** Prefer focused changes with [clear commit messages](pull-requests.md#make-your-changes) over large “mixed” PRs
 * **Spike, then build:** When uncertain, timebox a throwaway spike to learn, then implement the real solution cleanly
 * **Measure, don’t guess:** Use profiling/metrics to identify bottlenecks; [optimize](#premature-optimization) only where data supports it
 
@@ -35,7 +35,7 @@ Add [caching](#be-careful-with-caching) only after correctness is proven and a b
 
 ### Definition of Ready
 
-- [ ] [Use cases, problems, and constraints](#go-slow-before-you-go-fast) have been documented
+- [ ] [Use cases](issues.md#writing-user-stories), [problems, and constraints](#go-slow-before-you-go-fast) have been documented
 - [ ] [Test cases](#test-automation-guidelines) (happy path and key edge cases) are identified
 - [ ] A rollout/rollback plan is in place if needed, e.g. via feature flag
 

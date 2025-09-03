@@ -45,7 +45,7 @@ After you submit your first pull request, you will be asked to accept our Contri
   * If all tests are green and you see no other errors, commit your changes. To reference related [GitHub issues](https://github.com/photoprism/photoprism/issues), please end your commit message with the issue ID like `#1234`:
       * `git status -s`
       * `git add .`
-      * `git commit -m "Your commit message #1234"`
+      * `git commit -m "Topic: Add ... #1234"`
 
 #### When you are ready... ####
 
