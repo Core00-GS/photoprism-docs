@@ -11,7 +11,7 @@ Our [preview builds](getting-started/updates.md#development-preview) give you ea
 What's new?
 
 - AI: [Added support for using alternative image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
-- AI: [Direct Ollama integration for generating captions](https://github.com/photoprism/photoprism/issues/5123) [and labels](https://github.com/photoprism/photoprism/issues/5232) by [@lastzero](https://github.com/lastzero)
+- AI: [Direct Ollama integration for generating captions](https://github.com/photoprism/photoprism/issues/5123) and [labels](https://github.com/photoprism/photoprism/issues/5232) by [@lastzero](https://github.com/lastzero)
 - AI: [Improved vision model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
 - Search: [Added a reverse sort query parameter for initial testing (work in progress)](https://github.com/photoprism/photoprism/issues/683#issuecomment-3070215533)
