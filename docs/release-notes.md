@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 250907-d44b85a0d</span>
+<span class="build">Build 250930-bd1be3346</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -12,6 +12,8 @@ What's new?
 
 - AI: [Added support for using alternative image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
 - AI: [Added support for generating captions using the Ollama API](https://github.com/photoprism/photoprism/issues/5123) by [@lastzero](https://github.com/lastzero)
+- AI: [Generate custom labels for your pictures with Ollama](https://github.com/photoprism/photoprism/issues/5232)
+- AI: [Load and use custom TensorFlow label models without PhotoPrism Vision](https://github.com/photoprism/photoprism/issues/127)
 - AI: [Improved vision model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
 - Search: [Added a reverse sort query parameter for initial testing (work in progress)](https://github.com/photoprism/photoprism/issues/683#issuecomment-3070215533)
@@ -19,10 +21,13 @@ What's new?
 - Index: [Selecting "Complete Rescan" refreshes the detected media types](https://github.com/photoprism/photoprism/issues/5096)
 - Index: [Underlying errors are logged when file type detection fails](https://github.com/photoprism/photoprism/issues/5149)
 - Index: [Improved error logging when PDF documents cannot be indexed](https://github.com/photoprism/photoprism/issues/5166)
+- Index: [Fixed in-memory photo and file lookup tables to prevent file rescans](https://github.com/photoprism/photoprism/issues/5235)
 - Videos: [Fixed issues with non-keyframes when extracting still images](https://github.com/photoprism/photoprism/issues/5189)
 - Intel QSV: [`libvpl2` will be installed when `PHOTOPRISM_INIT` includes "intel"](https://github.com/photoprism/photoprism/discussions/5098)
 - API: [Corrected handling of CORS preflight requests](https://github.com/photoprism/photoprism/issues/5133) by [@techmatt101](https://github.com/techmatt101)
 - Config: [`PHOTOPRISM_DISABLE_FRONTEND` disables the web user interface](https://github.com/photoprism/photoprism/issues/5111)
+- CLI: [Added a `--json` output format for `photoprism show` commands](https://github.com/photoprism/photoprism/issues/5220)
+- CLI: [Added `photoprism vision reset` to regenerate captions and labels on demand](https://github.com/photoprism/photoprism/issues/5233)
 - Setup: [Added `ollama` service to `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
 - Docker: [Improved `cmd.sh` script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
