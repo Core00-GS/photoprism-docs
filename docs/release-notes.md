@@ -25,7 +25,7 @@ What's new?
 - API: [Corrected handling of CORS preflight requests](https://github.com/photoprism/photoprism/issues/5133) by [@techmatt101](https://github.com/techmatt101)
 - Config: [`PHOTOPRISM_DISABLE_FRONTEND` disables the web user interface](https://github.com/photoprism/photoprism/issues/5111)
 - CLI: [Added a `--json` output format for `photoprism show` commands](https://github.com/photoprism/photoprism/issues/5220)
-- CLI: [Added `photoprism vision reset` to regenerate captions and labels on demand](https://github.com/photoprism/photoprism/issues/5233)
+- CLI: [Added `photoprism vision reset` to regenerate captions and labels](https://github.com/photoprism/photoprism/issues/5233)
 - Setup: [Added `ollama` service to `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
 - Docker: [Improved `cmd.sh` script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
