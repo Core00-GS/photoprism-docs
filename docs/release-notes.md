@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 250930-bd1be3346</span>
+<span class="build">Build 251007-9b56b4ec0</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -12,8 +12,10 @@ What's new?
 
 - AI: [Support for using alternative image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
 - AI: [Direct Ollama integration for generating captions](https://github.com/photoprism/photoprism/issues/5123) and [labels](https://github.com/photoprism/photoprism/issues/5232) by [@lastzero](https://github.com/lastzero)
+- AI: [New ONNX-based face detection model and configuration](https://github.com/photoprism/photoprism/issues/5167) by [@lastzero](https://github.com/lastzero)
 - AI: [Improved vision model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - AI: [Configure a schedule for running models in the background](https://github.com/photoprism/photoprism/issues/5234) by [@lastzero](https://github.com/lastzero)
+- UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
 - Search: [Added a reverse sort query parameter for initial testing (work in progress)](https://github.com/photoprism/photoprism/issues/683#issuecomment-3070215533)
 - Search: [Added escaping for `|` and `&` in filters](https://github.com/photoprism/photoprism/pull/5188) by [@keif888](https://github.com/keif888)
@@ -30,7 +32,7 @@ What's new?
 - Setup: [Added `ollama` service to `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
 - Docker: [Improved `cmd.sh` script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
-- Security: [Upgraded Go to v1.25.1, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.1)
+- Security: [Upgraded Go to v1.25.2, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.2)
 - Translations: [Updated Spanish and Vietnamese](https://docs.photoprism.app/developer-guide/translations-weblate/)
 
 !!! info ""
