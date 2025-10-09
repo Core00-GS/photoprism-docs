@@ -102,7 +102,7 @@ docker compose exec photoprism photoprism vision reset --models=caption --source
 To reset labels for photos in a specific album:
 
 ```bash
-docker compose exec photoprism photoprism vision reset --models=labels --source=vision album:TestAlbum
+docker compose exec photoprism photoprism vision reset --models=labels source=ollama album:TestAlbum
 ```
 
 !!! note
