@@ -4,20 +4,19 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251008-354414a5e</span>
+<span class="build">Build 251008-1117e0b1d</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
 What's new?
 
-- AI: [Support for using alternative image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
+- AI: [Support for using custom TensorFlow image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
 - AI: [Direct Ollama integration for generating captions](https://github.com/photoprism/photoprism/issues/5123) and [labels](https://github.com/photoprism/photoprism/issues/5232) by [@lastzero](https://github.com/lastzero)
-- AI: [New ONNX-based face detection model and configuration](https://github.com/photoprism/photoprism/issues/5167) by [@lastzero](https://github.com/lastzero)
+- AI: [Improved face detection and embedding pipeline with a new CNN engine](https://github.com/photoprism/photoprism/issues/5167)
 - AI: [Improved vision model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
-- AI: [Configure a schedule for running models in the background](https://github.com/photoprism/photoprism/issues/5234) by [@lastzero](https://github.com/lastzero)
+- AI: [Added scheduling options for running vision models in the background](https://github.com/photoprism/photoprism/issues/5234)
 - UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
-- Search: [Added a reverse sort query parameter for initial testing (work in progress)](https://github.com/photoprism/photoprism/issues/683#issuecomment-3070215533)
 - Search: [Added escaping for `|` and `&` in filters](https://github.com/photoprism/photoprism/pull/5188) by [@keif888](https://github.com/keif888)
 - Index: [Selecting "Complete Rescan" refreshes the detected media types](https://github.com/photoprism/photoprism/issues/5096)
 - Index: [Underlying errors are logged when file type detection fails](https://github.com/photoprism/photoprism/issues/5149)
