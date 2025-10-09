@@ -10,7 +10,7 @@ Our [preview builds](getting-started/updates.md#development-preview) give you ea
 
 What's new?
 
-- AI: [Support for using custom TensorFlow image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
+- AI: [Support for custom TensorFlow image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
 - AI: [Direct Ollama integration for generating captions](https://github.com/photoprism/photoprism/issues/5123) and [labels](https://github.com/photoprism/photoprism/issues/5232) by [@lastzero](https://github.com/lastzero)
 - AI: [Improved face detection and embedding pipeline with a new CNN engine](https://github.com/photoprism/photoprism/issues/5167)
 - AI: [Improved vision model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
