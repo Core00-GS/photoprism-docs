@@ -26,7 +26,7 @@ What's new?
 - Intel QSV: [`libvpl2` will be installed when `PHOTOPRISM_INIT` includes "intel"](https://github.com/photoprism/photoprism/discussions/5098)
 - API: [Corrected handling of CORS preflight requests](https://github.com/photoprism/photoprism/issues/5133) by [@techmatt101](https://github.com/techmatt101)
 - Config: [`PHOTOPRISM_DISABLE_FRONTEND` disables the web user interface](https://github.com/photoprism/photoprism/issues/5111)
-- CLI: [Added a `--json` output format for `photoprism show` commands](https://github.com/photoprism/photoprism/issues/5220)
+- CLI: [Added `--json` output format flag to `photoprism show` commands](https://github.com/photoprism/photoprism/issues/5220)
 - CLI: [Added `photoprism vision reset` to regenerate captions and labels](https://github.com/photoprism/photoprism/issues/5233)
 - Setup: [Added `ollama` service to `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
