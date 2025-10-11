@@ -7,7 +7,7 @@ Our [Vision Playground](https://github.com/photoprism/photoprism-vision) provide
 
 ## Overview
 
-PhotoPrism® can be extended with a powerful, external service for advanced computer vision tasks like generating descriptive captions and labels for your entire photo library. This service, **PhotoPrism Vision**, acts as a flexible bridge between your main PhotoPrism instance and various AI models.
+PhotoPrism® can be extended with a powerful, external service for advanced computer vision tasks like generating descriptive captions and labels for your entire photo library. This service, **Vision Playground**, acts as a flexible bridge between your main PhotoPrism instance and various AI models.
 
 This guide provides a technical deep-dive for developers who want to understand, set up, and potentially extend the [Vision Service](https://github.com/photoprism/photoprism-vision).
 
@@ -21,11 +21,11 @@ The Vision service is designed to be a decoupled microservice. This architecture
 The data flow is as follows:
 
 1.  **PhotoPrism** selects a photo that needs processing. It sends a request containing a thumbnail of the image and the desired model information to the Vision service's REST API.
-2.  **PhotoPrism Vision** receives the request. Based on the `model` name in the request body, it routes the request to the appropriate internal processor:
+2.  **Vision Playground** receives the request. Based on the `model` name in the request body, it routes the request to the appropriate internal processor:
     *   **Local Processor:** If a pre-installed model (e.g., `kosmos-2`, `blip`, `vit-gpt2`, `nsfw_image_detector`) is requested, the service uses PyTorch and Transformers to load the model from the local `models` directory and process the image. This can be accelerated by a GPU if available on the Vision service machine.
     *   **Ollama Processor:** If the model name is not recognized as a local model, the service assumes it is an Ollama model. It forwards the image and a prompt to the configured `OLLAMA_HOST` API endpoint.
 3.  **The AI Model** (either local or on Ollama) analyzes the image and generates the result (a caption or a list of labels).
-4.  **PhotoPrism Vision** formats the result into a standardized JSON response and sends it back to the main PhotoPrism instance.
+4.  **Vision Playground** formats the result into a standardized JSON response and sends it back to the main PhotoPrism instance.
 5.  **PhotoPrism** receives the JSON response and saves the new metadata to its database.
 
 ## Build Setup
