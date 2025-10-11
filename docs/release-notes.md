@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251011-a3c298f61</span>
+<span class="build">Build 251011-4924114a5</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -16,6 +16,7 @@ What's new?
 - AI: [Improved model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - AI: [Added scheduling options for running vision models in the background](https://github.com/photoprism/photoprism/issues/5234)
 - UX: [Added menu to select a cover image for people](https://github.com/photoprism/photoprism/issues/4151) by [@omerdduran](https://github.com/omerdduran)
+- UX: [Improved "Add to Album" dialog to support multiple albums](https://github.com/photoprism/photoprism/pull/5177) by [@omerdduran](https://github.com/omerdduran)
 - UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - UX: [Disabled autofocus on mobile devices to prevent keyboard from opening](https://github.com/photoprism/photoprism/issues/5213)
 - UX: [Added a browser capability check displaying a warning if unsupported](https://github.com/photoprism/photoprism/issues/5047)
@@ -28,6 +29,7 @@ What's new?
 - Index: [Fixed in-memory photo and file lookup tables to prevent file rescans](https://github.com/photoprism/photoprism/issues/5235)
 - Videos: [Fixed issues with non-keyframes when extracting still images](https://github.com/photoprism/photoprism/issues/5189)
 - Intel QSV: [`libvpl2` will be installed when `PHOTOPRISM_INIT` includes "intel"](https://github.com/photoprism/photoprism/discussions/5098)
+- API: [Added a force flag to the `DELETE /api/v1/albums/UID` endpoint](https://github.com/photoprism/photoprism/issues/5122)
 - API: [Corrected handling of CORS preflight requests](https://github.com/photoprism/photoprism/issues/5133) by [@techmatt101](https://github.com/techmatt101)
 - Config: [`PHOTOPRISM_DISABLE_FRONTEND` disables the web user interface](https://github.com/photoprism/photoprism/issues/5111)
 - CLI: [Added `--json` output format flag to `photoprism show` commands](https://github.com/photoprism/photoprism/issues/5220)
