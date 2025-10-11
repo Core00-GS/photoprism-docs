@@ -1,6 +1,8 @@
-# Vision Service Developer Guide
+# Vision Service Playground Build Setup
 
-With our dedicated [Vision Service](index.md), you get access to additional models and configuration options for advanced computer vision tasks. For example, you can use it to generate custom captions and labels for your photos. The service runs in a separate container that acts as a proxy between the models and PhotoPrism®, extending its capabilities. It also allows Python developers to experiment with new ideas, try different models, and customize prompts.
+This [service](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options.
+
+Looking for an easy way to generate captions and labels for your pictures? Try our [Ollama integration](../caption-generation.md) instead!
 
 !!! tldr ""
     If you have an interest in AI and would like to run a dedicated [Vision Service](https://github.com/photoprism/photoprism-vision), we recommend [reading the introduction](index.md) and [following the instructions](index.md#getting-started) there, as the following guide is intended for developers only. [Learn more ›](index.md)
@@ -86,7 +88,7 @@ The file consists of a list of `Models` and a `Thresholds` section.
       Options:
         Temperature: 0.1
       Service:
-        Uri: "http://<vision-service-ip>:5000/api/v1/vision"
+        Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
         FileScheme: data
         RequestFormat: vision
         ResponseFormat: vision
@@ -95,7 +97,7 @@ The file consists of a list of `Models` and a `Thresholds` section.
       Name: "kosmos-2"
       Version: "latest"
       Service:
-        Uri: "http://<vision-service-ip>:5000/api/v1/vision"
+        Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
         FileScheme: base64
         RequestFormat: vision
         ResponseFormat: vision

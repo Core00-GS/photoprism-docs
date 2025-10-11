@@ -193,7 +193,7 @@ nav:
       - Caption Generation: developer-guide/vision/caption-generation.md
       - Model Comparison: developer-guide/vision/model-comparison.md
       - CLI Commands: developer-guide/vision/cli.md
-      - Vision Service:
+      - Vision Service Playground:
         - Introduction: developer-guide/vision/service/index.md
         - Build Setup: developer-guide/vision/service/setup.md
     - Mobile Apps:
