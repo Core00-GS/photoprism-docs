@@ -11,7 +11,7 @@ This guide explains how to set up the dedicated service as an AI model proxy to 
 
 While the upcoming version of PhotoPrism will also allow you to generate captions and labels with Ollama directly, a key advantage of using the dedicated vision service is greater flexibility and access to an even broader range of models. This makes it ideal for advanced users and developers.
 
-Developers can proceed to the [Build Setup](setup.md) guide, which explains how to set up a [Vision Service](https://github.com/photoprism/photoprism-vision) development environment.
+Developers can proceed to the [Build Setup](setup.md) guide, which explains how to set up a [Vision Playground](https://github.com/photoprism/photoprism-vision) development environment.
 
 !!! danger ""
     Since neither Vision Service nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
@@ -118,7 +118,7 @@ You should now be able to use the `photoprism vision` [CLI commands](../cli.md#r
 
 ### GPU Performance Issues
 
-If you're using the [Vision Service](https://github.com/photoprism/photoprism-vision) with Ollama enabled (`OLLAMA_ENABLED=true`), you may experience GPU VRAM management issues over time. The same VRAM degradation symptoms and solutions apply when Ollama is used through the Vision Service proxy.
+If you're using the [Vision Playground](https://github.com/photoprism/photoprism-vision) with Ollama enabled (`OLLAMA_ENABLED=true`), you may experience GPU VRAM management issues over time. The same VRAM degradation symptoms and solutions apply when Ollama is used through the Vision Service proxy.
 
 Detailed troubleshooting tips can be found in the [Caption Generation](../caption-generation.md#gpu-performance-issues) documentation.
 

@@ -3,13 +3,13 @@
 Our [Vision Playground](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options. If you are looking for an easy way to generate captions and labels for your pictures, we recommend using our [direct Ollama integration](../caption-generation.md) instead.
 
 !!! tldr ""
-    If you have an interest in AI and would like to run a dedicated [Vision Service](https://github.com/photoprism/photoprism-vision), we recommend [reading the introduction](index.md) and [following the instructions](index.md#getting-started) there, as the following guide is intended for developers only. [Learn more ›](index.md)
+    If you have an interest in AI and would like to run a dedicated [Vision Playground](https://github.com/photoprism/photoprism-vision), we recommend [reading the introduction](index.md) and [following the instructions](index.md#getting-started) there, as the following guide is intended for developers only. [Learn more ›](index.md)
 
 ## Overview
 
 PhotoPrism® can be extended with a powerful, external service for advanced computer vision tasks like generating descriptive captions and labels for your entire photo library. This service, **Vision Playground**, acts as a flexible bridge between your main PhotoPrism instance and various AI models.
 
-This guide provides a technical deep-dive for developers who want to understand, set up, and potentially extend the [Vision Service](https://github.com/photoprism/photoprism-vision).
+This guide provides a technical deep-dive for developers who want to understand, set up, and potentially extend the [Vision Playground](https://github.com/photoprism/photoprism-vision).
 
 !!! info ""
     The Vision service is built with Python using the Flask web framework. It leverages popular machine learning libraries like PyTorch and Hugging Face Transformers for running local models, and can also integrate with external AI providers like Ollama.

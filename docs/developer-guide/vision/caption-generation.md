@@ -81,7 +81,7 @@ docker compose --profile ollama up -d
 Note that the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) must be installed for GPU hardware acceleration to work. Experienced users may also run Ollama on a separate, more powerful server.
 
 !!! danger ""
-    Since neither [Vision Service](service/index.md) nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
+    Since neither [Vision Playground](service/index.md) nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
 
 ### Step 2: Download Models
 
