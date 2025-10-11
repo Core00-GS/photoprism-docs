@@ -1,8 +1,6 @@
-# Using the Vision Playground
+# Introducing Vision Playground
 
-This [service](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options.
-
-Looking for an easy way to generate captions and labels for your pictures? Try our [Ollama integration](../caption-generation.md) instead!
+Our [Vision Playground](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options. If you are looking for an easy way to generate captions and labels for your pictures, we recommend using our [direct Ollama integration](../caption-generation.md) instead.
 
 !!! warning "" 
     The service and its integrations are **under active development**, so the configuration, commands, and other details may change or break unexpectedly. Please keep this in mind and notify us when something doesn't work as expected. Thank you for your help in keeping this documentation updated!

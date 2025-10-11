@@ -1,8 +1,6 @@
-# Vision Service Playground Build Setup
+# Vision Playground Build Setup
 
-This [service](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options.
-
-Looking for an easy way to generate captions and labels for your pictures? Try our [Ollama integration](../caption-generation.md) instead!
+Our [Vision Playground](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options. If you are looking for an easy way to generate captions and labels for your pictures, we recommend using our [direct Ollama integration](../caption-generation.md) instead.
 
 !!! tldr ""
     If you have an interest in AI and would like to run a dedicated [Vision Service](https://github.com/photoprism/photoprism-vision), we recommend [reading the introduction](index.md) and [following the instructions](index.md#getting-started) there, as the following guide is intended for developers only. [Learn more ›](index.md)
