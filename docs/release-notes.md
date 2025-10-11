@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251010-92d21af69</span>
+<span class="build">Build 251011-a3c298f61</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -18,6 +18,7 @@ What's new?
 - UX: [Added menu to select a cover image for people](https://github.com/photoprism/photoprism/issues/4151) by [@omerdduran](https://github.com/omerdduran)
 - UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - UX: [Disabled autofocus on mobile devices to prevent keyboard from opening](https://github.com/photoprism/photoprism/issues/5213)
+- UX: [Added a browser capability check that displays a warning if it is not supported](https://github.com/photoprism/photoprism/issues/5047)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
 - Search: [Added escaping for `|` and `&` in filters](https://github.com/photoprism/photoprism/pull/5188) by [@keif888](https://github.com/keif888)
 - Search: [Improved Boolean value parsing in filters](https://github.com/photoprism/photoprism/pull/5191) by [@keif888](https://github.com/keif888)
