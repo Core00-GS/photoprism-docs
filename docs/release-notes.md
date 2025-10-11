@@ -18,7 +18,7 @@ What's new?
 - UX: [Added menu to select a cover image for people](https://github.com/photoprism/photoprism/issues/4151) by [@omerdduran](https://github.com/omerdduran)
 - UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - UX: [Disabled autofocus on mobile devices to prevent keyboard from opening](https://github.com/photoprism/photoprism/issues/5213)
-- UX: [Added a browser capability check that displays a warning if it is not supported](https://github.com/photoprism/photoprism/issues/5047)
+- UX: [Added a browser capability check displaying a warning if unsupported](https://github.com/photoprism/photoprism/issues/5047)
 - Auth: [2FA can be activated, even if the recovery code cannot be copied](https://github.com/photoprism/photoprism/issues/5106)
 - Search: [Added escaping for `|` and `&` in filters](https://github.com/photoprism/photoprism/pull/5188) by [@keif888](https://github.com/keif888)
 - Search: [Improved Boolean value parsing in filters](https://github.com/photoprism/photoprism/pull/5191) by [@keif888](https://github.com/keif888)
