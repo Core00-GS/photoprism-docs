@@ -24,10 +24,11 @@ PhotoPrism is compatible with [SQLite 3](https://www.sqlite.org/) and [MariaDB 1
 
 #### Browsers ####
 
-Built as a [Progressive Web App](../user-guide/pwa.md) (PWA), the web interface works with most modern browsers, and runs best on [Chrome](https://www.google.com/chrome/), [Chromium](https://www.chromium.org/getting-involved/download-chromium), [Safari](https://www.apple.com/safari/), [Firefox](https://www.mozilla.org/en-US/firefox/all/#product-desktop-release), and [Edge](https://www.microsoft.com/en-us/edge).
-You can conveniently install it on the home screen of all major operating systems and mobile devices.
+PhotoPrism requires a modern, full-featured browser with ES2019 and WebGL support.[^4] We test with the most recent stable versions of [Chrome](https://www.google.com/chrome/)/[Chromium](https://www.chromium.org/getting-involved/download-chromium) (80+), [Edge](https://www.microsoft.com/en-us/edge) (79+), [Firefox](https://www.mozilla.org/en-US/firefox/all/#product-desktop-release) (75+), and [Safari/iOS](https://www.apple.com/safari/) (13+). If you see a warning on the splash screen prompting you to update your browser, please install the latest version or switch to one of these browsers before continuing.
 
-Browsers must have [WebGL support](https://caniuse.com/?search=webgl) enabled in order to use the [interactive world maps](https://demo.photoprism.app/library/places) in [Places](../user-guide/organize/places.md).[^4] Also note that not all [video and audio formats](https://caniuse.com/?search=video%20format) can be [played with every browser](troubleshooting/browsers.md). For example, [AAC](https://caniuse.com/aac "Advanced Audio Coding") - the default audio codec for [MPEG-4 AVC / H.264](https://caniuse.com/avc "Advanced Video Coding") - is supported natively in Chrome, Safari, and Edge, while it is only optionally supported by the OS in Firefox and Opera.
+Keep hardware acceleration and WebGL enabled to ensure optimal performance; [video playback](https://caniuse.com/?search=video%20format) and [interactive world maps](https://demo.photoprism.app/library/places) in [Places](../user-guide/organize/places.md) depend on them. Chrome, Safari, and Edge natively support [AAC](https://caniuse.com/aac "Advanced Audio Coding"), the default audio codec for [MPEG-4 AVC](https://caniuse.com/avc "Advanced Video Coding"), while Firefox and Opera only optionally support it.
+
+[Learn more ›](troubleshooting/browsers.md)
 
 #### HTTPS ####
 
