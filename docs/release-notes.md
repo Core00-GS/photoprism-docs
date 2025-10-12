@@ -16,7 +16,7 @@ What's new?
 - AI: [Improved model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - AI: [Added scheduling options for running vision models in the background](https://github.com/photoprism/photoprism/issues/5234)
 - UX: [Added menu to select a cover image for people](https://github.com/photoprism/photoprism/issues/4151) by [@omerdduran](https://github.com/omerdduran)
-- UX: [Improved "Add to Album" dialog to support multiple albums](https://github.com/photoprism/photoprism/pull/5177) by [@omerdduran](https://github.com/omerdduran)
+- UX: ["Add to Album" dialog allows selection of multiple albums](https://github.com/photoprism/photoprism/pull/5177) by [@omerdduran](https://github.com/omerdduran)
 - UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - UX: [Disabled autofocus on mobile devices to prevent keyboard from opening](https://github.com/photoprism/photoprism/issues/5213)
 - UX: [Added a browser capability check displaying a warning if unsupported](https://github.com/photoprism/photoprism/issues/5047)
