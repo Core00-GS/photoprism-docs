@@ -108,4 +108,83 @@ docker compose exec photoprism photoprism vision reset --models=labels source=ol
 !!! note
     The `--yes` flag runs the command non-interactively without requiring confirmation. Omit this flag if you want to be prompted before the reset operation begins.
 
+## Face Detection Commands
+
+PhotoPrism provides specialized commands for managing face detection, clustering, and optimization. These commands are particularly useful when switching between detection engines or troubleshooting face recognition issues.
+
+### Index Faces
+
+Detect faces in new or unprocessed photos:
+
+```bash
+docker compose exec photoprism photoprism faces index
+```
+
+### Audit Face Data
+
+Check the integrity of face embeddings and cluster statistics:
+
+```bash
+docker compose exec photoprism photoprism faces audit
+```
+
+To automatically fix normalization issues and update face distances:
+
+```bash
+docker compose exec photoprism photoprism faces audit --fix
+```
+
+To audit a specific person:
+
+```bash
+docker compose exec photoprism photoprism faces audit --subject=<person-uid>
+```
+
+This provides detailed information including:
+- Retry counts for cluster merging
+- Sample statistics
+- Outstanding clusters that need attention
+
+### Optimize Face Clusters
+
+Run the clustering optimization algorithm to merge similar face clusters:
+
+```bash
+docker compose exec photoprism photoprism faces optimize
+```
+
+If you've manually cleaned up problematic clusters and want to retry merging:
+
+```bash
+docker compose exec photoprism photoprism faces optimize --retry
+```
+
+This clears retry counters and allows the optimizer to reprocess clusters that previously failed to merge.
+
+### Reset Face Detection
+
+Clear all face data and start fresh:
+
+```bash
+docker compose exec photoprism photoprism faces reset
+```
+
+Reset using a specific detection engine:
+
+```bash
+docker compose exec photoprism photoprism faces reset --engine=onnx
+```
+
+Or to switch back to Pigo:
+
+```bash
+docker compose exec photoprism photoprism faces reset --engine=pigo
+```
+
+!!! warning "Data Loss Warning"
+    The `faces reset` command will delete all existing face markers and clusters. Make sure you have backups if needed, as this operation cannot be undone.
+
+
+[Learn more about face recognition ›](face-recognition.md)
+
 
