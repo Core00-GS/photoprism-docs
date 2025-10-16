@@ -1,6 +1,6 @@
-# Using the Vision Service
+# Introducing Vision Playground
 
-With our dedicated [Vision Service](https://github.com/photoprism/photoprism-vision), you get access to additional models and configuration options for advanced computer vision tasks. For example, you can use it to generate custom captions and labels for your photos. The service runs in a separate container that acts as a proxy between the models and PhotoPrism®, extending its capabilities. It also allows Python developers to experiment with new ideas, try different models, and customize prompts.
+Our [Vision Playground](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options. If you are looking for an easy way to generate captions and labels for your pictures, we recommend using our [direct Ollama integration](../caption-generation.md) instead.
 
 !!! warning "" 
     The service and its integrations are **under active development**, so the configuration, commands, and other details may change or break unexpectedly. Please keep this in mind and notify us when something doesn't work as expected. Thank you for your help in keeping this documentation updated!
@@ -9,9 +9,9 @@ With our dedicated [Vision Service](https://github.com/photoprism/photoprism-vis
 
 This guide explains how to set up the dedicated service as an AI model proxy to enhance PhotoPrism's capabilities. You can use a wide range of additional models with it, including lightweight, preconfigured models, as well as popular but more demanding large language models in combination with Ollama.
 
-While the upcoming version of PhotoPrism will also allow you to generate captions with Ollama directly, a key advantage of using the dedicated vision service is greater flexibility and access to an even broader range of models. This makes it ideal for advanced users and developers.
+While the upcoming version of PhotoPrism will also allow you to generate captions and labels with Ollama directly, a key advantage of using the dedicated vision service is greater flexibility and access to an even broader range of models. This makes it ideal for advanced users and developers.
 
-Developers can proceed to the [Build Setup](setup.md) guide, which explains how to set up a [Vision Service](https://github.com/photoprism/photoprism-vision) development environment.
+Developers can proceed to the [Build Setup](setup.md) guide, which explains how to set up a [Vision Playground](https://github.com/photoprism/photoprism-vision) development environment.
 
 !!! danger ""
     Since neither Vision Service nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
@@ -45,36 +45,7 @@ Developers can proceed to the [Build Setup](setup.md) guide, which explains how 
 
 Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
 
-=== "Example 1: Using a pre-installed Model"
-
-    This example uses the pre-installed `kosmos-2` model for generating captions. It does not require Ollama.
-
-    !!! tip "Available pre-installed Models"
-        The Vision service also provides additional pre-installed models, such as `vit-gpt2` and `blip` for image captioning, as well as `nsfw_image_detector` for NSFW content detection. You can enable these models by updating the `Name` field in your `vision.yml` configuration.
-    !!! example "vision.yml"
-        ```yaml
-        Models:
-        - Type: caption
-          Resolution: 720
-          Name: "kosmos-2"
-          Version: "latest"
-          Prompt: |
-            Write a journalistic caption that is informative and briefly describes the most important visual content in up to 3 sentences:
-            - Use explicit language to describe the scene if necessary for a proper understanding.
-            - Avoid text formatting, meta-language, and filler words.
-            - Do not start captions with boring phrases such as "This image", "The image", "This picture", "The picture", "A picture of", "Here are", or "There is".
-            - Instead, start describing the content by first identifying the subjects and any actions that might be performed.
-            - Try providing a casual description of what the subjects look like, including their gender and age.
-            - If the place seems special or familiar, provide a brief, interesting description without being vague.
-          Service:
-            # IMPORTANT: Replace this IP with the address of your Vision service machine.
-            Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
-        
-        Thresholds:
-          Confidence: 10
-        ```
-
-=== "Example 2: Using an Ollama Model"
+=== "Example 1: Using an Ollama Model"
 
     This example uses Ollama's `llava-phi3` model for generating captions, proxied through the Vision service.
 
@@ -93,6 +64,32 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
             - Instead, start describing the content by first identifying the subjects and any actions that might be performed.
             - Try providing a casual description of what the subjects look like, including their gender and age.
             - If the place seems special or familiar, provide a brief, interesting description without being vague.
+          Service:
+            # IMPORTANT: Replace this IP with the address of your Vision service machine.
+            Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
+        
+        Thresholds:
+          Confidence: 10
+        ```
+
+=== "Example 2: Using a pre-installed Model"
+
+    This example uses the pre-installed `kosmos-2` model for generating captions. It does not require Ollama.
+
+    !!! tip "Available pre-installed Models"
+        The Vision service also provides additional pre-installed models, such as `vit-gpt2` and `blip` for image captioning, as well as `nsfw_image_detector` for NSFW content detection. You can enable these models by updating the `Name` field in your `vision.yml` configuration.
+    
+    !!! tip "Prompts"
+        Unlike the Ollama models, pre-installed models such as `kosmos-2` interpret prompts primarily as starting instructions for generating captions, rather than as detailed, task-oriented requests.
+
+    !!! example "vision.yml"
+        ```yaml
+        Models:
+        - Type: caption
+          Resolution: 720
+          Name: "kosmos-2"
+          Version: "latest"
+          Prompt: "A"
           Service:
             # IMPORTANT: Replace this IP with the address of your Vision service machine.
             Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
@@ -121,7 +118,7 @@ You should now be able to use the `photoprism vision` [CLI commands](../cli.md#r
 
 ### GPU Performance Issues
 
-If you're using the [Vision Service](https://github.com/photoprism/photoprism-vision) with Ollama enabled (`OLLAMA_ENABLED=true`), you may experience GPU VRAM management issues over time. The same VRAM degradation symptoms and solutions apply when Ollama is used through the Vision Service proxy.
+If you're using the [Vision Playground](https://github.com/photoprism/photoprism-vision) with Ollama enabled (`OLLAMA_ENABLED=true`), you may experience GPU VRAM management issues over time. The same VRAM degradation symptoms and solutions apply when Ollama is used through the Vision Service proxy.
 
 Detailed troubleshooting tips can be found in the [Caption Generation](../caption-generation.md#gpu-performance-issues) documentation.
 

@@ -1,11 +1,8 @@
 # Caption Generation
 
-As an addition to its [built-in AI capabilities](classification.md), PhotoPrism lets you generate image captions through either a [dedicated Vision Service](service/index.md) or direct [Ollama](https://ollama.com/search?c=vision) integration, as [described in this guide](#ollama-setup-guide).[^1]
+As an addition to its [built-in AI capabilities](classification.md), PhotoPrism lets you generate image captions through a direct [Ollama](https://ollama.com/search?c=vision) integration, as [described in this guide](#ollama-setup-guide).[^1]
 
 It allows you to choose from the [available vision models](https://ollama.com/search?c=vision) and [customize the prompts](#step-3-configure-photoprism) according to your needs.
-
-!!! tldr ""
-    This guide only covers a [direct Ollama API integration](https://github.com/photoprism/photoprism/issues/5123). If you are interested in AI and would like to run a dedicated [Vision Service](service/index.md), we recommend [reading the introduction](service/index.md) to get started. [Learn more ›](service/index.md)
 
 !!! warning ""
     The Ollama integration is **under active development**, so the configuration, commands, and other details may change or break unexpectedly. Please keep this in mind and notify us when something doesn't work as expected. Thank you for your help in keeping this documentation updated!
@@ -81,7 +78,7 @@ docker compose --profile ollama up -d
 Note that the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) must be installed for GPU hardware acceleration to work. Experienced users may also run Ollama on a separate, more powerful server.
 
 !!! danger ""
-    Since neither [Vision Service](service/index.md) nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
+    Since neither [Vision Playground](service/index.md) nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
 
 ### Step 2: Download Models
 
@@ -114,8 +111,15 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
         Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
       Options:
         Temperature: 0.1
+      Name: gemma3:latest
+      Engine: ollama
+      Prompt: Create a caption with exactly one sentence in the active voice that describes
+        the main visual content. Begin with the main subject and clear action. Avoid text
+        formatting, meta-language, and filler words.
       Service:
         Uri: "http://ollama:11434/api/generate"
+        # Ollama API endpoint (adjust as needed):
+        Uri: http://ollama:11434/api/generate
     Thresholds:
       Confidence: 10
     ```

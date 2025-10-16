@@ -1,15 +1,15 @@
-# Vision Service Developer Guide
+# Vision Playground Build Setup
 
-With our dedicated [Vision Service](index.md), you get access to additional models and configuration options for advanced computer vision tasks. For example, you can use it to generate custom captions and labels for your photos. The service runs in a separate container that acts as a proxy between the models and PhotoPrism®, extending its capabilities. It also allows Python developers to experiment with new ideas, try different models, and customize prompts.
+Our [Vision Playground](https://github.com/photoprism/photoprism-vision) provides developers with additional computer vision models and customization options. If you are looking for an easy way to generate captions and labels for your pictures, we recommend using our [direct Ollama integration](../caption-generation.md) instead.
 
 !!! tldr ""
-    If you have an interest in AI and would like to run a dedicated [Vision Service](https://github.com/photoprism/photoprism-vision), we recommend [reading the introduction](index.md) and [following the instructions](index.md#getting-started) there, as the following guide is intended for developers only. [Learn more ›](index.md)
+    If you have an interest in AI and would like to run a dedicated [Vision Playground](https://github.com/photoprism/photoprism-vision), we recommend [reading the introduction](index.md) and [following the instructions](index.md#getting-started) there, as the following guide is intended for developers only. [Learn more ›](index.md)
 
 ## Overview
 
-PhotoPrism® can be extended with a powerful, external service for advanced computer vision tasks like generating descriptive captions and labels for your entire photo library. This service, **PhotoPrism Vision**, acts as a flexible bridge between your main PhotoPrism instance and various AI models.
+PhotoPrism® can be extended with a powerful, external service for advanced computer vision tasks like generating descriptive captions and labels for your entire photo library. This service, **Vision Playground**, acts as a flexible bridge between your main PhotoPrism instance and various AI models.
 
-This guide provides a technical deep-dive for developers who want to understand, set up, and potentially extend the [Vision Service](https://github.com/photoprism/photoprism-vision).
+This guide provides a technical deep-dive for developers who want to understand, set up, and potentially extend the [Vision Playground](https://github.com/photoprism/photoprism-vision).
 
 !!! info ""
     The Vision service is built with Python using the Flask web framework. It leverages popular machine learning libraries like PyTorch and Hugging Face Transformers for running local models, and can also integrate with external AI providers like Ollama.
@@ -21,11 +21,11 @@ The Vision service is designed to be a decoupled microservice. This architecture
 The data flow is as follows:
 
 1.  **PhotoPrism** selects a photo that needs processing. It sends a request containing a thumbnail of the image and the desired model information to the Vision service's REST API.
-2.  **PhotoPrism Vision** receives the request. Based on the `model` name in the request body, it routes the request to the appropriate internal processor:
+2.  **Vision Playground** receives the request. Based on the `model` name in the request body, it routes the request to the appropriate internal processor:
     *   **Local Processor:** If a pre-installed model (e.g., `kosmos-2`, `blip`, `vit-gpt2`, `nsfw_image_detector`) is requested, the service uses PyTorch and Transformers to load the model from the local `models` directory and process the image. This can be accelerated by a GPU if available on the Vision service machine.
     *   **Ollama Processor:** If the model name is not recognized as a local model, the service assumes it is an Ollama model. It forwards the image and a prompt to the configured `OLLAMA_HOST` API endpoint.
 3.  **The AI Model** (either local or on Ollama) analyzes the image and generates the result (a caption or a list of labels).
-4.  **PhotoPrism Vision** formats the result into a standardized JSON response and sends it back to the main PhotoPrism instance.
+4.  **Vision Playground** formats the result into a standardized JSON response and sends it back to the main PhotoPrism instance.
 5.  **PhotoPrism** receives the JSON response and saves the new metadata to its database.
 
 ## Build Setup
@@ -86,7 +86,7 @@ The file consists of a list of `Models` and a `Thresholds` section.
       Options:
         Temperature: 0.1
       Service:
-        Uri: "http://<vision-service-ip>:5000/api/v1/vision"
+        Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
         FileScheme: data
         RequestFormat: vision
         ResponseFormat: vision
@@ -95,7 +95,7 @@ The file consists of a list of `Models` and a `Thresholds` section.
       Name: "kosmos-2"
       Version: "latest"
       Service:
-        Uri: "http://<vision-service-ip>:5000/api/v1/vision"
+        Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
         FileScheme: base64
         RequestFormat: vision
         ResponseFormat: vision
