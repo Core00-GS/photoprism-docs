@@ -115,20 +115,14 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
     - Type: face
       Default: true
     - Type: caption
-      Name: gemma3
-      Version: latest
+      Name: gemma3:latest
+      Engine: ollama
       Prompt: Create a caption with exactly one sentence in the active voice that describes
         the main visual content. Begin with the main subject and clear action. Avoid text
         formatting, meta-language, and filler words.
-      Resolution: 720
-      Options:
-        Temperature: 0.1
       Service:
         # Ollama API endpoint (adjust as needed):
         Uri: http://ollama:11434/api/generate
-        FileScheme: base64
-        RequestFormat: ollama
-        ResponseFormat: ollama
     Thresholds:
       Confidence: 10
     ```
