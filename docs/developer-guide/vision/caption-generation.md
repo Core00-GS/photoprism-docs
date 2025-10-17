@@ -27,9 +27,6 @@ docker compose --profile ollama up -d
       photoprism:
         ## The ":preview" build gives early access to new features:
         image: photoprism/photoprism:preview
-        ## Start ollama first:
-        depends_on:
-        - ollama 
         ...
 
       ## Ollama AI Model Runner (optional)
@@ -85,15 +82,7 @@ Note that the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/clou
 
 ### Step 2: Download Models
 
-Run the following command to start the Ollama service:
-
-```bash
-docker compose up -d
-```
-
-If Ollama does not start as expected when using one of our configuration examples, you may need to add the `--profile ollama` flag to the command, as explained in [Step 1](#step-1-install-ollama).
-
-You can then download [any of the listed vision models](https://ollama.com/search?c=vision) that match your hardware capabilities and preferences, as you will need it for the next step. For example:
+Once the Ollama service is running (see [Step 1](#step-1-install-ollama)), you can download [any of the listed vision models](https://ollama.com/search?c=vision) that match your hardware capabilities and preferences, as you will need it for the next step. For example:
 
 ```bash
 docker compose exec ollama ollama pull gemma3:latest
@@ -117,10 +106,18 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
     - Type: caption
       Name: gemma3:latest
       Engine: ollama
+      Prompt: |
+        Create a caption with exactly one sentence in the active voice that describes the main visual content.
+        Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
+      Options:
+        Temperature: 0.1
+      Name: gemma3:latest
+      Engine: ollama
       Prompt: Create a caption with exactly one sentence in the active voice that describes
         the main visual content. Begin with the main subject and clear action. Avoid text
         formatting, meta-language, and filler words.
       Service:
+        Uri: "http://ollama:11434/api/generate"
         # Ollama API endpoint (adjust as needed):
         Uri: http://ollama:11434/api/generate
     Thresholds:
@@ -150,6 +147,38 @@ When using a custom `vision.yml` config file, you can apply the default settings
     ```
 
 This simplifies your configuration, allowing you to customize only specific model types.
+
+#### Scheduling Options
+
+You can optionally add a `Run` property to control when PhotoPrism executes the caption model:
+
+- **`newly-indexed`** (recommended): Runs after indexing completes via the metadata worker, avoiding slowdowns during import while still processing new files automatically. Also supports manual invocations.
+- **`manual`**: Only runs when explicitly invoked via CLI/API (`photoprism vision run -m caption`).
+
+!!! example "vision.yml with scheduling"
+    ```yaml
+    Models:
+    - Type: labels
+      Default: true
+    - Type: nsfw
+      Default: true
+    - Type: face
+      Default: true
+    - Type: caption
+      Name: gemma3:latest
+      Engine: ollama
+      Run: newly-indexed  # Run after indexing completes to avoid slowing imports
+      Prompt: |
+        Create a caption with exactly one sentence in the active voice that describes the main visual content.
+        Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
+      Options:
+        Temperature: 0.1
+      Service:
+        Uri: "http://ollama:11434/api/generate"
+    Thresholds:
+      Confidence: 10
+    ```
+
 
 ### Step 4: Restart PhotoPrism
 

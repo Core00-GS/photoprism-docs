@@ -54,6 +54,7 @@ nav:
     - Advanced:
       - OpenID Connect:  getting-started/advanced/openid-connect.md
       - Video Transcoding: getting-started/advanced/transcoding.md
+      - Vision API Server: getting-started/advanced/vision-api.md
       - Using Kubernetes: getting-started/advanced/kubernetes.md
       - Docker Security: getting-started/advanced/docker-security.md
       - Docker Volumes: getting-started/advanced/docker-volumes.md
@@ -190,6 +191,7 @@ nav:
         - Introduction: developer-guide/vision/classification.md
         - Custom Models: developer-guide/vision/custom-classification-model.md
       - Face Recognition: developer-guide/vision/face-recognition.md
+      - Label Generation: developer-guide/vision/label-generation.md
       - Caption Generation: developer-guide/vision/caption-generation.md
       - Model Comparison: developer-guide/vision/model-comparison.md
       - CLI Commands: developer-guide/vision/cli.md

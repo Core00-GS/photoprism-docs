@@ -44,6 +44,28 @@ Your pictures, uploads, sidecar files, and cache files are stored in subfolders 
 Should you want to make changes to the [default settings](../config-options.md), you can find your `compose.yaml` file in `/opt/photoprism`.
 After [connecting via SSH](https://www.howtogeek.com/311287/how-to-connect-to-an-ssh-server-from-windows-macos-or-linux/) with the credentials provided above, you can obtain root privileges by running `sudo -i`.
 
+## Running Commands and Viewing Logs
+
+After [connecting via SSH](https://www.howtogeek.com/311287/how-to-connect-to-an-ssh-server-from-windows-macos-or-linux/), navigate to `/opt/photoprism` to run commands or view logs:
+
+```bash
+cd /opt/photoprism
+```
+
+Run PhotoPrism commands:
+
+```bash
+sudo docker compose exec photoprism photoprism [command]
+```
+
+View logs:
+
+```bash
+sudo docker compose logs -f photoprism
+```
+
+[View all available commands ›](../docker-compose.md#command-line-interface)
+
 ### Reverse Proxy
 
 [Traefik](https://traefik.io/traefik)  is installed as [a reverse proxy](../proxies/traefik.md) and can be configured in `/opt/photoprism/compose.yml`, as well as through the config files located in `/opt/photoprism/traefik`.
