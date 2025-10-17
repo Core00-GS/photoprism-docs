@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251016-865b1513e</span>
+<span class="build">Build 251017-b400666a1</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -37,6 +37,7 @@ What's new?
 - CLI: [Added `vision reset` command to regenerate captions and labels](https://github.com/photoprism/photoprism/issues/5233)
 - CLI: [Improved `photoprism dl` command to support additional flags](https://github.com/photoprism/photoprism/issues/5261)
 - Setup: [Added `ollama` service to `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
+- PWA: [Replaced "@lcdp/offline-plugin" with "workbox-webpack-plugin"](https://github.com/photoprism/photoprism/issues/5274)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
 - Docker: [Improved `cmd.sh` script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
 - Security: [Upgraded Go to v1.25.3, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.3)
