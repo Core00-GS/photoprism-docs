@@ -88,8 +88,8 @@ photoprism vision reset [options] [filter]
 | `--source TYPE`, `-s TYPE`    | custom data source TYPE (auto, default, image, marker, ollama, openai, vision) (default: "image")                    |
 | `--yes`, `-y`                 | runs the command non-interactively (default: false)                                                                  |
 
-!!! warning "Always Specify the Source"
-    You must always specify the `--source` flag to reset data from a specific source. Without it, the command may not reset any pictures. Use the source that matches where your data came from (e.g., `ollama`, `openai`, `vision`).
+!!! warning ""
+    You must always specify the `--source` flag to reset data from a specific source. Without it, the command may not reset any pictures. Use the source that matches where your data came from (e.g., `ollama` or `image`).
 
 ### Examples
 
@@ -102,10 +102,10 @@ docker compose exec photoprism photoprism vision reset --models=caption --source
 To reset labels for photos in a specific album:
 
 ```bash
-docker compose exec photoprism photoprism vision reset --models=labels source=ollama album:TestAlbum
+docker compose exec photoprism photoprism vision reset --models=labels --source=ollama album:TestAlbum
 ```
 
-!!! note
+!!! note ""
     The `--yes` flag runs the command non-interactively without requiring confirmation. Omit this flag if you want to be prompted before the reset operation begins.
 
 ## Face Detection Commands
@@ -114,10 +114,10 @@ PhotoPrism provides specialized commands for managing face detection, clustering
 
 ### Index Faces
 
-Detect faces in new or unprocessed photos:
+Detect faces in your photos:
 
 ```bash
-docker compose exec photoprism photoprism faces index
+docker compose exec photoprism photoprism faces index [subfolder]
 ```
 
 ### Audit Face Data
@@ -141,6 +141,7 @@ docker compose exec photoprism photoprism faces audit --subject=<person-uid>
 ```
 
 This provides detailed information including:
+
 - Retry counts for cluster merging
 - Sample statistics
 - Outstanding clusters that need attention
@@ -169,19 +170,7 @@ Clear all face data and start fresh:
 docker compose exec photoprism photoprism faces reset
 ```
 
-Reset using a specific detection engine:
-
-```bash
-docker compose exec photoprism photoprism faces reset --engine=onnx
-```
-
-Or to switch back to Pigo:
-
-```bash
-docker compose exec photoprism photoprism faces reset --engine=pigo
-```
-
-!!! warning "Data Loss Warning"
+!!! danger ""
     The `faces reset` command will delete all existing face markers and clusters. Make sure you have backups if needed, as this operation cannot be undone.
 
 

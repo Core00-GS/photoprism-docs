@@ -54,7 +54,6 @@ nav:
     - Advanced:
       - OpenID Connect:  getting-started/advanced/openid-connect.md
       - Video Transcoding: getting-started/advanced/transcoding.md
-      - Vision API Server: getting-started/advanced/vision-api.md
       - Using Kubernetes: getting-started/advanced/kubernetes.md
       - Docker Security: getting-started/advanced/docker-security.md
       - Docker Volumes: getting-started/advanced/docker-volumes.md

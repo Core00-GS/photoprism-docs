@@ -9,7 +9,7 @@ It allows you to choose from the [available vision models](https://ollama.com/se
 
 ## Ollama Setup Guide
 
-If you only want to use [Ollama](https://ollama.com/search?c=vision) vision models for caption generation, the easiest way is to follow these instructions to set up an Ollama service instance and connect it directly to PhotoPrism.
+Follow the steps below to connect PhotoPrism directly to an Ollama instance and generate captions with [vision-capable LLMs](https://ollama.com/search?c=vision).
 
 ### Step 1: Install Ollama
 
@@ -29,7 +29,7 @@ docker compose --profile ollama up -d
         image: photoprism/photoprism:preview
         ...
 
-      ## Ollama AI Model Runner (optional)
+      ## Ollama Large-Language Model Runner (optional)
       ## Run "ollama pull [name]:[version]" to download a vision model
       ## listed at <https://ollama.com/search?c=vision>, for example:
       ## docker compose exec ollama ollama pull gemma3:latest
@@ -78,7 +78,7 @@ docker compose --profile ollama up -d
 Note that the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/cloud-native/container-toolkit/install-guide.html) must be installed for GPU hardware acceleration to work. Experienced users may also run Ollama on a separate, more powerful server.
 
 !!! danger ""
-    Since neither [Vision Playground](service/index.md) nor Ollama support authentication, both services should only be used within a secure, private network. They must not be exposed to the public internet.
+    Ollama does not enforce authentication by default. Only expose port `11434` inside trusted networks or behind a reverse proxy that adds access control.
 
 ### Step 2: Download Models
 
@@ -106,18 +106,11 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
     - Type: caption
       Name: gemma3:latest
       Engine: ollama
-      Prompt: |
-        Create a caption with exactly one sentence in the active voice that describes the main visual content.
-        Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
-      Options:
-        Temperature: 0.1
-      Name: gemma3:latest
-      Engine: ollama
+      Run: newly-indexed
       Prompt: Create a caption with exactly one sentence in the active voice that describes
         the main visual content. Begin with the main subject and clear action. Avoid text
         formatting, meta-language, and filler words.
       Service:
-        Uri: "http://ollama:11434/api/generate"
         # Ollama API endpoint (adjust as needed):
         Uri: http://ollama:11434/api/generate
     Thresholds:
@@ -150,34 +143,8 @@ This simplifies your configuration, allowing you to customize only specific mode
 
 #### Scheduling Options
 
-You can optionally add a `Run` property to control when PhotoPrism executes the caption model:
-
-- **`newly-indexed`** (recommended): Runs after indexing completes via the metadata worker, avoiding slowdowns during import while still processing new files automatically. Also supports manual invocations.
-- **`manual`**: Only runs when explicitly invoked via CLI/API (`photoprism vision run -m caption`).
-
-!!! example "vision.yml with scheduling"
-    ```yaml
-    Models:
-    - Type: labels
-      Default: true
-    - Type: nsfw
-      Default: true
-    - Type: face
-      Default: true
-    - Type: caption
-      Name: gemma3:latest
-      Engine: ollama
-      Run: newly-indexed  # Run after indexing completes to avoid slowing imports
-      Prompt: |
-        Create a caption with exactly one sentence in the active voice that describes the main visual content.
-        Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
-      Options:
-        Temperature: 0.1
-      Service:
-        Uri: "http://ollama:11434/api/generate"
-    Thresholds:
-      Confidence: 10
-    ```
+- `Run: newly-indexed` (recommended): Runs after indexing completes via the metadata worker, avoiding slowdowns during import while still processing new files automatically. Also supports manual invocations.
+- `Run: manual` disables automatic execution so you can invoke the model explicitly via `photoprism vision run -m caption`
 
 
 ### Step 4: Restart PhotoPrism

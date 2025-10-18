@@ -3,7 +3,7 @@
 To [recognize faces](https://docs.photoprism.app/user-guide/organize/people/), PhotoPrism uses a multi-stage AI pipeline that detects faces, generates embeddings, and clusters similar faces so they can be easily organized by person.
 
 !!! tldr ""
-    PhotoPrism now supports **two interchangeable detection engines** that you can switch between depending on your hardware and accuracy requirements. The ONNX-based engine provides significantly improved detection of faces that are occluded, at angles, or in challenging lighting conditions.
+    With the upcoming release PhotoPrism will support **two interchangeable detection engines** that you can switch between depending on your hardware and accuracy requirements. The ONNX-based engine provides significantly improved detection of faces that are occluded, at angles, or in challenging lighting conditions.
 
 ## How It Works
 
@@ -45,33 +45,6 @@ The ONNX engine is automatically enabled when `FACE_ENGINE=auto` and the bundled
 - Photos with challenging angles or lighting
 - Group photos with partially obscured faces
 
-### Switching Detection Engines
-
-You can switch between detection engines at any time:
-
-#### At Runtime
-
-```bash
-docker compose exec photoprism photoprism --face-engine=onnx
-```
-
-#### For Complete Re-indexing
-
-To re-detect all faces with a different engine:
-
-```bash
-docker compose exec photoprism photoprism faces reset --engine=onnx
-```
-
-Or to switch back to Pigo:
-
-```bash
-docker compose exec photoprism photoprism faces reset --engine=pigo
-```
-
-!!! warning ""
-    Using `faces reset` will clear all existing face markers and re-detect faces from scratch. This operation cannot be undone, so make sure you have backups if needed.
-
 ## Configuration
 
 !!! example ""
@@ -89,6 +62,9 @@ docker compose exec photoprism photoprism faces reset --engine=pigo
 | PHOTOPRISM_FACE_OVERLAP        | --face-overlap         | 42                     | Face area overlap threshold in `PERCENT` (1-100)                                                  |
 
 ### Clustering Settings
+
+!!! danger ""
+    It is strongly recommended that you run the "photoprism faces reset" command in a terminal to remove existing clusters and mappings after changing any of the clustering parameters, as otherwise inconsistencies may result in unexpected behavior or errors.
 
 | Environment Variable           | CLI Flag               | Default  | Description                                                                            |
 |--------------------------------|------------------------|----------|----------------------------------------------------------------------------------------|
@@ -126,67 +102,6 @@ This normalization ensures that Euclidean distance comparisons are equivalent to
 
 ## Commands
 
-### Index Faces
-
-To detect faces in new or unprocessed photos:
-
-```bash
-docker compose exec photoprism photoprism faces index
-```
-
-### Audit and Fix Face Data
-
-To check the integrity of face data and fix normalization issues:
-
-```bash
-docker compose exec photoprism photoprism faces audit --fix
-```
-
-This command:
-
-- Re-normalizes persisted embeddings to unit length
-- Rekeys face IDs for consistency
-- Re-links markers with correct distances
-- Updates historical data to match current standards
-
-For debugging a specific person:
-
-```bash
-docker compose exec photoprism photoprism faces audit --subject=<uid>
-```
-
-This provides detailed statistics including retry counts, sample statistics, and outstanding clusters.
-
-### Optimize Face Clusters
-
-To optimize face clustering and merge similar clusters:
-
-```bash
-docker compose exec photoprism photoprism faces optimize
-```
-
-If you've manually cleaned up problem clusters and want to retry merging:
-
-```bash
-docker compose exec photoprism photoprism faces optimize --retry
-```
-
-This clears retry counters and allows the optimizer to reprocess clusters that previously failed to merge.
-
-### Reset Face Detection
-
-Clear all face data and start fresh:
-
-```bash
-docker compose exec photoprism photoprism faces reset
-```
-
-Reset using a specific detection engine:
-
-```bash
-docker compose exec photoprism photoprism faces reset --engine=onnx
-```
-
 [Learn more about CLI commands ›](cli.md#face-detection-commands)
 
 ## Performance Improvements
@@ -207,7 +122,7 @@ These improvements mean:
 - **Quicker face matching** when organizing people
 - **More efficient** distance calculations
 
-## Troubleshooting
+<!-- ## Troubleshooting
 
 ### Manual Cluster Merging Warnings
 
@@ -231,6 +146,10 @@ This informational message indicates that some manually created face clusters co
    docker compose exec photoprism photoprism faces reset --engine=onnx
    ```
 
+!!! danger ""
+    The `faces reset` command will delete all existing face markers and clusters. Make sure you have backups if needed, as this operation cannot be undone.
+
+
 2. **Review manual clusters** in the UI and remove outliers
 
 3. **Retry optimization:**
@@ -249,5 +168,5 @@ The optimizer has safeguards to prevent infinite retries:
 - Warnings only appear when the counter increments
 - Set `PHOTOPRISM_FACE_MERGE_MAX_RETRY=0` for unlimited retries
 - Use `--retry` flag to clear counters after manual cleanup
-
+-->
 
