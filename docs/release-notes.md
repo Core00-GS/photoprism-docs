@@ -38,7 +38,7 @@ What's new?
 - CLI: [Improved `photoprism dl` command to support additional flags](https://github.com/photoprism/photoprism/issues/5261)
 - Setup: [Added `ollama` service to `compose.yaml` configuration examples](https://dl.photoprism.app/docker/)
 - PWA: [Replaced "@lcdp/offline-plugin" with "workbox-webpack-plugin"](https://github.com/photoprism/photoprism/issues/5274)
-- Docker: [Upgraded to Ubuntu 25.10](https://github.com/photoprism/photoprism/issues/5276) with [ExifTool v13.25](https://github.com/exiftool/exiftool/blob/master/Changes) and [libheif v1.20.2](https://github.com/strukturag/libheif/releases/tag/v1.20.2) 
+- Docker: [Upgraded to Ubuntu 25.10](https://github.com/photoprism/photoprism/issues/5276), incl. [ExifTool v13.25](https://github.com/exiftool/exiftool/blob/master/Changes) and [libheif v1.20.2](https://github.com/strukturag/libheif/releases/tag/v1.20.2)
 - Docker: [Preinstalled `libmagic-mgc` package for file type detection](https://github.com/photoprism/photoprism/issues/5149)
 - Docker: [Improved `cmd.sh` script to terminate child processes](https://github.com/photoprism/photoprism/pull/5172) by [@keif888](https://github.com/keif888)
 - Security: [Upgraded Go to v1.25.3, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.3)
