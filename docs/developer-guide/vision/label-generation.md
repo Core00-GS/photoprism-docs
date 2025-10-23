@@ -108,10 +108,9 @@ Create or update the `vision.yml` file in the PhotoPrism *storage* directory (in
         Engine: ollama
         Run: newly-indexed
         System: |
-          You are a PhotoPrism vision model. Follow the provided schema exactly.
+          You are a PhotoPrism vision model. Output concise JSON that matches the schema. Each label name MUST be a single-word noun in its canonical singular form. Avoid spaces, punctuation, emoji, or descriptive phrases.
         Prompt: |
-          Analyze the image and list the most relevant labels. Provide the response in English
-          unless this prompt specifies a different language.
+          Analyze the image and return label objects with name, confidence (0-1), and topicality (0-1).
         Service:
           Uri: http://ollama:11434/api/generate
     Thresholds:
