@@ -1,6 +1,6 @@
-# Using Custom TensorFlow Models 
+# Custom TensorFlow Models 
 
-As an alternative to the [built-in model](classification.md), PhotoPrism lets you configure custom more powerful TensorFlow models for image classification.[^1]
+As an alternative to the [built-in model](index.md), PhotoPrism lets you configure custom more powerful TensorFlow models for image classification.[^1]
 
 ## Step 1: Mount model folder
 In your compose.yaml file add a volume mount for a model folder.

@@ -186,14 +186,14 @@ nav:
       - Color Detection: developer-guide/metadata/colors.md
       - Camera Models: developer-guide/metadata/cameras.md
     - Computer Vision:
-      - Image Classification:
-        - Introduction: developer-guide/vision/classification.md
-        - Custom Models: developer-guide/vision/custom-classification-model.md
       - Face Recognition: developer-guide/vision/face-recognition.md
       - Label Generation: developer-guide/vision/label-generation.md
       - Caption Generation: developer-guide/vision/caption-generation.md
       - Model Comparison: developer-guide/vision/model-comparison.md
       - CLI Commands: developer-guide/vision/cli.md
+      - Using TensorFlow:
+        - Label Generation: developer-guide/vision/tensorflow/index.md
+        - Custom Models: developer-guide/vision/tensorflow/custom-models.md
       - Vision Playground:
         - Introduction: developer-guide/vision/service/index.md
         - Build Setup: developer-guide/vision/service/setup.md

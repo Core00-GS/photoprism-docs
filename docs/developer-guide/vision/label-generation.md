@@ -1,6 +1,6 @@
-# Label Generation[^1]
+# Label Generation
 
-PhotoPrism’s built-in [classification](https://docs.photoprism.app/developer-guide/vision/classification/) relies on TensorFlow models such as Nasnet. With the new Ollama integration, you can generate labels via multimodal LLMs.
+PhotoPrism’s built-in [image classification](tensorflow/index.md) relies on TensorFlow models such as Nasnet. With the new Ollama integration, you can generate labels via multimodal LLMs.[^1]
 
 !!! warning ""
     The Ollama integration is **under active development**, so the configuration, commands, and other details may change or break unexpectedly. Please keep this in mind and notify us when something doesn't work as expected. Thank you for your help in keeping this documentation updated!
