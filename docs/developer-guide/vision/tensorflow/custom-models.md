@@ -35,7 +35,7 @@ It should now contain the following:
 In our tests, the Vision Transformer model achieved the best accuracy. Inception V3 was faster and may better suited to low-power devices it produced more labels and had a higher error rate; it still outperformed the built-in NASNet model.
 
 ## Step 3: Configure PhotoPrism
-Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
+Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
 
 !!! example "vision.yml"
     ```yaml
@@ -66,9 +66,9 @@ docker compose stop photoprism
 docker compose up -d
 ```
 
-On indexing the configured model will now be used to generate labels. Alternatively you can run the `photoprism vision run` [CLI command](./cli.md#run-vision-models) to generate labels. 
+On indexing the configured model will now be used to generate labels. Alternatively you can run the `photoprism vision run` [CLI command](../cli.md#run-vision-models) to generate labels. 
 
 !!! note ""
     Labels produced by TensorFlow models always have the source "image"; customizing the label source is not supported yet.
 
-[^1]: Available to all users with the [next stable version](../../release-notes.md), see our [release notes](../../release-notes.md#development-preview) for details.
+[^1]: Available to all users with the [next stable version](../../../release-notes.md), see our [release notes](../../../release-notes.md#development-preview) for details.

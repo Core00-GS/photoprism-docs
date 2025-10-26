@@ -2,7 +2,7 @@
 
 Image classification is performed using a [pre-trained model](https://dl.photoprism.app/tensorflow/), *NASNet Mobile 224*, that we have chosen because of its size, performance and accuracy. To get a basic understanding of how this works, you can read [Image Classification using Deep Neural Networks](https://medium.com/@tifa2up/image-classification-using-deep-neural-networks-a-beginner-friendly-approach-using-tensorflow-94b0a090ccd4).
 
-In addition, we manually matched the model classification with the [labels](https://github.com/photoprism/photoprism/blob/develop/internal/ai/classify/rules.yml) you see in our [UI](../../user-guide/organize/labels.md):
+In addition, we manually matched the model classification with the [labels](https://github.com/photoprism/photoprism/blob/develop/internal/ai/classify/rules.yml) you see in our [UI](../../../user-guide/organize/labels.md):
 
 ```yaml
 cat:
@@ -104,13 +104,13 @@ $ rm inception_v3_2016_08_28.tar.gz
 DELF: DEep Local Features
  - https://github.com/tensorflow/models/tree/master/research/delf - Tensorflow implementation
 
-![https://gitcdn.xyz/cdn/Tony607/blog_statics/ce9c3391932e24655b78e27a54543f28f11f3af0/images/landmark/query.jpg](../metadata/img/landmark-query.jpg)
+![https://gitcdn.xyz/cdn/Tony607/blog_statics/ce9c3391932e24655b78e27a54543f28f11f3af0/images/landmark/query.jpg](../../metadata/img/landmark-query.jpg)
 
 Source: https://gitcdn.xyz/cdn/Tony607/blog_statics/ce9c3391932e24655b78e27a54543f28f11f3af0/images/landmark/query.jpg
 
 ## Types of neural networks ##
 
-![http://www.asimovinstitute.org/wp-content/uploads/2016/09/neuralnetworks.png](../metadata/img/neuralnetworks.png)
+![http://www.asimovinstitute.org/wp-content/uploads/2016/09/neuralnetworks.png](../../metadata/img/neuralnetworks.png)
 Source: http://www.asimovinstitute.org/neural-network-zoo/
 
 ## External Resources ##
