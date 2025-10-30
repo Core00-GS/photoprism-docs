@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251029-fb79e5846</span>
+<span class="build">Build 251030-6552aa3bc</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -32,6 +32,7 @@ What's new?
 - Intel QSV: [`libvpl2` will be installed when `PHOTOPRISM_INIT` includes "intel"](https://github.com/photoprism/photoprism/discussions/5098)
 - API: [Added a force flag to the `DELETE /api/v1/albums/UID` endpoint](https://github.com/photoprism/photoprism/issues/5122)
 - API: [Corrected handling of CORS preflight requests](https://github.com/photoprism/photoprism/issues/5133) by [@techmatt101](https://github.com/techmatt101)
+- API: [Configured service key is valid for Vision API authentication](https://github.com/photoprism/photoprism/issues/5299)
 - Config: [`PHOTOPRISM_DISABLE_FRONTEND` disables the web user interface](https://github.com/photoprism/photoprism/issues/5111)
 - CLI: [Added `--json` output format flag to `photoprism show` commands](https://github.com/photoprism/photoprism/issues/5220)
 - CLI: [Added `vision reset` command to regenerate captions and labels](https://github.com/photoprism/photoprism/issues/5233)
