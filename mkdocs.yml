@@ -199,6 +199,7 @@ nav:
         - Build Setup: developer-guide/vision/service/setup.md
     - Mobile Apps:
       - iOS and Android: developer-guide/native-apps/index.md
+      - Device Resolutions: developer-guide/native-apps/device-resolutions.md
     - Web User Interface:
       - Introduction: developer-guide/ui/introduction.md
       - Screenshots: developer-guide/ui/screenshots.md
