@@ -208,6 +208,7 @@ nav:
       - Browsers: developer-guide/ui/browsers.md
       - Interactive Maps: developer-guide/ui/maps.md
       - Infinite Scrolling: developer-guide/ui/infinite-scrolling.md
+      - Focus Management: developer-guide/ui/focus-management.md
     - Web Service API:
       - Introduction: developer-guide/api/index.md
       - Swagger Docs: developer-guide/api/docs.md
