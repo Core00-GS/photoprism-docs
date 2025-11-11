@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview  
-<span class="build">Build 251102-bbee0993e</span>
+<span class="build">Build 251111-05e4fdf67</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -17,6 +17,7 @@ What's new?
 - AI: [Added scheduling options for running vision models in the background](https://github.com/photoprism/photoprism/issues/5234)
 - UX: [Added menu to select a cover image for people](https://github.com/photoprism/photoprism/issues/4151) by [@omerdduran](https://github.com/omerdduran)
 - UX: ["Add to Album" dialog allows selection of multiple albums](https://github.com/photoprism/photoprism/pull/5177) by [@omerdduran](https://github.com/omerdduran)
+- UX: [Improved people name editing and focus management](https://github.com/photoprism/photoprism/pull/5307) by [@omerdduran](https://github.com/omerdduran)
 - UX: [Improved window scroll position restoration when navigating](https://github.com/photoprism/photoprism/issues/5211)
 - UX: [Disabled autofocus on mobile devices to prevent keyboard from opening](https://github.com/photoprism/photoprism/issues/5213)
 - UX: [Added a browser capability check displaying a warning if unsupported](https://github.com/photoprism/photoprism/issues/5047)
