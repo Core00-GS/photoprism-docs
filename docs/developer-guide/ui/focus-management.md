@@ -1,8 +1,6 @@
 # Focus Management
 
-PhotoPrism maintains predictable keyboard focus across pages and dialogs by using a shared view helper:
-
-- [`frontend/src/common/view.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/common/view.js)
+PhotoPrism uses a [shared view helper](https://github.com/photoprism/photoprism/blob/develop/frontend/src/common/view.js) to maintain predictable focus across pages and dialogs. 
 
 This helper tracks the currently active component, applies focus when views change, and traps focus inside open dialogs, ensuring that tabbing never leaks into the page behind an overlay. The following guidelines explain how to work with the helper when building UI functionality.
 
@@ -75,7 +73,7 @@ Vuetify dialogs are teleported to the overlay container, so consistent refs and 
 
    Only add local `@focusout` handlers if a dialog needs custom behaviour. If you do, always call `ev.preventDefault()` when you redirect focus so you do not fight the global handler.
 
-## Example: Delete Confirmation Dialog
+## Example: Confirmation Dialog
 
 ```vue
 <template>
@@ -140,18 +138,22 @@ This pattern ensures:
 ## Troubleshooting Checklist
 
 **Focus escapes the dialog when tabbing**
-- Verify the dialog calls `$view.enter(this)` / `$view.leave(this)`.
-- Confirm the dialog template has `ref="dialog"`; if you teleport manually, expose `contentEl`.
-- Ensure there is at least one control with `tabindex="0"` inside the card. Pure static content cannot trap focus.
+
+- [ ] Verify the dialog calls `$view.enter(this)` / `$view.leave(this)`.
+- [ ] Confirm the dialog template has `ref="dialog"`; if you teleport manually, expose `contentEl`.
+- [ ] Ensure there is at least one control with `tabindex="0"` inside the card. Pure static content cannot trap focus.
 
 **Focus lands on the overlay instead of a button**
-- Check for stray `tabindex="-1"` on child elements. Only the outer container should use `-1`.
-- Use the browser console with `trace` logging enabled (`this.$config.get("trace")`) to see which elements receive `document.focusin/out`.
+
+- [ ] Check for stray `tabindex="-1"` on child elements. Only the outer container should use `-1`.
+- [ ] Use the browser console with `trace` logging enabled (`this.$config.get("trace")`) to see which elements receive `document.focusin/out`.
 
 **Custom focusout handler keeps fighting the trap**
-- Make sure the handler checks `this.$view.isActive(this)` and calls `ev.preventDefault()` when redirecting focus.
-- Consider removing the custom handler if the global trap already matches the desired behaviour.
+
+- [ ] Make sure the handler checks `this.$view.isActive(this)` and calls `ev.preventDefault()` when redirecting focus.
+- [ ] Consider removing the custom handler if the global trap already matches the desired behaviour.
 
 **Nested dialogs (dialog inside dialog)**
-- Each dialog must have `ref="dialog"` so the helper can distinguish them.
-- The helper chooses the currently active component (`this.$view.getCurrent()`) as the trap owner, so opening a second dialog automatically pauses the first one’s trap.
+
+- [ ] Each dialog must have `ref="dialog"` so the helper can distinguish them.
+- [ ] The helper chooses the currently active component (`this.$view.getCurrent()`) as the trap owner, so opening a second dialog automatically pauses the first one’s trap.
