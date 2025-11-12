@@ -73,6 +73,42 @@ Vuetify dialogs are teleported to the overlay container, so consistent refs and 
 
    Only add local `@focusout` handlers if a dialog needs custom behaviour. If you do, always call `ev.preventDefault()` when you redirect focus so you do not fight the global handler.
 
+## Keyboard Event Handling
+
+Dialogs and page shells often react to keyboard shortcuts (Escape to close, Enter to confirm, etc.). To keep those handlers compatible with text inputs and other interactive children:
+
+- Attach listeners to the focusable container that the view helper manages – the page wrapper with `tabindex="-1"` or the dialog root (`<v-dialog ref="dialog">`).
+- Prefer `@keyup` (for example, `@keyup.esc.exact="close"`) so elements inside the container receive `keydown` events first and can call `event.stopPropagation()` when they need to keep the key (such as typing Esc in a combobox menu).
+- Combine modifiers like `.exact` and `.stop` intentionally. Use `.stop` only when the handler fully resolves the action; otherwise allow events to bubble to ancestor traps.
+- If a component must react on `keydown`, scope the listener to the specific control instead of the container, and document why the early trigger is required.
+- When emitting from reusable components, forward the native event (`close(event)`) so parents can inspect `event.defaultPrevented` or `event.key` before acting.
+
+Example dialog wiring:
+
+```vue
+<v-dialog
+  ref="dialog"
+  @keyup.esc.exact="close"
+  @keyup.enter.exact="confirm"
+>
+  <v-card ref="content" tabindex="-1">
+    <!-- dialog body -->
+  </v-card>
+</v-dialog>
+```
+
+Example page container:
+
+```vue
+<template>
+  <div class="p-page p-settings" tabindex="-1" @keyup.esc.exact="maybeClose">
+    <!-- page content -->
+  </div>
+</template>
+```
+
+Both snippets allow focused inputs to veto shortcuts by calling `event.stopPropagation()` or `event.preventDefault()` before the key reaches the container listener, keeping focus management predictable across the app.
+
 ## Example: Confirmation Dialog
 
 ```vue
