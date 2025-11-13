@@ -158,6 +158,7 @@ nav:
     - Best Practices: developer-guide/code-quality.md
     - GitHub Issues: developer-guide/issues.md
     - Pull Requests: developer-guide/pull-requests.md
+    - Reviewing PRs: developer-guide/reviewing-pull-requests.md
     - Project Structure: developer-guide/directories.md
     - Config Options: developer-guide/configuration.md
     - Running Tests: developer-guide/tests.md
