@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview  
-<span class="build">Build 251112-a8f428610</span>
+<span class="build">Build 251114-0cf194b3f</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
@@ -12,6 +12,7 @@ What's new?
 
 - AI: [Support for custom TensorFlow image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
 - AI: [Direct Ollama integration for generating captions](https://github.com/photoprism/photoprism/issues/5123) and [labels](https://github.com/photoprism/photoprism/issues/5232) by [@lastzero](https://github.com/lastzero)
+- AI: [Generate Captions & Labels using the OpenAI Responses API](https://github.com/photoprism/photoprism/issues/5322) by [@lastzero](https://github.com/lastzero)
 - AI: [Improved face detection and embedding pipeline with a new CNN engine](https://github.com/photoprism/photoprism/issues/5167)
 - AI: [Improved model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - AI: [Added scheduling options for running vision models in the background](https://github.com/photoprism/photoprism/issues/5234)
