@@ -157,12 +157,12 @@ nav:
     - Build Setup: developer-guide/setup.md
     - Best Practices: developer-guide/code-quality.md
     - Project Structure: developer-guide/directories.md
+    - Configuration: developer-guide/configuration.md
+    - Documentation: developer-guide/documentation.md
     - GitHub Issues: developer-guide/issues.md
     - Pull Requests: developer-guide/pull-requests.md
     - Reviewing PRs: developer-guide/reviewing-pull-requests.md
     - Running Tests: developer-guide/tests.md
-    - Config Options: developer-guide/configuration.md
-    - Documentation: developer-guide/documentation.md
     - Translations:
       - Using Weblate: developer-guide/translations-weblate.md
       - Legacy Method: developer-guide/translations.md
