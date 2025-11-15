@@ -9,7 +9,7 @@ Before proceeding, ensure that your Kubernetes nodes have at least [8 GB of memo
 !!! info "PhotoPrism® Pro"
     [Business customers](https://www.photoprism.app/teams#compare) can deploy the `photoprism-pro` chart from the same repository. [Learn more ›](https://www.photoprism.app/pro/kb/kubernetes)
 
-## Add the PhotoPrism Chart Repository
+## Add the Charts Repository
 
 ```bash
 helm repo add photoprism https://charts.photoprism.app/photoprism
