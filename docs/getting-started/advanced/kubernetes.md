@@ -1,155 +1,141 @@
-# Running PhotoPrism with Kubernetes
+# Deploying PhotoPrism on Kubernetes
 
-*While we believe this contributed content may be helpful to advanced users, we have not yet thoroughly reviewed it. If you have suggestions for improvement, please let us know by clicking :material-file-edit-outline: to submit a change request.*
+PhotoPrism provides [Helm charts](https://charts.photoprism.app/photoprism) for advanced users to deploy our [Personal](https://www.photoprism.app/editions#compare) and [Team Editions](https://www.photoprism.app/teams#compare) on Kubernetes, offering the same configuration options as the official Docker images.
 
-At a minimum, you can just define a Kubernetes `Service` and a `StatefulSet` and be up and running. For more real-world usage, you'll probably want to at least include persistent storage, and possibly some `Ingress` rules for exposing PhotoPrism outside your cluster.
+The `photoprism-plus` chart is publicly accessible and allows you to install our [Personal Editions](https://www.photoprism.app/editions#compare) with the option to [activate membership features](https://www.photoprism.app/kb/activation), similar to the installation with [Docker Compose](../docker-compose.md).
 
-Before you proceed, please ensure that your server has [at least 4 GB of swap](../troubleshooting/docker.md#adding-swap) configured and avoid setting a [hard memory limit](../faq.md#why-is-my-configured-memory-limit-exceeded-when-indexing-even-though-photoprism-doesnt-actually-seem-to-use-that-much-memory) as this can cause unexpected restarts when the indexer temporarily needs more memory to process large files. Indexing RAW images and high-resolution panoramas may require additional [swap space](../troubleshooting/docker.md#adding-swap) and/or physical memory beyond the [recommended minimum](../index.md#system-requirements).
+Before proceeding, ensure that your Kubernetes nodes have at least [8 GB of memory](../troubleshooting/docker.md#adding-swap) and avoid enforcing a [hard memory limit](../faq.md#why-is-my-configured-memory-limit-exceeded-when-indexing-even-though-photoprism-doesnt-actually-seem-to-use-that-much-memory). Indexing RAW files or large panoramas may require additional swap space or RAM beyond the [recommended minimum](../index.md#system-requirements).
 
-For those familiar with [Helm](https://helm.sh), a PhotoPrism Helm chart [is available](https://github.com/p80n/photoprism-helm).
+!!! info "PhotoPrism® Pro"
+    [Business customers](https://www.photoprism.app/teams#compare) can deploy the `photoprism-pro` chart from the same repository. [Learn more ›](https://www.photoprism.app/pro/kb/kubernetes)
 
-Once you've got PhotoPrism deployed, you can `exec` into the running container and `photoprism import` your photos.
-
-Here's an [example of a YAML file](../../developer-guide/technologies/yaml.md) that creates the following Kubernetes objects:
-
-- `Namespace`
-- `Service` exposing PhotoPrism on port 80
-- `StatefulSet` with persistent NFS volumes
-- `Secret` which stores the database DSN and admin password
-- `Ingress` rule for a Kubernetes [ingress controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
-- Annotations for a Kubernetes [`Certificate Manager`](https://github.com/jetstack/cert-manager)
-
-```yaml
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: photoprism
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: photoprism-secrets
-  namespace: photoprism
-stringData:
-  PHOTOPRISM_ADMIN_PASSWORD: <your admin password here>
-  PHOTOPRISM_DATABASE_DSN: username:password@tcp(db-server-address:3306)/dbname?charset=utf8mb4,utf8&parseTime=true
----
-apiVersion: apps/v1
-kind: StatefulSet
-metadata:
-  name: photoprism
-  namespace: photoprism
-spec:
-  selector:
-    matchLabels:
-      app: photoprism
-  serviceName: photoprism
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: photoprism
-    spec:
-      containers:
-      - name: photoprism
-        image: photoprism/photoprism:latest
-        env:
-        - name: PHOTOPRISM_DEBUG
-          value: "true"
-        - name: PHOTOPRISM_DATABASE_DRIVER
-          value: mysql
-        - name: PHOTOPRISM_HTTP_HOST
-          value: 0.0.0.0
-        - name: PHOTOPRISM_HTTP_PORT
-          value: "2342"
-        # Load database DSN & admin password from secret
-        envFrom:
-        - secretRef:
-            name: photoprism-secrets
-            optional: false
-        ports:
-        - containerPort: 2342
-          name: http
-        volumeMounts:
-        - mountPath: /photoprism/originals
-          name: originals
-        - mountPath: /photoprism/import
-          name: import
-        - mountPath: /photoprism/storage
-          name: storage
-        readinessProbe:
-          httpGet:
-            path: /api/v1/status
-            port: http
-      volumes:
-      - name: originals
-        nfs:
-          path: /originals
-          # readOnly: true # Disables import and upload!
-          server: my.nas.host
-      - name: import
-        nfs:
-          path: /import
-          server: my.nas.host
-      - name: storage
-        nfs:
-          path: /storage
-          server: my.nas.host
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: photoprism
-  namespace: photoprism
-spec:
-  ports:
-  - name: http
-    port: 80
-    protocol: TCP
-    targetPort: http
-  selector:
-    app: photoprism
-  type: ClusterIP
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  annotations:
-    # For nginx ingress controller:
-    kubernetes.io/ingress.class: nginx
-    # Default is very low so most photo uploads will fail:
-    nginx.ingress.kubernetes.io/proxy-body-size: "512M"
-    # If using cert-manager:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    kubernetes.io/tls-acme: "true"
-  name: photoprism
-  namespace: photoprism
-spec:
-  rules:
-  - host: photoprism.my.domain
-    http:
-      paths:
-      - backend:
-          service:
-            name: photoprism
-            port:
-              name: http
-        path: /
-        pathType: Prefix
-  tls:
-  - hosts:
-    - photoprism.my.domain
-    secretName: photoprism-cert
-```
-
-To run this locally, you can use [minikube](https://minikube.sigs.k8s.io/docs/start/)
-or a similar local cluster deployer.
-
-Once your cluster is up and running with your `kubectl` commands. Simply copy the above YAML
-markup to a file, make the necessary changes, and use the `kubectl` CLI command to deploy:
+## Add the PhotoPrism Chart Repository
 
 ```bash
-kubectl create -f photoprism.yaml
+helm repo add photoprism https://charts.photoprism.app/photoprism
+helm repo update photoprism
+helm search repo photoprism
 ```
 
-If you prefer to use helm, see https://github.com/p80n/photoprism-helm.
+`photoprism/photoprism-plus` ships safe defaults (non-root UID/GID 1000, SQLite, two PersistentVolumeClaims, and optional ingress/service templates). Use
+`helm show values photoprism/photoprism-plus` to inspect every option before overriding it in your own `values.plus.yaml` file.
+
+## Quick Install (SQLite)
+
+```bash
+helm upgrade --install photos photoprism/photoprism-plus \
+  --namespace photos --create-namespace \
+  --set adminUser=admin
+```
+
+* Helm prints the release name; Kubernetes stores auto-generated secrets in `secret/<release>-photoprism-secrets` when `adminPassword` is omitted.
+* Retrieve the password so you can log in and activate membership features:
+
+  ```bash
+  kubectl get secret photos-photoprism-secrets -n photos \
+    -o jsonpath='{.data.PHOTOPRISM_ADMIN_PASSWORD}' | base64 --decode && echo
+  ```
+
+* Run PhotoPrism CLI commands via `kubectl exec` when you need to import or trigger background tasks:
+
+  ```bash
+  kubectl exec -n photos deploy/photos-photoprism-plus -- \
+    photoprism import --path /photoprism/import
+  ```
+
+## Persist Originals and Data
+
+The chart always provisions `/photoprism/storage` (5 GiB by default) because it contains the database, cache, and logs. Originals default to a 10 GiB PVC but you can disable or remap them:
+
+```yaml
+# values.plus.yaml
+persistence:
+  storageClassName: fast-nvme
+  storage:
+    size: 20Gi
+  originals:
+    enabled: true
+    size: 2Ti
+    nfs:
+      enabled: true
+      server: nas.local
+      path: /tank/photos
+```
+
+Apply the overrides:
+
+```bash
+helm upgrade --install photos photoprism/photoprism-plus \
+  --namespace photos --create-namespace \
+  -f values.plus.yaml
+```
+
+## Using MariaDB
+
+SQLite is convenient for quick tests, but larger libraries benefit from an external database. Set the database block to point at your cluster’s MariaDB or  MySQL service:
+
+```bash
+helm upgrade --install photos photoprism/photoprism-plus \
+  --namespace photos \
+  --set database.driver=mysql \
+  --set database.server=mariadb.default.svc.cluster.local:3306 \
+  --set database.name=photoprism \
+  --set database.user=photoprism \
+  --set database.password=change-me-now
+```
+
+Store credentials in Kubernetes secrets when possible and reference them via the `extraEnvFrom` pattern (see `templates/secret.yaml` in the chart) if your  security requirements prohibit plain values in `values.yaml`.
+
+## Networking and TLS
+
+The chart exposes PhotoPrism on TCP 2342 through a ClusterIP service. You can override the service type or enable an Ingress resource when you terminate TLS  in the cluster edge:
+
+```yaml
+service:
+  type: ClusterIP
+  port: 2342
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - host: photos.example.com
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - photos.example.com
+      secretName: photos-tls
+```
+
+Because TLS typically terminates at the ingress or proxy layer, the chart keeps `PHOTOPRISM_DISABLE_TLS` set to `true`. Only enable PhotoPrism’s internal TLS if your cluster design requires end-to-end encryption and you manage the certificates yourself.
+
+## PhotoPrism® Plus
+
+Our members can activate [additional features](https://link.photoprism.app/membership) by logging in with the [admin user created during setup](../config-options.md#authentication) and then following the steps [described in our activation guide](https://www.photoprism.app/kb/activation). Thank you for your support, which has been and continues to be essential to the success of the project! :octicons-heart-fill-24:{ .heart .purple }
+
+[Compare Memberships ›](https://link.photoprism.app/membership){ class="pr-3 block-xs" } [View Membership FAQ ›](https://www.photoprism.app/membership/faq) 
+
+!!! example ""
+    We recommend that new users install our free Community Edition before [signing up for a membership](https://link.photoprism.app/membership).
+
+## Advanced Values
+
+`values.yaml` exposes the same environment variables documented throughout this site:
+
+- `config.*` maps to PhotoPrism configuration flags (app metadata, quotas, backup schedule, CDN/CORS, etc.).
+- `resources` sets requests/limits (defaults: 500 m / 1 GiB request, 4000 m / 6 GiB limit). Tune these to match your workloads.
+- `oidc.*` mirrors the options covered in [Single Sign-On via OpenID Connect](openid-connect.md); set `PHOTOPRISM_DISABLE_OIDC=false` to enable federated logins.
+- `cluster.integration` lets you pull shared values from an existing PhotoPrism® Portal secret if you run Portal in the same cluster. Leave it disabled for standalone deployments. 
+
+Whenever you change values, redeploy with `helm upgrade --install ... -f` so the `StatefulSet` picks up the new configuration. Use `kubectl rollout status` to trace progress and `helm history photos` to view revisions.
+
+## Maintenance Checklist
+
+- [ ] Update the repo (`helm repo update photoprism`) before each upgrade so you get the latest chart.
+- [ ] Monitor PVC usage (`kubectl get pvc -n photos`) and resize volumes or switch to external storage before running out of space.
+- [ ] Back up both the database and `/photoprism/storage` using the built-in backup schedule (`config.PHOTOPRISM_BACKUP_*`) or your preferred snapshot tool.
+- [ ] Keep nodes patched and ensure swap/virtual memory stays within recommended bounds to avoid indexer restarts.
+
+With these steps, you can deploy PhotoPrism® CE, Essentials, or Plus on Kubernetes using a supported, first-party Helm chart while keeping parity with the Docker workflow documented throughout this guide.
