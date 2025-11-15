@@ -1,4 +1,4 @@
-# Project Directory Structure
+# Project Structure
 
 PhotoPrism follows a Go-style monorepo layout with distinct roots for Go packages, the Vue/Vuetify frontend, assets, tooling, and Docker resources. The table below captures the major directories. Use [`CODEMAP.md`](https://github.com/photoprism/photoprism/blob/develop/CODEMAP.md) in the main repository for an exhaustive, always-up-to-date map.
 
