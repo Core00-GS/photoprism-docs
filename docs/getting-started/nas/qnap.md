@@ -121,7 +121,7 @@ mkdir -p /share/Container/photoprism/{storage,import,database}
           - /share/Container/photoprism/import:/photoprism/import
     ```
 
-     Our Docker images are configured to use the default mounts `/photoprism/storage` and `/photoprism/originals`, so no [additional environment variables](../config-options.md#storage) are needed to configure the storage and originals paths.
+     By default, our Docker images use the volume mount paths `/photoprism/storage` and `/photoprism/originals`, so no [additional variables](../config-options.md#storage) are required to configure them.
 
 4. Double-check that each host path points to the correct absolute `/share/...` location so you don't lose data when updating or redeploying the stack. After the application is created, open **Applications ▸ photoprism ▸ Settings** and set a default web port shortcut (Service `photoprism`, Port `2342`) so the “Open” button launches the UI.
 
