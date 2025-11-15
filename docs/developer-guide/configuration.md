@@ -54,6 +54,6 @@ The `PHOTOPRISM_UID` / `PHOTOPRISM_GID` variables default to the host user (reso
 1. **Inspect before editing.** Run `photoprism show config --json | jq '.sections[0].items[] | select(.name=="site-url")'` to confirm the current value before changing environment variables or YAML files.
 2. **Prefer `.env` for local overrides.** Docker Compose automatically loads `.env` from the repo root, allowing you to keep machine-specific tweaks (like custom ports) out of `compose.yaml`.
 3. **Keep config files out of version control.** The `storage/` directory is ignored by default; if you need reproducible settings, commit sample `options.yml` files or document the required values.
-4**Restart services after changes.** Some settings may require rebuilding or resetting volumes.
+4. **Restart services after changes.** Some settings may require rebuilding or resetting volumes.
 
 Following these guidelines keeps the developer environment predictable and minimizes the risk of drifting away from the settings used in CI and QA.
