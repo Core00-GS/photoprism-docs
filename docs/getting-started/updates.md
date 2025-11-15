@@ -6,9 +6,7 @@ Open a terminal and change to the folder where your `compose.yaml` file is locat
 Now run the following commands to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance in the background:
 
 ```bash
-docker compose pull
-docker compose stop
-docker compose up -d
+docker compose up -d --pull always
 ```
 
 *Note that our examples use the new `docker compose` command by default. If your server does not yet support it, you can still use `docker-compose` or alternatively `podman-compose` on Red Hat-compatible distributions.*
@@ -29,9 +27,7 @@ We recommend that you compare your own `compose.yaml` with [our latest examples]
 You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the `photoprism/photoprism` image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then running the following commands to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance in the background:
 
 ```bash
-docker compose pull
-docker compose stop
-docker compose up -d
+docker compose up -d --pull always
 ```
 
 *Note that our examples use the new `docker compose` command by default. If your server does not yet support it, you can still use `docker-compose` or alternatively `podman-compose` on Red Hat-compatible distributions.*

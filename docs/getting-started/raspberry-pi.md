@@ -95,9 +95,7 @@ Now run the following commands to download the newest image from Docker Hub and
 restart your instance in the background:
 
 ```bash
-docker compose pull
-docker compose stop
-docker compose up -d
+docker compose up -d --pull always
 ```
 
 Pulling a new version can take several minutes, depending on your internet connection speed.
