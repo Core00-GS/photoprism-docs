@@ -1,77 +1,81 @@
 # Tailscale VPN
 
 !!! tldr ""
-    Should you experience problems with Tailscale, we recommend that you ask the Tailscale community for advice, as we cannot provide support for third-party software and services.
+    Tailscale is a third-party mesh VPN. If you run into issues with their service or client, contact the [Tailscale community](https://tailscale.com/community/) because we cannot debug vendor-specific problems.
 
-1. Open the [Tailscale website](https://tailscale.com/) and Select Use Tailscale button. 
+Tailscale builds a private WireGuard® network between your devices, so you can reach PhotoPrism over an encrypted tunnel without exposing port 2342 to the public internet. The steps below cover the most common home-lab scenario (Linux server + mobile/desktop clients) and highlight optional ACL rules that keep untrusted nodes isolated.
 
-2. Sign up with an email address or using any of your other accounts and install Tailscale on all the relevant devices. Detailed and clear instructions are available to guide your through the process depending on the operating system.
+## 1. Create a Tailnet and Install the Client
 
-    ![](img/tailscale-1.png){ class="shadow" }
+1. Visit [tailscale.com](https://tailscale.com/) and click **Use Tailscale**.
+2. Sign up with Google, Microsoft, GitHub, Apple, or an email address. This creates a *tailnet* tied to your identity or organization.
+3. Install the client on every device that should access PhotoPrism:
+   - **Linux server (PhotoPrism host)**
+     ```bash
+     curl -fsSL https://tailscale.com/install.sh | sh
+     sudo systemctl enable --now tailscaled
+     sudo tailscale up --accept-dns=true --authkey tskey-auth-XXXXXXXXXXXXXXXX
+     ```
+     Generate one-time auth keys in the [Admin Console](https://login.tailscale.com/admin/settings/keys) or authenticate interactively with `sudo tailscale up` and a browser login.
+   - **Mobile / desktop clients**: follow the platform downloads for [Android](https://tailscale.com/download/android), [iOS](https://tailscale.com/download/ios), [macOS](https://tailscale.com/download/macos), [Windows](https://tailscale.com/download/windows), etc. Sign in with the same account and approve each device when prompted.
 
-    For example below the instruction for [**Linux**](https://tailscale.com/download/linux) and [**Android**](https://tailscale.com/download/android)
+!!! tip
+    Enable [MagicDNS](https://tailscale.com/kb/1081/magicdns/) in the Admin Console so every node gets a friendly name like `photoprism.your-tailnet.ts.net`. This avoids memorizing 100.x.y.z IP addresses.
 
-    ![](img/tailscale-3.png){: style="width:50%" class="shadow" }![](img/tailscale-2.png){: style="width:50%" class="shadow" }
+## 2. Verify Connectivity
 
-3. When the devices have Tailscale installed (and logged in via the same account) they all appear in the overview as in the printscreen below.
+Once the PhotoPrism host and your client devices are connected, they appear in the [Machines](https://login.tailscale.com/admin/machines) list:
 
-    ![](img/tailscale-4.png){ class="shadow" }
+![](img/tailscale-4.png){ class="shadow" }
 
-4. Each device gets an IP address allocated (100.xxx.xxx.xxx), which can be used to reach them via the VPN network. This IP address with addition of the port number where Photoprism is run on can be used to reach Photoprism outside the home network. 
+Each device receives an auto-assigned 100.x.x.x address (sometimes shown as `100.64.0.0/10`). Use that IP or MagicDNS name plus PhotoPrism’s port (default `2342`) to reach the UI:
 
-    ![](img/tailscale-5.png){ class="shadow" }
+```
+http://photoprism-host.ts.net:2342/
+# or
+http://100.120.34.10:2342/
+```
 
-## Deny incoming vpn traffic from cloud server
+If PhotoPrism runs behind a reverse proxy, continue to access it through the proxy port (for example `https://photos.ts.net/`).
 
-If you have a Photoprism instance running on a cloud server, you might want to be able to connect from your desktop computer to the cloud server and deny connections from the cloud server. Denying connections from the cloud server is useful if it is compromised.
+!!! warning
+    Make sure your firewall allows inbound connections on interface `tailscale0` (Linux) or the Tailscale adapter (Windows) for the PhotoPrism port. Otherwise the VPN will come up but requests to port 2342 will fail.
 
-That can be achieved by setting up ACL's (Access Control Lists). Read about ACL's and tags [in the tailscale documentation](https://tailscale.com/kb/1018/acls).
+## 3. Optional: Share Devices or Use Funnel
 
-This example shows how to:
+- **Device sharing** lets you invite individual Tailscale users to a single machine without adding them to your whole tailnet. Use the **••• > Share** button next to a device in the Admin Console.
+- **Tailscale Funnel** exposes a service to the public internet via Tailscale’s relay. Only enable Funnel if you understand the implications; at that point PhotoPrism is publicly reachable and you still need HTTPS plus authentication. For private family use, stick with the default private tailnet model.
 
-- Create two tags "lan" and "cloud"
-- Create an ACL that allows machines tagged "lan" to connect to every machine in the tailnet.
-- Tags a desktop machine with "lan" and a cloud server with "cloud"
+## 4. Restrict Access with ACL Tags
 
-As the cloud server is not specifically allowed to connect anywhere on the tailnet, it cannot connect to machines tagged "lan".
+If you host PhotoPrism in the cloud but only want outbound access *from* your desktop (not the other way around), create Access Control Lists (ACLs) that tag and isolate nodes. The example below creates two tags (`lan` and `cloud`) and prevents the cloud server from initiating connections to your LAN machines.
 
-**Step 1**
-
-Go to your [tailscale acl admin console](https://login.tailscale.com/admin/acls/file).
-
-Add the two tags and the acl as marked on the screenshot below:
-
-   ![](img/tailscale-6.png){ class="shadow" }
-
-
-**Step 2**
-
-Go to your [tailscale machines admin console](https://login.tailscale.com/admin/machines).
-
-Add the "tag:lan" and "tag:cloud" to your desktop and cloud machines as demonstrated:
-
-
-Open the ACL tags dialog window:
-
+1. Open the [ACL editor](https://login.tailscale.com/admin/acls/file) and add tags + rules:
+   ```json
+   {
+     "tagOwners": {
+       "tag:lan": ["autogroup:admin"],
+       "tag:cloud": ["autogroup:admin"]
+     },
+     "acls": [
+       {
+         "action": "accept",
+         "src": ["tag:lan"],
+         "dst": ["*"]
+       }
+     ]
+   }
+   ```
+2. Go to the [Machines](https://login.tailscale.com/admin/machines) page, open the **ACL tags** dialog for each device, and assign `tag:lan` to desktops/laptops and `tag:cloud` to the cloud VM.
    ![](img/tailscale-7.png){ class="shadow" }
-
-Add/remove tags as needed and click on "Save":
-
    ![](img/tailscale-8.png){ class="shadow" }
+3. Test the policy:
+     - Access PhotoPrism on the cloud VM from your tagged `lan` desktop (create an album, add labels, etc.).
+     - SSH from the desktop into the cloud VM — should work.
+     - Try to ping or SSH from the cloud VM back to the desktop — it should fail because no ACL rule allows it.
 
-**Step 3**
-
-Verify the changes work as intended.
-
-- Connect to your cloud based PhotoPrism instance and make sure it works. You could try to do this:
-    - Create an album
-      - Tag some photos
-      - Add the tagged photos to the new album
-
-- ssh into the cloud server from your desktop machine, that should work.
-
-- From the cloud server, ping your desktop, ssh into it or something else. All of it should fail.
-
+!!! note
+    You can stack additional rules to permit maintenance traffic (for example, allow the cloud VM to reach your monitoring node) while still blocking everything else.
 
 !!! example ""
     **Help improve these docs!** You can contribute by clicking :material-file-edit-outline: to send a pull request with your changes.
