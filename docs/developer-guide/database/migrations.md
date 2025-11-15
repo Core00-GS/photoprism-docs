@@ -1,57 +1,65 @@
 # Schema Migrations
 
-!!! example ""
-    When using [Docker Compose](../../getting-started/docker-compose.md), you can prepend commands like `docker compose exec [service] [command]` to run them in a service container.
-    Should this fail with *no container found*, make sure the service has been started, you have specified an existing service (usually `photoprism`) and you are in the folder where your `compose.yaml` file is located.
+PhotoPrism runs database schema migrations automatically during startup. The migration definitions live in the main repository under [`internal/entity/migrate`](https://github.com/photoprism/photoprism/tree/develop/internal/entity/migrate) and cover both MySQL/MariaDB and SQLite backends. The `photoprism migrations …` subcommands exposed by [`internal/commands/migrations.go`](https://github.com/photoprism/photoprism/blob/develop/internal/commands/migrations.go) let you inspect their status, re-run individual steps, or retry failures without restarting the app.
 
-## Show Migration Status
+!!! example "Running commands in Docker"
+    When using [Docker Compose](../../getting-started/docker-compose.md), prepend commands with `docker compose exec photoprism …` to run them inside the container. If Docker reports *no container found*, ensure the stack is running and execute the command from the directory that contains your `compose.yaml` file.
 
-Run the `photoprism migrations ls` command in a terminal to see a list of all migrations and their current status:
+## Inspect Migration Status
 
-```
-$ photoprism migrations ls
+List every migration and its latest state with:
 
-|-----------------|---------|---------------------|---------------------|--------|
-|       ID        | Dialect |     Started At      |     Finished At     | Status |
-|-----------------|---------|---------------------|---------------------|--------|
-| 20211121-094727 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20211124-120008 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-030000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-040000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-050000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-060000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-061000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-070000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-071000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-080000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-081000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-083000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-090000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-091000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220329-093000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220421-200000 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220521-000001 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220521-000002 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-| 20220521-000003 | mysql   | 2022-07-12 08:07:35 | 2022-07-12 08:07:35 | OK     |
-|-----------------|---------|---------------------|---------------------|--------|
+```bash
+photoprism migrations ls
 ```
 
-## Run Specific Migrations
-
-To explicitly re-run specific migrations, you can pass them as arguments to the `photoprism migrations run` command:
+Sample output:
 
 ```
-$ photoprism migrations run 20220521-000003
-
-INFO[2022-07-12T11:45:29Z] migrate: 20220521-000003 successful [12.967654ms] 
-INFO[2022-07-12T11:45:29Z] migration completed in 40.89123ms            
-INFO[2022-07-12T11:45:29Z] closed database connection 
+|-----------------|---------|-------|---------------------|---------------------|--------|
+|       ID        | Dialect | Stage |     Started At      |     Finished At     | Status |
+|-----------------|---------|-------|---------------------|---------------------|--------|
+| 20240112-120000 | mysql   | main  | 2025-01-06 06:41:08 | 2025-01-06 06:41:08 | OK     |
+| 20240218-083000 | mysql   | pre   | -                   | -                   | -      |
+| 20240218-090000 | mysql   | main  | -                   | -                   | -      |
+| 20240502-070500 | sqlite3 | main  | 2025-02-14 10:18:42 | 2025-02-14 10:18:42 | OK     |
+|-----------------|---------|-------|---------------------|---------------------|--------|
 ```
 
-## Retry Failed Migrations
+- **Stage** indicates whether a migration runs in the `pre` stage (setup) or the regular `main` stage. Most migrations belong to `main`.
+- The status column shows `OK` for completed migrations, `-` for migrations that have never run, `Repeat` for migrations flagged to rerun, or the error message returned by the last attempt.
+- Pass migration IDs to restrict the output: `photoprism migrations ls 20240502-070500 20240502-071000`.
+- Use the standard report flags (`--json`, `--md`, `--csv`, `--tsv`) to change the output format. This is helpful for automation or when you need to paste the table into an issue.
 
-To automatically retry previously failed migrations, pass the `-f` flag to the `photoprism migrations run` command:
+## Run Pending or Specific Migrations
+
+`photoprism migrations run` executes all pending migrations for the current database driver. The command accepts optional migration IDs so you can re-run a subset:
+
+```bash
+# Run everything that has not been executed yet
+photoprism migrations run
+
+# Re-run a selection in order
+photoprism migrations run 20240218-083000 20240218-090000
+```
+
+Useful flags:
+
+- `--failed` / `-f` replays only the migrations that previously failed. This is equivalent to `conf.MigrateDb(true, nil)` in the backend code.
+- `--trace` enables verbose logging during the migration run.
+
+When the command finishes you will see a summary such as:
 
 ```
-$ photoprism migrations run -f
+INFO[2025-02-15T12:11:02Z] migrating database schema...
+INFO[2025-02-15T12:11:02Z] migrate: 20240218-083000 successful [14.9ms]
+INFO[2025-02-15T12:11:02Z] migrate: 20240218-090000 successful [32.4ms]
+INFO[2025-02-15T12:11:02Z] completed in 64.8ms
 ```
+
+## Troubleshooting Tips
+
+1. **Back up first.** Always snapshot your MariaDB/MySQL or SQLite database before retrying migrations manually.
+2. **Match the dialect.** The CLI automatically detects whether you are running MySQL/MariaDB or SQLite based on `PHOTOPRISM_DATABASE_DRIVER`; ensure the target database matches the migration files in `internal/entity/migrate/mysql` or `internal/entity/migrate/sqlite3`.
+3. **Inspect logs.** When a migration fails repeatedly, re-run it with `--trace` and check the log output for the SQL statement that caused the error.
+4. **Verify permissions.** Schema updates require `ALTER`, `CREATE`, and `DROP` privileges. Limited database users may fail to apply certain migrations.
