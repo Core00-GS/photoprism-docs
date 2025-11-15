@@ -3,172 +3,129 @@
 *While we believe this contributed content may be helpful to advanced users, we have not yet thoroughly reviewed it. If you have suggestions for improvement, please let us know by clicking :material-file-edit-outline: to submit a change request.*
 
 !!! danger "Getting Support"
-    Since [NGINX](../proxies/nginx.md) is [notoriously difficult](https://github.com/photoprism/photoprism/issues?q=is%3Aissue+nginx) to [configure](https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/tutorials/config_pitfalls/), we are unable to [provide technical support](https://www.photoprism.app/kb/getting-support) for NGINX-related issues such as [failed uploads](https://github.com/photoprism/photoprism/discussions/2698#discussioncomment-9056567), [connection errors](../troubleshooting/index.md#connection-fails), [broken thumbnails](../troubleshooting/index.md#broken-thumbnails), and [video playback problems](../troubleshooting/index.md#videos-dont-play). If you cannot resolve these on your own, we recommend that you [ask their community for advice](https://www.nginx.com/support/) or [use Traefik instead](../proxies/traefik.md), which is easier to configure and more convenient to handle overall.
+    Since [NGINX](../proxies/nginx.md) can be [tricky to configure](https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/tutorials/config_pitfalls/) we cannot [provide individual support](https://www.photoprism.app/kb/getting-support) for proxy-related errors such as [failed uploads](https://github.com/photoprism/photoprism/discussions/2698#discussioncomment-9056567), [connection issues](../troubleshooting/index.md#connection-fails), [broken thumbnails](../troubleshooting/index.md#broken-thumbnails), or [video playback problems](../troubleshooting/index.md#videos-dont-play). Please reach out to the NGINX community or switch to [Traefik](../proxies/traefik.md) if you prefer an easier reverse proxy.
 
-Using a reverse proxy in front of PhotoPrism has various benefits:
+Running PhotoPrism behind a hardened reverse proxy adds TLS, HTTP/2, request filtering, and long-request buffering that our embedded Go HTTP server intentionally keeps minimal. If you expose PhotoPrism to the public internet, you **must** terminate HTTPS properly and keep the host patched.
 
- * Make use of HTTP/2
- * Add encryption
- * Perform traffic optimization
- * Enhance security (NGINX may block dangerous request patterns the embedded Go-based HTTP server does not know about)
+The examples below use `photoprism.example.com`; replace it with your own domain or DynDNS record. Commands target Ubuntu 20.04+, but the concepts apply to other distributions.
 
-**If you consider exposing your PhotoPrism instance to the evil internet, you should at least secure it with a proper HTTPS encryption.**
+## Prerequisites
 
-This guide aims for a little more advanced setup, with good security in mind.
+- A domain or DynDNS record that resolves to the proxy host.
+- PhotoPrism running on the local network (container, VM, or bare metal).
+- Shell access with `sudo` privileges.
+- Open TCP ports 80 and 443 on the proxy plus a firewall rule that only exposes those services externally.
 
-**Trough the entire guide we use `photoprism.example.com` as domain. You have to change all these occurrences with your own domain / DynDNS.**
+!!! tip
+    Most consumer routers include a DynDNS client. Consult your router manual or search for `your-router-model dyndns` to keep DNS records updated automatically.
 
-Also, this was all tested on `ubuntu/20.04` - But the commands should work on a lot of other versions as well.
-If you use CentOS, SuSE, or any other distro, look up the commands for your package manager.
+## Step 1: Install NGINX and Helper Packages
 
-## Setup
-
-### Domain setup
-
-First, we need to decide what we want to use as domain / address. We will use a proper domain in this guide, but it will technically also work with just a static IP address. 
-
-If you're lucky enough to have your own domain, just create a subdomain and use this for PhotoPrism.
-
-If you want to expose your instance hosted at home, just use a **DynDNS**  provider (just duckduckgo it, there a multiple ones that are free).
-!!! tip 
-    if you're new to DynDNS it might be good to know that most routers do support DynDNS. 
-    Therefore only minimal setup is required.
-    Just search for `your router name + DynDNS` ;)
-    
-### Install NGINX on your machine
-If not already done, install the webserver on your machine which you wish to use as proxy. 
-This also can be the same host that is running the docker container.
-```bash
-apt-get update && apt-get install -y nginx apache2-utils
-``` 
-
-!!! info
-    We use `apache2-utils` later for the password generation of the optional extra security with http basic auth.
-    
-### Acquire a certificate
-#### Install cerbot
-Luckily nowadays there is a free certificate authority called [Let's Encrypt](https://letsencrypt.org/).
-You can just use  their `certbot` tool and acquire a new certificate in seconds.
-
-For Ubuntu / Debian the package is directly in the repository.
-Therefore, you can easily install it using this command: 
+Install the proxy (can be the same host that runs Docker) and a utility package for optional HTTP basic authentication:
 
 ```bash
-apt-get update && apt-get install -y certbot python3-certbot-nginx
+sudo apt update && sudo apt install -y nginx apache2-utils
 ```
 
-#### Generate the certificate
-
-Now, just request a new certificate by using this command: 
+Enable and start the service if systemd did not do it automatically:
 
 ```bash
-certbot -d photoprism.example.com
+sudo systemctl enable --now nginx
 ```
 
-After that you should have a new certificate in: `/etc/letsencrypt/live/photoprism.example.com/`
-!!! note
-    In order for Let's Encrypt to work, the server has to be accessible from the internet on port 443
+## Step 2: Obtain TLS Certificates with Let's Encrypt
 
-!!! tip 
-    Please refer to Let's Encrypts [documentation](https://certbot.eff.org/docs/using.html#renewing-certificates) for automated certificate renewal. The certificates are valid for around 90 days.
+Install Certbot plus the NGINX plugin:
 
-### Setup NGINX
-Now that we have our certificate its time to setup the NGINX itself.
-Since it is best practice to create a configuration file per application / domain, this is exactly what we gonna do.
+```bash
+sudo apt install -y certbot python3-certbot-nginx
+```
 
-Create a new file `/etc/nginx/sites-available/photoprism.example.com` and put the following content in it.
-**Keep in mind to change the domain (there a multiple entries!)**
+Request a certificate (the host must be reachable on TCP 80/443 during issuance):
+
+```bash
+sudo certbot certonly --nginx -d photoprism.example.com
+```
+
+Certificates appear under `/etc/letsencrypt/live/photoprism.example.com/`. Certbot installs a systemd timer for automatic renewal; verify it with `sudo certbot renew --dry-run` and monitor `/var/log/letsencrypt/` for errors.
+
+## Step 3: Create the NGINX Site Configuration
+
+Create `/etc/nginx/sites-available/photoprism.example.com` with content similar to the snippet below. Adjust the upstream address (`docker.homenet:2342` in this example) to point at your PhotoPrism container or VM.
+
 ```nginx
-# PhotoPrism Nginx config with SSL HTTP/2 and reverse proxy
-# This file gives you an example on how to secure you PP instance with SSL
-server {
-    listen       80;
-    listen [::]:80; # HTTP IPv6
-    # enforce https
-    return 301 https://$server_name$request_uri;
+upstream photoprism_app {
+    server docker.homenet:2342;   # PhotoPrism service or load balancer
 }
+
 server {
+    listen 80;
+    listen [::]:80;
+    server_name photoprism.example.com;
+    return 301 https://$host$request_uri;
+}
 
-    listen 443 ssl http2; # Listen on port 443 and enable ssl and HTTP/2
-    listen [::]:443 ssl http2; # Same for IPv6
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name photoprism.example.com;
 
-    # Put your domain name in here.
-    server_name  photoprism.example.com;
-
-    # - - - - - - - - - -
-    # SSL security
-    # - - - - - - - - - -
-    ssl_certificate          /etc/letsencrypt/live/photoprism.example.com/fullchain.pem;
-    ssl_certificate_key      /etc/letsencrypt/live/photoprism.example.com/privkey.pem;
-
-    # Since the PP API is also used on Android, we have to keep TLS1.2 in here for a while.
-    # A lot of the older Android devices do not support TLS1.3 yet :/
-    ssl_protocols            TLSv1.2 TLSv1.3;
-
-    # Use good and strong ciphers, disable weak and old ciphers
-    ssl_ciphers              HIGH:!RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;
-
-    # Enable HSTS (https://developer.mozilla.org/en-US/docs/Security/HTTP_Strict_Transport_Security)
-    add_header Strict-Transport-Security "max-age=172800; includeSubdomains";
-
-    # This checks if the certificate has been invalidated by the certificate authority
-    # You can remove this section if you use self-singed certificates...
-    # Enable OCSP stapling (http://blog.mozilla.org/security/2013/07/29/ocsp-stapling-in-firefox)
+    ssl_certificate     /etc/letsencrypt/live/photoprism.example.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/photoprism.example.com/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_ciphers         HIGH:!aNULL:!MD5:!3DES;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     ssl_stapling on;
     ssl_stapling_verify on;
-    ssl_trusted_certificate /etc/letsencrypt/live/photoprism.example.com/fullchain.pem;
 
-    # DNS Servers to use for OCSP lookups
-    resolver 8.8.8.8 1.1.1.1 9.9.9.9 valid=300s;
+    resolver 1.1.1.1 8.8.8.8 9.9.9.9 valid=300s;
     resolver_timeout 5s;
 
-    # - - - - - - - - -
-    # Reverse Proxy
-    # - - - - - - - - -
-    proxy_redirect           off;
-    proxy_set_header         X-Real-IP $remote_addr;                        # Let PP know the clients real IP
-    proxy_set_header         X-Forwarded-For $proxy_add_x_forwarded_for;    # Let PP know that a proxy did forward this request
-    proxy_set_header         Host $http_host;                               # Set Proxy host info
-
-    proxy_http_version 1.1;                                                 # Required for WebSocket connection
-    proxy_set_header Upgrade $http_upgrade;                                 # Allow protocol switch to websocket
-    proxy_set_header Connection "upgrade";                                  # Do protocol switch
-    proxy_set_header X-Forwarded-Proto $scheme;                             # Let PP know that this connection used HTTP or HTTPS
-
-    client_max_body_size 500M;                                              # Bump the max body size, you may want to upload huge stuff via the upload GUI
-    proxy_buffering off;                                                    # Do not hold back the request while the client sends data, give the stream directly to PP
+    client_max_body_size 512M;        # Allow large uploads
+    proxy_buffering off;              # Stream uploads directly
+    proxy_read_timeout 600s;
+    proxy_send_timeout 600s;
 
     location / {
-            # Optional; additional protection with Basic Auth.
-            # Note: This breaks WebDAV without additional configuration
-            #       You also have to create a .htpasswd file using the command:
-            #       "htpasswd -c /etc/nginx/.pp_htpasswd my_secret_user"
-            # - - -
-            # auth_basic           "PhotoPrism Pre Auth";
-            # auth_basic_user_file /etc/nginx/.pp_htpasswd;
+        proxy_pass http://photoprism_app;
+        proxy_http_version 1.1;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection $connection_upgrade;
 
-            # pipes the traffic to PhotoPrism
-            # Change this to your PhotoPrisms IP / DNS
-            proxy_pass http://docker.homenet:2342;
+        # Optional: uncomment to require basic auth (breaks WebDAV without extra config)
+        # auth_basic           "Additional Authentication";
+        # auth_basic_user_file /etc/nginx/.photoprism_htpasswd;
     }
 }
 ```
 
-Have a look at the individual comments in the configuration for a further description.
+!!! warning
+    Always adjust `photoprism_app` to the correct backend address (Docker service, Kubernetes service, or another host). Leaving it at the example value will expose the proxy without a working backend.
 
-!!!tip
-    Don't forget to change the PhotoPrism IP / DNS on the bottom of the config... ;)
-   
-   
-Once you've changed everything you need, let's restart `nginx`:
+`connection_upgrade` is provided by NGINX’s `map` directive in `/etc/nginx/nginx.conf` on current Ubuntu releases. If your distribution does not define it, add `map $http_upgrade $connection_upgrade { default upgrade; '' close; }` to the main configuration.
+
+## Step 4: Enable the Site and Reload NGINX
 
 ```bash
+sudo ln -s /etc/nginx/sites-available/photoprism.example.com \
+           /etc/nginx/sites-enabled/
 sudo nginx -t
-sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/
-systemctl reload nginx
+sudo systemctl reload nginx
 ```
-Now, you should have access to PhotoPrism.
+
+Visit `https://photoprism.example.com/` to confirm the certificate, login page, and uploads work. Use `curl -I https://photoprism.example.com/` to verify the redirect and response headers.
+
+## Step 5: Optional Hardening
+
+- **Firewall**: Allow inbound TCP 80/443 only. Restrict PhotoPrism’s internal port (2342 by default) to the proxy host.
+- **Basic Authentication**: `sudo htpasswd -c /etc/nginx/.photoprism_htpasswd user1` adds a second login layer. Keep in mind that WebDAV and API clients must support it.
+- **Rate Limiting**: NGINX’s `limit_req` module can slow brute-force attempts. Combine it with PhotoPrism’s own throttling options (`PHOTOPRISM_PASSWORD_LENGTH`, `PHOTOPRISM_LOGIN_LIMIT`).
+- **Monitoring**: Tail `/var/log/nginx/access.log` and `/var/log/nginx/error.log` after configuration changes. Failed uploads typically show up as `413 Request Entity Too Large`, which signals that `client_max_body_size` needs to be increased.
 
 !!! warning
-    Make sure to setup proper firewalling on the machine that is running PhotoPrism.
-    Have a look at [ufw](https://help.ubuntu.com/community/UFW) for simple firewall rules.
+    Keep your operating system, NGINX packages, and Certbot up to date. Unpatched proxies are a common attack vector even when PhotoPrism itself is isolated behind the service.
