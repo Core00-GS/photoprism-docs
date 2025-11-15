@@ -1,26 +1,16 @@
 # Configuration
 
-PhotoPrism’s runtime configuration is managed by the [`internal/config`](https://github.com/photoprism/photoprism/tree/develop/internal/config) package. Defaults are defined in [`options.go`](https://github.com/photoprism/photoprism/blob/develop/internal/config/options.go) and then merged with values from command-line flags, environment variables, and optional YAML files (`storage/config/*.yml`).
+PhotoPrism’s runtime configuration is managed by the [`internal/config`](https://github.com/photoprism/photoprism/tree/develop/internal/config) package. Fields are defined in [`options.go`](https://github.com/photoprism/photoprism/blob/develop/internal/config/options.go) and then initialized with values from command-line flags, environment variables, and optional YAML files (`storage/config/*.yml`).
 
 This page summarizes the tooling available to inspect those values and highlights the defaults that ship with the developer `compose.yaml` stack referenced in [Build Setup](setup.md).
-
-## CLI Reference
-
-- `photoprism help` (or `photoprism --help`) lists all subcommands and global flags.
-- `photoprism show config` renders every active option along with its current value. Pass `--json`, `--md`, `--tsv`, or `--csv` to change the output format.
-- `photoprism show config-options` prints the description and default value for each option. Use this when updating [Config Options](../getting-started/config-options.md).
-- `photoprism show config-yaml` displays the configuration keys and their expected types in the same structure that the YAML files use. It is a read-only helper meant to guide you when editing files under `storage/config`.
-- Additional `show` subcommands document search filters, metadata tags, and supported thumbnail sizes; see [`internal/commands/show.go`](https://github.com/photoprism/photoprism/blob/develop/internal/commands/show.go) for the complete list.
-
-Commands can be executed on the host or inside any running container. With Docker Compose (development stack) prefix commands with `docker compose exec photoprism …`.
 
 ## Sources and Precedence
 
 PhotoPrism loads configuration in the following order:
 
-1. **Built-in defaults** defined in [`internal/config/options.go`](https://github.com/photoprism/photoprism/blob/develop/internal/config/options.go).
-2. **`defaults.yml`** — optional system defaults (typically `/etc/photoprism/defaults.yml`). See [Global Defaults](../getting-started/config-files/defaults.md) if you package PhotoPrism for other environments and need to override the compiled defaults.
-3. **Environment variables** prefixed with `PHOTOPRISM_…`. The list mirrors [Config Options](../getting-started/config-options.md). In Docker/Compose this is the primary override mechanism.
+1. **Built-in defaults** defined in the [`internal/config`](https://github.com/photoprism/photoprism/blob/develop/internal/config) package.
+2. **`defaults.yml`** — optional system defaults (typically `/etc/photoprism/defaults.yml`). See [Global Config Defaults](../getting-started/config-files/defaults.md) if you package PhotoPrism for other environments and need to override the compiled defaults.
+3. **Environment variables** prefixed with `PHOTOPRISM_…` and specified in [`flags.go`](https://github.com/photoprism/photoprism/blob/develop/internal/config/flags.go) along with the CLI flags. This is the primary override mechanism in container environments.
 4. **`options.yml`** — user-level configuration stored under `storage/config/options.yml` (or another directory controlled by `PHOTOPRISM_CONFIG_PATH`). Values here override both defaults and environment variables, see [Config Files](../getting-started/config-files/index.md).
 5. **Command-line flags** (for example `photoprism --cache-path=/tmp/cache`). Flags always win when a conflict exists.
 
@@ -48,6 +38,16 @@ Additional knobs in the compose file enable AI features (`PHOTOPRISM_VISION_*`),
 The compose stack mounts the repository itself into `/go/src/github.com/photoprism/photoprism` and binds `./storage` from the host to `/photoprism`. Even though the default paths above point to the repository tree, the `/photoprism` mount ensures you can wipe the development database or originals by pruning the `storage/` folder on the host.
 
 The `PHOTOPRISM_UID` / `PHOTOPRISM_GID` variables default to the host user (resolved via `${UID:-1000}`) so file ownership inside `storage/` matches your developer account. When running on macOS or Windows, set those values explicitly in `.env` if you encounter permission issues.
+
+## CLI Reference
+
+- `photoprism help` (or `photoprism --help`) lists all subcommands and global flags.
+- `photoprism show config` renders every active option along with its current value. Pass `--json`, `--md`, `--tsv`, or `--csv` to change the output format.
+- `photoprism show config-options` prints the description and default value for each option. Use this when updating [`flags.go`](https://github.com/photoprism/photoprism/blob/develop/internal/config/flags.go).
+- `photoprism show config-yaml` displays the configuration keys and their expected types in the same structure that the YAML files use. It is a read-only helper meant to guide you when editing files under `storage/config`.
+- Additional `show` subcommands document search filters, metadata tags, and supported thumbnail sizes; see [`internal/commands/show.go`](https://github.com/photoprism/photoprism/blob/develop/internal/commands/show.go) for the complete list.
+
+Commands can be executed on the host or inside any running container. With Docker Compose (development stack) prefix commands with `docker compose exec photoprism …`.
 
 ## Tips for Contributors
 
