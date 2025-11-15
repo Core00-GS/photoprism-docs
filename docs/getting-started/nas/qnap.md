@@ -10,9 +10,9 @@ For a good user experience, it should be a 64-bit system with [at least 2 cores 
 
 ## Setup
 
-### Setup using QNAP [Container Station](https://www.qnap.com/en-us/software/container-station) (GUI)
+### Setup using QNAP Container Station (GUI)
 
-Follow these steps if you prefer Container Station’s graphical workflow on QTS 5 / QuTS hero. The interface treats PhotoPrism and its MariaDB dependency as a single “Application” defined by a Docker Compose file.
+Follow these steps if you prefer [Container Station’s](https://www.qnap.com/en-us/software/container-station) graphical workflow on [QTS 5](https://www.qnap.com/qts/5.0/en/) / [QuTS hero](https://www.qnap.com/en/operating-system/quts-hero). The interface treats PhotoPrism and its MariaDB dependency as a single “Application” defined by a Docker Compose file.
 
 #### 1. Prepare your NAS
 
