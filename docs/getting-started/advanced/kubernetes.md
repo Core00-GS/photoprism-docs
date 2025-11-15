@@ -135,7 +135,7 @@ Whenever you change values, redeploy with `helm upgrade --install ... -f` so the
 
 - [ ] Update the repo (`helm repo update photoprism`) before each upgrade so you get the latest chart.
 - [ ] Monitor PVC usage (`kubectl get pvc -n photos`) and resize volumes or switch to external storage before running out of space.
-- [ ] Back up both the database and `/photoprism/storage` using the built-in backup schedule (`config.PHOTOPRISM_BACKUP_*`) or your preferred snapshot tool.
-- [ ] Keep nodes patched and ensure swap/virtual memory stays within recommended bounds to avoid indexer restarts.
+- [ ] Back up both the database (`config.PHOTOPRISM_BACKUP_*`) and `/photoprism/storage` using your preferred snapshot tool.
+- [ ] Keep nodes patched and ensure swap/virtual memory stays within recommended bounds to avoid unexpected restarts.
 
 With these steps, you can deploy PhotoPrism® CE, Essentials, or Plus on Kubernetes using a supported, first-party Helm chart while keeping parity with the Docker workflow documented throughout this guide.
