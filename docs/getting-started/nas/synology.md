@@ -2,33 +2,25 @@
 
 Before setting up PhotoPrism on your NAS, we recommend that you check the [Synology Knowledge Base](https://kb.synology.com/en-us/DSM/tutorial/What_kind_of_CPU_does_my_NAS_have) for the CPU and memory configuration of your device.
 
-For a good user experience, it should be a 64-bit system with [at least 2 cores and 3 GB of RAM](../index.md#system-requirements). Indexing large photo and video collections also benefits greatly from [using SSD storage](../troubleshooting/performance.md#storage), especially for the database and cache files.
+For a good user experience, it should be a 64-bit system with [at least 2 cores and 3 GB of RAM](../index.md#system-requirements). Indexing large photo and video collections also benefits greatly from [using SSD storage](../troubleshooting/performance.md#storage), especially for the database and cache files. Whether your device is fast enough largely depends on your expectations and how many files you have. Most users report that PhotoPrism runs well on their Synology NAS. However, keep in mind that the initial indexing process may take longer than it would on a typical desktop computer or server.
 
 !!! tldr ""
     Should you experience problems with the installation, we recommend that you ask the Synology community for advice, as we cannot provide support for third-party software and services.
     Also note that [RAW image conversion and TensorFlow are disabled](../../user-guide/settings/advanced.md) on devices with 1 GB or less memory, and that high-resolution panoramic images may require [additional swap space](../troubleshooting/docker.md#adding-swap) and/or physical memory above the [recommended minimum](../index.md#system-requirements).
 
-### Will my device be fast enough?
-
-This largely depends on your expectations and the number of files you have. Most users report that PhotoPrism runs
-well on their Synology NAS. However, you should keep in mind:
-
-- initial indexing may take longer than on standard desktop computers
-- the hardware has no video transcoding support and software transcoding is generally slow
-
 ## Setup ##
 
 ### Setup using Portainer ###
 
-A step-by-step guide to install PhotoPrism with Portainer can be found [here](../portainer/index.md).
+If you have [Portainer](https://www.portainer.io/) set up on your device, you can follow our [step-by-step guide](../portainer/index.md) to install PhotoPrism. [Learn more ›](../portainer/index.md)
 
 ### Setup using Synology Container Manager ###
 
-Follow the steps below if you prefer Synology's built-in [Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager) (DSM 7.2+). The workflow mirrors Docker Compose, so you keep the entire configuration in a single YAML file and can redeploy updates with a few clicks.
+Follow the steps below if you prefer Synology's built-in [Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager) ([DSM 7.2+](https://www.synology.com/en-global/dsm)). The workflow mirrors Docker Compose, so you keep the entire configuration in a single YAML file and can redeploy updates with a few clicks.
 
 #### 1. Prerequisites
 
-- Install **[Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager)** from *Package Center ▸ Search ▸ “Container”*. DSM replaces the legacy Docker app with this package starting in DSM 7.2.
+- Install **[Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager)** from *Package Center ▸ Search ▸ “Container”*. DSM replaces the legacy Docker app with this package starting in [DSM 7.2](https://www.synology.com/en-global/dsm).
 - Confirm your NAS has a 64‑bit CPU and at least 4 GB RAM; LinuxLinks found PhotoPrism unstable below that threshold when indexing on DSM hardware.
 - Decide where originals live. Fast SSD volumes for the `storage` directory (cache, thumbnails, database dumps) significantly improve indexing performance.
 

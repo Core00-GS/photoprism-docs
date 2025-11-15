@@ -10,6 +10,10 @@ For a good user experience, it should be a 64-bit system with [at least 2 cores 
 
 ## Setup
 
+### Setup using Portainer ###
+
+If you have [Portainer](https://www.portainer.io/) set up on your device, you can follow our [step-by-step guide](../portainer/index.md) to install PhotoPrism. [Learn more ›](../portainer/index.md)
+
 ### Setup using QNAP Container Station (GUI)
 
 Follow these steps if you prefer [Container Station’s](https://www.qnap.com/en-us/software/container-station) graphical workflow on [QTS 5](https://www.qnap.com/qts/5.0/en/) / [QuTS hero](https://www.qnap.com/en/operating-system/quts-hero). The interface treats PhotoPrism and its MariaDB dependency as a single “Application” defined by a Docker Compose file.
