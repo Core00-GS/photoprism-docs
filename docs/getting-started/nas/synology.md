@@ -35,11 +35,12 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
 #### 2. Create shared folders
 
 1. Open **Control Panel ▸ Shared Folder ▸ Create**.
-2. Create `photoprism` (or any project name) on the volume you prefer, then add subfolders:
+2. Create a share such as `/volume1/docker/photoprism`, then add subfolders:
    - `storage` – holds config, cache, sidecars.
    - `database` – persistent MariaDB data.
-   - `originals` – point this to the location of your photo/video library or create a dedicated folder you can later bind to an external volume.
-3. Grant read/write access to the Container Manager system account (and your admin user) so Compose can mount these paths. LinuxLinks recommends keeping every container’s assets inside `/volume1/docker/<project>` for easier backups and upgrades.
+   - `import` – optional staging folder for uploads.
+   - `originals` – use this only if you plan to copy photos into a new folder. Most users should mount the share that already contains their pictures (for example `/volume1/photo`).
+3. Grant read/write access to the Container Manager system account (and your admin user) so Compose can mount these paths. Keeping assets inside `/volume1/docker/<project>` simplifies snapshots and backups.
 
 #### 3. Download the PhotoPrism image
 
@@ -66,7 +67,8 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
           MARIADB_USER: photoprism
           MARIADB_PASSWORD: "change-me"
         volumes:
-          - ./database:/var/lib/mysql
+          # persistent database files on the NAS
+          - /volume1/docker/photoprism/database:/var/lib/mysql
 
       photoprism:
         image: photoprism/photoprism:latest
@@ -123,13 +125,17 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
           PHOTOPRISM_DATABASE_USER: "photoprism"
           PHOTOPRISM_DATABASE_PASSWORD: "change-me"
           # container timezone so cron schedules run at local time
-          TZ: "America/New_York"
+          TZ: "UTC"
         volumes:
-          - ./storage:/photoprism/storage
-          - /volume1/photos:/photoprism/originals
+          # config, cache, and backups (place on SSD storage if available)
+          - /volume1/docker/photoprism/storage:/photoprism/storage
+          # existing media; replace /volume1/photo with your actual path
+          - /volume1/photo:/photoprism/originals
+          # optional import staging folder
+          - /volume1/docker/photoprism/import:/photoprism/import
     ```
 
-4. Update the placeholders (passwords, timezone, and `/volume1/photos` path) to match your environment before clicking **Next ▸ Create**. Container Manager stores the Compose file with the project so you can edit it later without retyping.
+4. Update the placeholders (passwords, timezone, `/volume1/docker/photoprism`, and your actual originals share such as `/volume1/photo`) before clicking **Next ▸ Create**. Container Manager stores the Compose file with the project so you can edit it later without retyping.
 
 #### 5. Deploy and verify
 
