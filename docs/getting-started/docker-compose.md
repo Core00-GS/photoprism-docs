@@ -271,7 +271,7 @@ Our members can activate [additional features](https://link.photoprism.app/membe
 
 ### Troubleshooting
 
-If your server runs out of memory, the index is frequently locked, or other system resources are running low:
+If your server runs out of memory or other system resources:
 
 - [ ] Try [reducing the number of workers](config-options.md#indexing) by setting `PHOTOPRISM_WORKERS` to a reasonably small value in your `compose.yaml` file, depending on the CPU performance and number of cores
 - [ ] Ensure that your server has [at least 4 GB of swap](troubleshooting/docker.md#adding-swap) configured and avoid setting a [hard memory limit](faq.md#why-is-my-configured-memory-limit-exceeded-when-indexing-even-though-photoprism-doesnt-actually-seem-to-use-that-much-memory) as this can cause unexpected restarts when the indexer temporarily needs more memory to process large files
