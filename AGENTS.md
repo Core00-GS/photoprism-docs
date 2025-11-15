@@ -27,7 +27,7 @@ This file serves as a single, up-to-date reference for agents and contributors w
 
 ## Build & Preview Workflow
 
-- Local Python environment: run `make deps` on Debian/Ubuntu (installs system packages) or `make install` elsewhere. Both targets create `venv/`, install MkDocs Material (Insiders if `GH_TOKEN` is defined in `.env`), and pull all pinned requirements from `requirements.txt`.
+- Local Python environment: run `make deps` on Debian/Ubuntu (installs system packages) or `make install` elsewhere. Both targets create `venv/`, grab MkDocs Material (the former Insiders build now ships via PyPI, so no `GH_TOKEN` is required), and pull all pinned requirements from `requirements.txt`.
 - Refresh dependencies with `make upgrade` whenever you need the latest MkDocs Material release; it rebuilds the virtualenv before you start working.
 - Preview: `make watch` (alias for `make serve`) invokes `./venv/bin/mkdocs serve --livereload --watch docs --watch overrides --watch mkdocs.yml -a 0.0.0.0:8000`. A common loop is `make upgrade && make watch`, then browse http://localhost:8000/ while MkDocs hot-reloads Markdown, templates, and configuration.
 - Build artifacts: `make build` renders the production site using `mkdocs.deploy.yml`, while `make deploy` runs `mkdocs gh-deploy --force --config-file mkdocs.deploy.yml` for manual GitHub Pages pushes. The rendered HTML lands in `site/` locally—never edit files there by hand or commit that directory.
@@ -61,7 +61,7 @@ This file serves as a single, up-to-date reference for agents and contributors w
 
 ## Security & Access
 
-- Never commit credentials. If you have access to MkDocs Material Insiders, place `GH_TOKEN=<token>` in `.env`; `make install` will read it and install the private package without exposing the token.
+- Never commit credentials. MkDocs Material Insiders is now public on PyPI, so we no longer ask contributors to add `GH_TOKEN` values to `.env`; keep that file untracked if you use it for other local overrides.
 - Treat `docs/license`, `docs/icons/LICENSE`, and `docs/img/LICENSE` as authoritative for third-party assets. Confirm redistribution rights before adding new binaries or artwork.
 - All social sharing and analytics scripts live in `overrides/main.html`. Review those tags when changing analytics providers to ensure we only load scripts from approved domains (`a.photoprism.app` for outbound tracking).
 - Follow the main repository’s security and contribution policies (see `SECURITY.md` and `CONTRIBUTING.md` in photoprism/photoprism) when referencing vulnerabilities or non-public features in these docs.

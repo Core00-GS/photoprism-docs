@@ -15,7 +15,7 @@ Tooling & Configuration
 - `README.md` — contributor entry point with MkDocs overview, deployment expectations, and CLA reminder.
 - `Makefile` — canonical command surface: environment setup (`deps`, `install`, `upgrade`), MkDocs lifecycle (`serve`, `build`, `deploy`), cleanup (`remove-venv`), Git helpers (`pull`, `push`, `merge`), and utilities such as `img-resize` (ImageMagick) for screenshot normalization.
 - `requirements.txt` — Python dependencies (MkDocs ≥1.5, Material extensions, pymdown-extensions, social plugin requirements). Keep it aligned with the version installed by `make install`.
-- `.env` (local) — optional `GH_TOKEN` unlocks mkdocs-material-insiders; never commit this file.
+- `.env` (local) — optional environment overrides (proxies, custom paths, etc.); MkDocs Material Insiders now installs via PyPI so no token is needed.
 - `Dockerfile` — legacy container definition not referenced by the Makefile; keep it in sync only if the team decides to reintroduce containerized builds.
 - `mkdocs.yml` — main site configuration: navigation tree, metadata (`site_name`, `extra.social`), theme options (Material + custom palette), edit links (`edit_uri`), plugin set (`redirects`), and Markdown extensions (pymdownx suite, tooltips, task lists, mermaid, etc.).
 - `mkdocs.deploy.yml` — inherits the base config and appends `search`, `privacy`, and the production redirect map plus asset mirrors. Use this when building or deploying the published site.
