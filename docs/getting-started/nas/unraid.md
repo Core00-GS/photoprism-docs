@@ -6,7 +6,7 @@
 !!! note ""
     [SQLite is not a good choice](../troubleshooting/sqlite.md) for users who require scalability and high performance. If it is used in a configuration template, change it to use MariaDB instead before importing any media.
 
-## Setup Using Docker Compose Manager (recommended)
+## Using Docker Compose Manager
 
 Unraid does not ship with Docker Compose, but the Community Apps plugin offers **Docker Compose Manager**, which lets you paste a standard compose file, store it on your array, and control the stack from the Docker tab.
 
@@ -109,6 +109,8 @@ Unraid does not ship with Docker Compose, but the Community Apps plugin offers *
 ### 5. CLI alternative
 
 If you prefer full terminal control, you can install Docker Compose manually or via the plugin, store `docker-compose.yml` inside `/mnt/user/appdata/photoprism`, and run `docker compose up -d`. This mirrors the workflow shown in [the IBRACORP video tutorial](https://youtu.be/WMNsO-0BuG8), which walks through backing up appdata and updating stacks from the Unraid shell.
+
+[![](img/ibracorp.jpg)](https://youtu.be/WMNsO-0BuG8)
 
 !!! example ""
     **Help improve these docs!** You can contribute by clicking :material-file-edit-outline: to send a pull request with your changes.
