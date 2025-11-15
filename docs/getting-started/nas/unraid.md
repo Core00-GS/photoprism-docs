@@ -104,12 +104,24 @@ Unraid does not ship with Docker Compose, but the Community Apps plugin offers *
 - To update, stop the stack, click **Update Stack** (Compose Manager pulls new images), then start it again. Ignore the “Update ready” label in Unraid’s standard Docker UI; Compose-managed containers always show that status.
 - Keep the `/mnt/user/appdata/photoprism/storage/backups` folder in your parity-backed backup routine.
 - If you ever edit the compose file outside the UI, place it in `/mnt/user/appdata/photoprism/docker-compose.yml` and click **Reload Stack** so the plugin re-reads it.
+- Our [First Steps 👣](../../user-guide/first-steps.md) tutorial guides you through the user interface and settings to ensure your library is indexed according to your individual preferences.
 
-### 5. CLI alternative
+## Manual Installation
 
 If you prefer full terminal control, you can install Docker Compose manually or via the plugin, store `docker-compose.yml` inside `/mnt/user/appdata/photoprism`, and run `docker compose up -d`. This mirrors the workflow shown in [the IBRACORP video tutorial](https://youtu.be/WMNsO-0BuG8), which walks through backing up appdata and updating stacks from the Unraid shell.
 
 [![](img/ibracorp.jpg)](https://youtu.be/WMNsO-0BuG8)
+
+## Troubleshooting ##
+
+If your device runs out of memory or other system resources:
+
+- [ ] Try [reducing the number of workers](../config-options.md#indexing) by setting `PHOTOPRISM_WORKERS` to a reasonably small value in your `compose.yaml` file, depending on the performance of your device
+- [ ] Make sure [your device has at least 4 GB of swap space](../troubleshooting/docker.md#adding-swap) so that indexing doesn't cause restarts when memory usage spikes; RAW image conversion and video transcoding are especially demanding
+- [ ] If you are using SQLite, switch to MariaDB, which is [better optimized for high concurrency](../faq.md#should-i-use-sqlite-mariadb-or-mysql)
+- [ ] As a last measure, you can [disable image classification and facial recognition](../config-options.md#feature-flags) 
+
+Other issues? Our [troubleshooting checklists](../troubleshooting/index.md) help you quickly diagnose and resolve them.
 
 !!! example ""
     **Help improve these docs!** You can contribute by clicking :material-file-edit-outline: to send a pull request with your changes.

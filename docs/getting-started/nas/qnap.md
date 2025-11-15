@@ -1,4 +1,4 @@
-# Setting Up PhotoPrism on QNAP
+# Running PhotoPrism on a QNAP NAS
 
 Before setting up PhotoPrism on your NAS, we recommend that you check the [QNAP product database](https://www.qnap.com/en/product) for the CPU and memory configuration of your device.
 
@@ -135,12 +135,24 @@ mkdir -p /share/Container/photoprism/{storage,import,database}
 - When new releases ship, open **Applications ▸ photoprism**, click **Stop**, then **Update Images** to pull the latest tags, and start the application again.
 - Regularly download the MariaDB backups from `/share/Container/photoprism/storage/backups` or replicate the entire folder to another disk.
 - If Container Station reports YAML errors, click **Applications ▸ photoprism ▸ Edit YAML** to fix indentation or update environment variables without recreating the project.
+- Our [First Steps 👣](../../user-guide/first-steps.md) tutorial guides you through the user interface and settings to ensure your library is indexed according to your individual preferences.
 
 ### Setup using Docker Compose (CLI)
 
 Prefer the terminal? The community tutorial below walks through the same deployment via SSH:
 
 ↪ <https://safjan.com/install-photoprism-on-qnap-nas-using-docker-compose/>
+
+## Troubleshooting ##
+
+If your device runs out of memory or other system resources:
+
+- [ ] Try [reducing the number of workers](../config-options.md#indexing) by setting `PHOTOPRISM_WORKERS` to a reasonably small value in your `compose.yaml` file, depending on the performance of your device
+- [ ] Make sure [your device has at least 4 GB of swap space](../troubleshooting/docker.md#adding-swap) so that indexing doesn't cause restarts when memory usage spikes; RAW image conversion and video transcoding are especially demanding
+- [ ] If you are using SQLite, switch to MariaDB, which is [better optimized for high concurrency](../faq.md#should-i-use-sqlite-mariadb-or-mysql)
+- [ ] As a last measure, you can [disable image classification and facial recognition](../config-options.md#feature-flags) 
+
+Other issues? Our [troubleshooting checklists](../troubleshooting/index.md) help you quickly diagnose and resolve them.
 
 !!! example ""
     **Help improve these docs!** You can contribute by clicking :material-file-edit-outline: to send a pull request with your changes.
