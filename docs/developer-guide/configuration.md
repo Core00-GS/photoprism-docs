@@ -19,11 +19,12 @@ Commands can be executed on the host or inside any running container. With Docke
 PhotoPrism loads configuration in the following order:
 
 1. **Built-in defaults** defined in [`internal/config/options.go`](https://github.com/photoprism/photoprism/blob/develop/internal/config/options.go).
-2. **YAML files** located under `storage/config/` (for example `options.yml`, `users.yml`). These are the same files documented in [Config Files](../getting-started/config-files/index.md).
-3. **Environment variables** prefixed with `PHOTOPRISM_…`. The list mirrors [Config Options](../getting-started/config-options.md). When you run PhotoPrism through Docker Compose, this is the primary mechanism for development overrides.
-4. **Command-line flags** (for example `photoprism --cache-path=/tmp/cache`). Flags always win over environment variables.
+2. **`defaults.yml`** — optional system defaults (typically `/etc/photoprism/defaults.yml`). See [Global Defaults](../getting-started/config-files/defaults.md) if you package PhotoPrism for other environments and need to override the compiled defaults.
+3. **Environment variables** prefixed with `PHOTOPRISM_…`. The list mirrors [Config Options](../getting-started/config-options.md). In Docker/Compose this is the primary override mechanism.
+4. **`options.yml`** — user-level configuration stored under `storage/config/options.yml` (or another directory controlled by `PHOTOPRISM_CONFIG_PATH`). Values here override both defaults and environment variables, see [Config Files](../getting-started/config-files/index.md).
+5. **Command-line flags** (for example `photoprism --cache-path=/tmp/cache`). Flags always win when a conflict exists.
 
-The `PHOTOPRISM_CONFIG_PATH` variable controls where PhotoPrism looks for YAML files (defaults to `storage/config`). When running the CLI locally, options are persisted under the repository root so they can be committed or versioned separately.
+The `PHOTOPRISM_CONFIG_PATH` variable controls where PhotoPrism looks for YAML files (defaults to `storage/config`). Keeping this path inside the repo makes it easy to track changes or share sample configs with teammates.
 
 !!! note
     Any change to configuration (flags, env vars, YAML files) requires a restart. The Go process reads options during startup and does not watch for changes.
