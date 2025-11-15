@@ -1,37 +1,43 @@
-Open a terminal and type `photoprism start` to start the built-in server. It will listen on [localhost:2342](http://localhost:2342/) by default, see [compose.yaml](https://github.com/photoprism/photoprism/blob/develop/compose.yaml) and [Configuration](../configuration.md).
+# Web UI Overview
 
-## Frameworks ##
+Open a terminal and run `photoprism start` (or `make start` inside the main repository) to bring up the built-in web server on [http://localhost:2342](http://localhost:2342). The development compose file (`compose.yaml`) exposes the same port, so once the backend is reachable you can iterate on the frontend without rebuilding the entire container stack.
 
-[Vuetify](https://vuetifyjs.com/en/getting-started/quick-start) is a powerful open-source [Material Design](https://material.io/) UI component framework for building modern single-page applications.
+## Frameworks and Bundling
 
-It is based on [VueJS](https://vuejs.org/v2/guide/), a JavaScript library that combines the best ideas from [AngularJS](https://angularjs.org/) (Google) and [React](https://reactjs.org/) (Facebook); development is community driven and the API fairly stable.
+- The UI is a Vue 3 + Vuetify 3 single-page application. Bootstrap and other legacy frameworks are no longer used.
+- The entry points live in [`frontend/src/app.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/app.js) (bootstrap logic, router, plugins) and [`frontend/src/app.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/app.vue) (layout shell). The route definitions are stored in [`frontend/src/app/routes.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/app/routes.js).
+- Webpack (configured in [`frontend/webpack.config.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/webpack.config.js)) bundles the Vue code, registers the service worker, and emits the optimized JS/CSS that gets injected into the Go HTML template at [`assets/templates/index.gohtml`](https://github.com/photoprism/photoprism/blob/develop/assets/templates/index.gohtml).
+- Startup logic such as the browser capability check and splash screen is implemented in [`assets/static/js/browser-check.js`](https://github.com/photoprism/photoprism/blob/develop/assets/static/js/browser-check.js) and [`frontend/src/css/splash.css`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/css/splash.css), so update both files together when changing the loader.
+- Documentation and landing pages may still use lightweight static tooling (for example Materialize CSS), but the actual app always goes through the Vue stack described above.
 
-Vuetify and VueJS are initialized in [frontend/src/app.js](https://github.com/photoprism/photoprism/blob/develop/frontend/src/app.js). [Webpack](https://webpack.js.org/concepts/) is used as a module loader / bundler. It creates single, optimized JS and CSS files in the server assets public build directory from the original source code. You can find the build configuration in `frontend/webpack.config.js`.
+For a detailed tour of every directory see [`frontend/CODEMAP.md`](https://github.com/photoprism/photoprism/blob/develop/frontend/CODEMAP.md) in the main repository.
 
-For our docs and landing pages, we may use https://materializecss.com/ as a lightweight alternative to Vuetify.
+## Components
 
-## Components ##
+Reusable Vue components live under [`frontend/src/component/`](https://github.com/photoprism/photoprism/tree/develop/frontend/src/component), while top-level pages that map to Vue Router routes are stored in [`frontend/src/page/`](https://github.com/photoprism/photoprism/tree/develop/frontend/src/page). Global component registration happens in [`frontend/src/component/components.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/component/components.js). The [UI Components](components.md) page explains how we group and reference shared widgets, while Vuetify’s own component catalog covers the standard building blocks that ship with the framework.
 
-Components are reusable user-interface widgets. [UI Components](components.md) contains a list of custom components. Standard components like [buttons](https://vuetifyjs.com/en/components/buttons) or [forms](https://vuetifyjs.com/en/components/forms) are well documented on [vuetifyjs.com](https://vuetifyjs.com/en/getting-started/quick-start).
+## Dependencies
 
-## Dependencies ##
+- The authoritative dependency list is [`frontend/package.json`](https://github.com/photoprism/photoprism/blob/develop/frontend/package.json).
+- Install or refresh dependencies by running `npm install` inside the `frontend` directory. The root Makefile wraps this via `make deps` / `make install`, which creates `frontend/node_modules/` and the shared `venv/` in one step.
+- Add a dependency with `npm install <package> --save` so it is recorded in `package.json` + `package-lock.json`. Always check [`frontend/CODEMAP.md`](https://github.com/photoprism/photoprism/blob/develop/frontend/CODEMAP.md) before adding new runtime libraries.
 
-The full list of dependencies can be found in `frontend/package.json`. You need to run `npm install` in the **frontend directory** to install them (automatically happens during installation, see `Makefile`). Run `npm install -P [package name]` to add a new package (library or framework).
+## Build, Watch, and Test
 
-## Building ##
+- Development server / watcher: `make watch-js` from the repo root, or `cd frontend && npm run watch`. This rebuilds the bundle whenever you change files under [`frontend/src/`](https://github.com/photoprism/photoprism/tree/develop/frontend/src).
+- Production build: `make build-js` (root) or `cd frontend && npm run build`.
+- Dev build without watcher: `npm run build-dev`.
+- Unit tests (Vitest): `make vitest-watch` / `make vitest-coverage` or `cd frontend && npm run test`.
+- Linting & formatting: `npm run lint` and `npm run fmt` keep ESLint + Prettier aligned with CI.
 
-A build can be triggered by running `npm run watch` (watches for changes and re-builds when needed) or `npm run build` (single build) in the **frontend directory**. [NPM](https://www.npmjs.com/) is the default package manager that comes with [NodeJS](https://nodejs.org/en/docs/guides/), a JavaScript run-time environment that executes JavaScript code outside of a browser.
+## External Resources
 
-## External Resources ##
-- https://web.dev/progressive-web-apps/
-- https://github.com/vuejs-templates/pwa - a progressive web app template for VueJS
-- https://hackernoon.com/a-progressive-web-app-in-vue-tutorial-part-1-the-vue-app-f9231b032a0b
-- https://medium.com/the-web-tub/creating-your-first-vue-js-pwa-project-22f7c552fb34
-- https://developers.google.com/web/fundamentals/native-hardware/fullscreen/
-- https://webpack.js.org/configuration/optimization/
-- https://photoswipe.com/documentation/responsive-images.html
-- https://seregpie.github.io/VueWordCloud/ - Word cloud for VueJS
-- https://github.com/snorpey/jpg-glitch - JPEG Glitch lib for JS
-- https://stylable.io/ - scopes styles to components so they don’t “leak” and clash with other styles (not sure if this is of any use for us)
-- [Building the Google Photos Web UI](https://medium.com/google-design/google-photos-45b714dfbed1) - Antin Harasymiv on Medium
-- [Progressive Image Grid](https://github.com/schlosser/pig.js) - arrange images in a responsive, progressive-loading grid managed in JavaScript, see [#85](https://github.com/photoprism/photoprism/issues/85)
+- https://vuejs.org/guide/quick-start.html — official Vue 3 guide
+- https://vuetifyjs.com/en/getting-started/installation/ — Vuetify 3 docs and Material Design guidance
+- https://web.dev/progressive-web-apps/ — Google’s canonical PWA reference
+- https://webpack.js.org/concepts/ — bundler fundamentals used in [`frontend/webpack.config.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/webpack.config.js)
+- https://developers.google.com/web/fundamentals/native-hardware/fullscreen/ — background reading for fullscreen helpers in [`frontend/src/common/fullscreen.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/common/fullscreen.js)
+- https://maplibre.org/ — base engine for Places maps (see [maps.md](maps.md))
+- https://floating-ui.com/ / https://floating-vue.starpad.dev/ — tooltip stack we rely on for hover/focus hints
+
+Older Vue 2 tutorials can still provide inspiration, but always cross-check APIs with the current Vue 3 / Vuetify 3 documentation before copying snippets into the codebase.

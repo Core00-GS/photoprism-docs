@@ -2,6 +2,8 @@
 
 ## Theme Colors
 
+Theme definitions live in [`frontend/src/options/themes.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/options/themes.js), with the actual palette tokens mapped to Vuetify in [`frontend/src/css/themes.css`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/css/themes.css) and [`frontend/src/css/root.css`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/css/root.css). When you change default colors, update both the JSON structure (so new installs pick it up) and the CSS variables (so runtime theme switches keep working). Avoid editing Vuetify’s compiled CSS directly — always override via our [`vuetify.css`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/css/vuetify.css) layer.
+
 ![Sample](img/violet.jpg){ align=right class=w20 }
 
 The colors we use should be consistent and functional, for example, provide sufficient contrast. For the included themes, the preferred primary colors are violet and cyan, but other colors can be used as well.
@@ -16,7 +18,7 @@ The context menu at the bottom right should use a color spectrum for the individ
 
 ## Icon Fonts
 
-We stick to Google's Material icons and use other icons only when absolutely necessary:
+Vuetify is configured to use Material Design Icons (MDI) through [`frontend/src/app.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/app.js) and [`frontend/src/options/themes.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/options/themes.js). Stick to Google’s Material icon set unless a feature requires a bespoke pictogram; mixing icon packs makes the UI look inconsistent and adds extra font downloads.
 
 - https://material.io/resources/icons/
 - https://jossef.github.io/material-design-icons-iconfont/

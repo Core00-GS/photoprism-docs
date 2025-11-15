@@ -1,145 +1,99 @@
-There are two problems to solve when allowing the user to scroll through an "infinite" number of elements/photos:
+PhotoPrism’s library pages create the illusion of “infinite” content by combining progressive loading with lightweight virtualization. The goal is to keep network usage and DOM size under control while allowing users to scroll thousands of photos without jank.
 
-1. You can't load an infinite amount of data.
-2. You can't render an infinite amount of elements.
+## Progressive Loading
 
-The solution to both is to not provide an infinite amount of elements, but instead create the illusion
-of an infinite amount of elements by only loading and displaying what the user would actually currently be able to see.
+Route components such as [`frontend/src/page/photos.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/page/photos.vue), [`frontend/src/page/albums.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/page/albums.vue), or [`frontend/src/page/library/labels.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/page/library/labels.vue) fetch content through the REST models in [`frontend/src/model/`](https://github.com/photoprism/photoprism/tree/develop/frontend/src/model) (`Photo`, `Label`, `Album`, …). Each model inherits batching helpers from [`frontend/src/model/rest.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/model/rest.js), so `Model.batchSize()` defines how many entities we request per round trip.
 
-## Loading Data - Progressively ##
+Pages pass a `loadMore` callback into `<p-scroll>` ([`frontend/src/component/scroll.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/component/scroll.vue)). That component listens to global scroll events and triggers `loadMore()` when the remaining scroll distance is smaller than `loadDistance` (defaults to roughly four viewports). The page component then:
 
-The problem of infinite data is solved by loading the actually required elements progressively, in fixed amounts (batches).
+1. Checks `scrollDisabled` / `complete` flags to avoid duplicate fetches.
+2. Calls the model’s `search`/`list` method with the current `offset` and `batchSize`.
+3. Appends the new results and advances `offset` for the next batch.
+4. Updates `$view.saveWindowScrollPos()` so history navigation restores the same position after returning from the lightbox or detail pages.
 
-- Load a batch of elements. If they don't fill the screen, load the next batch. repeat until the screen is filled.
-- When the user is getting close to the end of the currently loaded elements, load the next batch of data.
+Tuning tips:
 
-In an ideal world the "next batch" is always loaded fast and early enough so that the user doesn't even notice that it
-wasn't there from the beginning. This creates the illusion of having an infinite amount of data available.
-There are two parameters to consider:
+- Use larger batches for cards and mosaic views (hundreds of photos) to amortize request overhead; list view can use smaller batches.
+- Adjust `scrollDistance` and `batchSize` together. If one grows and the other stays tiny, the UI either loads too much data early or stalls because `loadMore` fires too late.
+- The `PScroll` component throttles calls via a `wait` flag. Keep the logic there instead of sprinkling additional throttles in every page component.
 
-1. When to start loading the next batch?
-    -  loading to early results in to much unnecessary data getting laoded.
-    -  loading to late results in the user bumping into the end of the list of elements, because the next batch hasn't finished loading yet.
-2. How large are the batches?
-    -  to small batches can slow down the overall loading time by resulting in overhad because of too many requests.
-    -  to large batches need to long to load for a single batch, so that the data may not yet be ready when it is needed.
+## Virtualized Rendering
 
-The best values for these parameters vary vastly depending on the current network speed, number of elements that fit on the screen and the speed the user is scrolling. Luckily these values don't need to be perfect, just good enough.
+Even with progressive loading, rendering thousands of fully-populated cards is expensive. Instead of removing DOM nodes entirely (classic virtualization), we swap off-screen cards with lightweight placeholders that preserve layout measurements. The approach lives in:
 
-We currently use [vue-infinite-scroll](https://www.npmjs.com/package/vue-infinite-scroll) to detect when the user is about to reacht the end of the currently loaded list, so we can load the next batch.
-The batchsize depends on the current view and is currently somewhere in the range of 50 - 300 elements.
+- [`frontend/src/common/virtualization-tools.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/common/virtualization-tools.js) — helper that tracks visible indices via an `IntersectionObserver`
+- [`frontend/src/component/photo/view/cards.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/component/photo/view/cards.vue)
+- [`frontend/src/component/photo/view/mosaic.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/component/photo/view/mosaic.vue)
+- [`frontend/src/component/photo/view/list.vue`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/component/photo/view/list.vue)
 
-## Rendering elements - Virtualized ##
+Each view component:
 
-The further a user scrolls, the more batches of elements get loaded and displayed.
-The more elements get displayed, the slower the browser gets and the more memory it needs.  
-This means, if we were to just render all loaded elements, the limit how far you can scroll
-would be entirely determined by the available cpu and memory of the client.
+1. Adds `ref="items"` to every rendered card/tile and stores its zero-based index in `data-index`.
+2. Creates a single `IntersectionObserver` (see `beforeCreate` hooks) with a generous `rootMargin` so upcoming rows start rendering before they enter the viewport.
+3. Observes every second (or fifth) element to reduce callback churn.
+4. Persists the visible indices in a `Set` and feeds them into `virtualizationTools.updateVisibleElementIndices()` to derive `[firstVisible, lastVisible]`.
+5. Renders the real card markup only when `index` falls within that range; otherwise it renders a simple placeholder `<div>` with matching height/width.
 
-### Regular virtualization 
+This technique keeps DOM size relatively flat without forcing us to rearchitect the layout around absolute positioning.
 
-This problem is usually solved by virtualization:
+### Implementation Details
 
-1. determine the scrollposition and screensize of the client.
-2. calculate what elements would be on the screen.
-3. render **only** those elements.
+- Because Vue doesn’t track mutations inside a `Set`, also store `firstVisibleElementIndex` and `lastVisibleElementIndex` in `data()` so reactivity kicks in when the observer reports a change.
+- Expand the rendered range by a few items (`±4` in cards view) to hide the swap as a user scrolls quickly.
+- Replace removed entries carefully: when a grid item unmounts (for example a photo is deleted), its observer entry may report `isIntersecting=false` even though the page layout has not moved. Ignore entries whose targets are no longer attached to the DOM (see `virtualizationTools.updateVisibleElementIndices`).
+- Intersection observers only work when the component is still mounted. Always `disconnect()` inside `beforeUnmount` to avoid leaking references when navigating between routes.
 
-The problem with this regular virtualization is that it requires the elements to be positioned absolutely and may prescribe how they are structured.
-Implementing it would therefore imply a potentialy larger rewrite and less freedom when designing the elements.
+## Rendering Performance
 
-### Pseudo-Virtualization with placeholders
+- Prefer raw HTML elements for repeated nodes. For instance, cards view uses `<button>` with utility classes instead of `<v-btn>` to avoid Vuetify reactivity overhead.
+- Use Vue conditionals (`v-if` / `v-else`) to strip unused DOM rather than toggling `display: none`.
+- Memoize expensive getters in the models. Photo methods such as `getDateString()` use [`memoize-one`](https://www.npmjs.com/package/memoize-one)` so scrolling through thousands of cards doesn’t recalculate unchanged metadata on every frame. Keep memoized helpers pure.
+- Avoid inline arrow functions in templates for frequently rendered props; compute derived state in `computed` properties once per render.
 
-Using the [IntersectionObserver API](https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API) we can efficiently determine wether something is currently visible or not.
-We can use this information to replace all elements that are currently not in the visible area with simple placeholders of the same size.
-This drastically reduces the load on the browser, because these (often single-domnode) placeholder-elements require a LOT less ressources.
+### Memoization in Practice
 
-This has the huge benefit that it doesn't restrict how components are structured or positioned, while also being easier to implement.
-There are however two caveats:
+The `Photo` model in [`frontend/src/model/photo.js`](https://github.com/photoprism/photoprism/blob/develop/frontend/src/model/photo.js) memoizes multiple helpers so repeated renders reuse cached strings. The example below shows how `generateClasses` caches the computed CSS class list based on a handful of stable inputs:
 
-1. We are still rendering *something* for every single loaded elements
-    - The load on the browser therefore technically still increases (slightly) the more elements are loaded
-    - This however reduces the load so much, that this slight increase per element barely matters at all
-2. The placeholders size should be as close to the originals size as possible.
-    - If the sizes don't match, scrolling might become a little janky.
+```js
+// frontend/src/model/photo.js
+import memoizeOne from "memoize-one";
 
-This type of virtualization more than fast enough, and because we think the benefits outweigh the downsides, we decided go this route.
-
-### Implementation details
-
-The setup for a component that uses the placeholder-virtualization is as follows:
-
-1. Add a ref to all the elements whose visibilty needs to be tracked
-2. create a single `IntersectionObserver` in the `beforeCreate` that calls a (yet to be defined) `this.visibilitiesChanged`
-3. add a watcher that is called when the list of elements changes. call [observe](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver/observe) on all refs from step 1
-4. define a function that takes an [IntersectionObserverEntry](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry) and returns the index of the corresponding target (for example by adding a `data-index`-attribute to the observed element)
-5. add `firstVisibleElementIndex: 0`, `lastVisibleElementIndex: 0` and `visibleElementIndices: new Set()` to the components state
-6. conditionally render elements whose index is between `firstVisibleElementIndex` and `lastVisibleElementIndex`. Render placeholders for all other elements
-7. define `visibilitiesChanged`. Let it call `virtualizationTools.updateVisibleElementIndices`. Use the result as new `this.firstVisibleElementIndex` and `this.lastVisibileElementIndex`
-
-We use the `visibleElementIndices`-Set to keep track of elements that became visible or invisible.  
-We also use `firstVisibleElementIndex` and `lastVisibleElementIndex` for two reasons:
-
-1. Vue doesn't react to Set-changes (because its identity never changes), so manipulating it doesn't cause a rerender
-2. When scrolling very fast, the set may for a very brief moment contain holes (for example it has the indices `1, 2, 4, 5, 6`). By implying that everything between the smallest and largest index is visible, these short-lived holes don't have any negative effect (index 3 would be rendered anyway)
-
-As a bonus, you can make the IntersectionObserver only observe for example every 5th element to speed up calculation of intersections. If you do so, you should add for Example -4 to `firstVisibleElementIndex` and +4 to `lastVisibleElementIndex`
-
-### Render Performance
-
-When working with a huge amount of elements, render performance of these elements is critically important.
-The better the render performance, the more it actually feels like scrolling through an infinite list. It allowes the user to scroll faster without having to see placeholders and makes the application feel way snappier, especially on lower-end devices.
-
-Here are some tips on how to gain performance. They are ordered from most to least important and only apply to things that are rendered for every element:
-
-- Prefer regular HTML-Elements over vue-components
-    - Rendering vue components executes a lot of JavaScript, blocking everything else. Rendering regular HTML elements is way faster
-    - Example: use `<button>` instead of `<v-btn>`
-- Prefer conditional rendering over hiding/showing elements via css
-    - showing/hiding via css may prevent rerenders, but it increases the amount of rendered elements
-    - The less elements (and therefore domnodes) are rendered the better
-- Use less elements
-    - Why use a `<v-card><v-img></v-img></v-card>` when performance is important and a `<div></div>` with some css works too?
-
-### Memoization
-
-Memoization is a technique to speed up function calls by caching results.
-This can have a noticable impact on render-performance, especially when function
-results are used for placeholders
-
-Example: The texts on the cards in the cards-view. There are function-calls like `photo.locationInfo()` and `photo.getDateString()`.  
-The resulting values rarely change, but are calculated again and again on every render, resulting in ~280k calls per function when scrolling through ~2k pictures.
-
-We use [`memoize-one`](https://www.npmjs.com/package/memoize-one) for much called, non-trivial functions whose parameters rarely change.
-The funtions in the Photo model are a prime example for that.
-
-For this to work the memoized function must be pure, which means its result must not depend on outside factors, but only on its parameters. Calling the same function twice with the same parameters must always return the same result.
-
-If you want to memoize a function that is not pure you can still do so by moving all its logic into a new, memoized, pure function and having the old funtion just call the memoized one, providing the required parameters. Example:
-```JavaScript
-// ------------------ before ------------------
-isPlayable() {
-  if (this.Type === MediaAnimated) {
-    return true;
-  } else if (!this.Files) {
-    return false;
+export class Photo extends RestModel {
+  classes() {
+    return this.generateClasses(
+      this.isPlayable(),
+      PhotoClipboard.has(this),
+      this.Portrait,
+      this.Favorite,
+      this.Private,
+      this.isStack()
+    );
   }
 
-  return this.Files.some((f) => f.Video);
+  generateClasses = memoizeOne((isPlayable, isInClipboard,
+                                portrait, favorite, isPrivate, isStack) => {
+    let classes = ["is-photo", "uid-" + this.UID, "type-" + this.Type];
+    if (isPlayable) classes.push("is-playable");
+    if (isInClipboard) classes.push("is-selected");
+    if (portrait) classes.push("is-portrait");
+    if (favorite) classes.push("is-favorite");
+    if (isPrivate) classes.push("is-private");
+    if (isStack) classes.push("is-stack");
+    return classes;
+  });
 }
 ```
-```JavaScript
-// ------------------ after ------------------
-isPlayable() {
-  return this.generateIsPlayable(this.Type, this.Files);
-}
 
-generateIsPlayable = memoizeOne((type, files) => {
-  if (type === MediaAnimated) {
-    return true;
-  } else if (!files) {
-    return false;
-  }
+Because `memoizeOne` returns the previous array when the inputs have not changed, Vue avoids diffing long class lists on every scroll frame. Apply the same pattern to other frequently-called getters (for example, `photo.locationInfo()` or `photo.getVideoInfo()`) to keep render times low.
 
-  return files.some((f) => f.Video);
-})
-```
+## Putting It All Together
+
+When implementing a new infinite-scrolling view:
+
+1. Define a batch-friendly model in [`frontend/src/model/`](https://github.com/photoprism/photoprism/tree/develop/frontend/src/model) (if one does not exist yet).
+2. Build the route/page that owns the filters, fetch state, and `loadMore` callback.
+3. Create a child view component that renders the list and wires in the virtualization helper.
+4. Ensure `$view.saveRestoreState` keeps scroll/restored data intact when navigating back.
+5. Test on low-powered hardware or throttled browsers to confirm placeholders stay ahead of the user while scrolling quickly.
+
+Following these patterns keeps the UI responsive even with very large libraries.
