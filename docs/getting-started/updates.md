@@ -34,12 +34,12 @@ docker compose up -d --pull always
 
 #### Watchtower
 
-Adding [Watchtower](https://github.com/containrrr/watchtower) as a service to your `compose.yaml` or `docker-compose.yml` will automatically keep images up-to-date:
+Adding [Watchtower](https://github.com/nicholas-fedor/watchtower) as a service to your `compose.yaml` or `docker-compose.yml` will automatically keep images up-to-date:
 
 ```yaml
 services:
   watchtower:
-    image: containrrr/watchtower
+    image: nickfedor/watchtower
     restart: unless-stopped
     volumes:
       - "/var/run/docker.sock:/var/run/docker.sock"
