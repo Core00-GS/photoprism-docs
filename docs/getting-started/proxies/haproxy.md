@@ -1,51 +1,43 @@
-# Using HAPROXY as Reverse Proxy
+# Using HAProxy as Reverse Proxy
 
 !!! tldr ""
-    Should you experience problems with Haproxy, we recommend that you ask the Haproxy community for advice, as we cannot provide support for third-party software and services.
+    HAProxy offers powerful routing options, but we cannot provide support for custom load-balancer setups. Consult the [HAProxy community](https://www.haproxy.org/#support) if you encounter proxy-specific issues.
 
-```bigquery
+The example below terminates TLS, enforces SNI routing, and proxies both long uploads and WebSocket connections to a local PhotoPrism service.
+
+```haproxy
+global
+    log /dev/log local0
+    maxconn 2000
+
 defaults
-    #Defaults used in frontend and backends
-    #Defined here to avoid repitition
-    #Can be overwritten in frontends and/or backends
-    log global
-    option logasap
-    mode http
-    timeout connect 30000ms
-    timeout client 30000ms
-    timeout server 30000ms
-    timeout tunnel 120000ms
-    timeout queue 5000ms
+    log     global
+    mode    http
+    option  httplog
+    option  forwardfor
+    timeout connect 5s
+    timeout client  1m
+    timeout server  1m
+    timeout tunnel  5m
 
-##########################################################
+frontend https
+    bind *:80
+    bind *:443 ssl crt /etc/ssl/localcerts/wildcard.example.com.pem alpn h2,http/1.1
+    redirect scheme https code 301 if !{ ssl_fc }
 
-#Frontend config
-frontend fe-photoprism
-    #'photo' is the name of the subdomain
-    #TLS certs should be referenced here, maybe created by dehydrated, certbot, ...
-    bind *:443 ssl crt /etc/ssl/localcerts/wildcard.example.com.pem
+    acl host_photoprism hdr(host) -i photos.example.com
+    use_backend photoprism if host_photoprism
 
-    #SNI-Detection
-    #Can be removed, if not needed
-    acl sni_photo hdr(host) -i photo.example.com
-    #Use Backend if domain (acl is set) detected
-    use_backend be-photoprism if sni_photo
-
-    #Every unflagged request goes here, may target to another backend as well
-    default_backend be-photoprism
-
-##########################################################
-
-#Backend config
-#be-photoprism is the name of the backend referenced in frontend
-backend be-photoprism
-    retries 3
-    option forwardfor
-    no option httpclose
-    
-    #Local PhotoPrism-Instance
-    server photo 127.0.0.1:2342
+backend photoprism
+    server photoprism 127.0.0.1:2342 check
+    http-request set-header X-Forwarded-Proto https
+    http-response set-header Strict-Transport-Security "max-age=31536000; includeSubDomains"
+    http-reuse safe
 ```
+
+PhotoPrism’s WebSocket endpoint (`/api/v1/ws`) works automatically as long as you keep the backend in `mode http` and do not enable `option httpclose`. When forwarding to containers, replace `127.0.0.1:2342` with the container hostname or overlay VIP.
+
+Store certificates in a PEM bundle (full chain + private key) referenced via `crt`. Use `crt-list` when hosting multiple domains on the same load balancer. More complex templates, including mutual TLS and ACL-based routing, are covered in the [HAProxy documentation](https://www.haproxy.com/documentation/).
 
 ## Why Use a Proxy? ##
 

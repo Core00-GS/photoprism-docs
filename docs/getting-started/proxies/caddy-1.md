@@ -1,22 +1,26 @@
 # Using Caddy 1 as Reverse Proxy
 
-!!! tldr ""
-    Should you experience problems with Caddy, we recommend that you ask the Caddy community for advice, as we cannot provide support for third-party software and services.
+!!! warning "Legacy Software"
+    Caddy 1 reached end-of-life and only receives critical fixes. Consider upgrading to [Caddy 2](caddy-2.md) whenever possible. If you continue to run Caddy 1, the Caddy community—not PhotoPrism—must be your primary support channel.
 
-For PhotoPrism to work properly, you need to enable websockets and transparent proxying:
+Caddy 1 can still proxy WebSocket and HTTP/2 traffic for PhotoPrism. Enable the `websocket` and `transparent` options so request headers reach the app unchanged:
 
-!!! example
-    ```
-    example.com {
-        proxy / photoprism:2342 {
-            websocket
-            transparent
-        }
+```caddyfile
+example.com {
+    gzip
+    tls you@example.com
+
+    proxy / photoprism:2342 {
+        websocket
+        transparent
+        header_upstream X-Forwarded-Proto {scheme}
     }
-    ```
+}
+```
 
-Please refer to the [official documentation](https://caddyserver.com/v1/docs/websocket)
-for further details.
+The `tls` directive requests and renews certificates from Let’s Encrypt automatically. Use `tls internal` if you prefer to run your own CA, or `tls /path/fullchain.pem /path/privkey.pem` when supplying files manually.
+
+Refer to the [Caddy 1 documentation](https://caddyserver.com/v1/docs/websocket) for additional directives and migration tips.
 
 ### Why Use a Proxy? ###
 

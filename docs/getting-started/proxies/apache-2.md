@@ -1,18 +1,59 @@
 # Using Apache 2.4 as Reverse Proxy
 
-!!! tldr ""
-    Should you experience problems with Apache, we recommend that you ask the Apache community for advice, as we cannot provide support for third-party software and services.
+!!! danger "Getting Support"
+    If you run into Apache-specific issues we cannot reproduce, please reach out to the [Apache community](https://httpd.apache.org/userslist.html) for help. Our team cannot provide support for third-party modules or custom SSL setups.
 
-!!! example
-    ```
-    ProxyPass /api/v1/ws ws://photoprism.lxd:2342/api/v1/ws
-    ProxyPassReverse /api/v1/ws ws://photoprism.lxd:2342/api/v1/ws
-    ProxyPass / http://photoprism:2342/
-    ProxyPassReverse / http://photoprism:2342/
-    ProxyRequests off
-    ```
+Apache 2.4 can proxy HTTP/2 and WebSocket traffic for PhotoPrism as long as the required modules are enabled (`proxy`, `proxy_http`, `proxy_wstunnel`, `ssl`, `headers`, `http2`). Remember to keep `PHOTOPRISM_DISABLE_TLS="true"` so Apache terminates HTTPS instead of the app container.
 
-The [official documentation](https://httpd.apache.org/docs/2.4/mod/mod_proxy_wstunnel.html) explains in detail, how to configure Apache Web Server 2.4 to reverse proxy WebSockets.
+## Enable Required Modules
+
+```bash
+sudo a2enmod proxy proxy_http proxy_wstunnel headers ssl http2 rewrite
+sudo systemctl restart apache2
+```
+
+## Example VirtualHost Configuration
+
+The snippet below force-redirects HTTP→HTTPS, terminates TLS via Let’s Encrypt, and forwards both standard requests and WebSockets to PhotoPrism.
+
+```apache
+<VirtualHost *:80>
+    ServerName photos.example.com
+    Redirect permanent / https://photos.example.com/
+</VirtualHost>
+
+<IfModule mod_ssl.c>
+<VirtualHost *:443>
+    ServerName photos.example.com
+
+    SSLEngine on
+    SSLCertificateFile    /etc/letsencrypt/live/photos.example.com/fullchain.pem
+    SSLCertificateKeyFile /etc/letsencrypt/live/photos.example.com/privkey.pem
+
+    ProxyPreserveHost On
+    ProxyRequests Off
+    AllowEncodedSlashes NoDecode
+    RequestHeader set X-Forwarded-Proto "https"
+    Header always set Strict-Transport-Security "max-age=31536000;includeSubDomains"
+
+    ProxyPass "/api/v1/ws"  "ws://photoprism:2342/api/v1/ws" retry=0 timeout=300
+    ProxyPassReverse "/api/v1/ws"  "ws://photoprism:2342/api/v1/ws"
+
+    ProxyPass "/"  "http://photoprism:2342/" connectiontimeout=5 timeout=600 keepalive=On
+    ProxyPassReverse "/"  "http://photoprism:2342/"
+
+    ProxyPassReverseCookieDomain photoprism photos.example.com
+    ProxyPassReverseCookiePath / /
+
+    ErrorLog ${APACHE_LOG_DIR}/photoprism_error.log
+    CustomLog ${APACHE_LOG_DIR}/photoprism_access.log combined
+</VirtualHost>
+</IfModule>
+```
+
+After saving the file in `/etc/apache2/sites-available/`, enable it with `sudo a2ensite photoprism.conf && sudo systemctl reload apache2`.
+
+Refer to the [Apache proxy guide](https://httpd.apache.org/docs/2.4/mod/mod_proxy.html) and the [WebSocket tunnel module](https://httpd.apache.org/docs/2.4/mod/mod_proxy_wstunnel.html) for more detail.
 
 ### Why Use a Proxy? ###
 

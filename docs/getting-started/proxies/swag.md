@@ -1,99 +1,80 @@
 # Using SWAG as Reverse Proxy
 
 !!! tldr ""
-    Should you experience problems with Swag, we recommend that you ask the Swag community for advice, as we cannot provide support for third-party software and services.
+    SWAG bundles NGINX, Certbot, and fail2ban in one container. If you encounter SWAG-specific issues, please contact the [LinuxServer.io community](https://docs.linuxserver.io/general/faq/#support) for assistance.
 
-To simplify the setup of a reverse HTTPS proxy, Linuxserver.io developed [SWAG](https://github.com/linuxserver/docker-swag).
+[SWAG](https://github.com/linuxserver/docker-swag) (Secure Web Application Gateway) automates TLS certificates and delivers a hardened NGINX reverse proxy on Docker. Keep PhotoPrism’s internal TLS off (`PHOTOPRISM_DISABLE_TLS="true"`) so SWAG can terminate HTTPS.
 
-SWAG - Secure Web Application Gateway (formerly known as *letsencrypt*, no relation to Let's Encrypt™) sets up a Nginx
-web server and reverse proxy with PHP support and a built-in certbot client that automates free SSL server certificate
-generation and renewal processes (Let's Encrypt and ZeroSSL). It also contains fail2ban for intrusion prevention.
+## Step 1: Prepare a Domain or DynDNS Record
 
-## Setup ##
+Obtain a fully qualified domain name that points to your public IP. DuckDNS works well for home networks; set up port forwarding for TCP 80/443 on your router.
 
-### Step 1: Get a domain ###
+## Step 2: Start SWAG via Docker Compose
 
-The first step is to grab a dynamic DNS if you don't have your own subdomain already. You can get this from for example [DuckDNS](https://www.duckdns.org).
+Configure SWAG with your domain and preferred validation method. The snippet below uses DuckDNS:
 
-### Step 2: Set-up SWAG ###
+```yaml
+services:
+  swag:
+    image: ghcr.io/linuxserver/swag
+    container_name: swag
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    cap_add:
+      - NET_ADMIN
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/Brussels
+      - URL=mydomain.duckdns.org
+      - SUBDOMAINS=photoprism
+      - VALIDATION=duckdns
+      - DUCKDNSTOKEN=your-duckdns-token
+      - EMAIL=admin@example.com
+    volumes:
+      - /etc/config/swag:/config
+```
 
-Then you will need to set up SWAG, the variables of the docker compose are explained on the Github page of [SWAG](https://github.com/linuxserver/docker-swag).
-This is an example of how to set it up using duckdns and docker-compose. 
+Persist `/config` so certificates and fail2ban state survive container restarts.
 
-!!! example "compose.yaml"
-    ```yaml
-	services:
-	    swag:
-   	        image: ghcr.io/linuxserver/swag
-   	        container_name: swag
-    		restart: unless-stopped
-    		ports:
-      		    - 443:443
-    		cap_add:
-     		    - NET_ADMIN
-   		    environment:
-                - PUID=1000
-                - PGID=1000
-                - TZ=Europe/Brussels
-                - URL=<mydomain.duckdns>
-                - SUBDOMAINS=wildcard
-                - VALIDATION=duckdns
-                - CERTPROVIDER= #optional
-                - DNSPLUGIN= #optional
-                - DUCKDNSTOKEN=<duckdnstoken> 
-                - EMAIL=<e-mail> #optional
-                - ONLY_SUBDOMAINS=false #optional
-                - EXTRA_DOMAINS=<extradomains> #optional
-                - STAGING=false #optional
-    	    volumes:
-      		    - /etc/config/swag:/config
-    ```
+## Step 3: Enable the PhotoPrism Proxy Config
 
-Don't forget to change the <code>mydomain.duckdns</code> into your personal domain and the <code>duckdnstoken</code> into your token and remove the brackets.
+Inside `/etc/config/swag/nginx/proxy-confs/` rename `photoprism.subdomain.conf.sample` to `photoprism.subdomain.conf`. Custom deployments can create their own file with settings similar to:
 
-### Step 3: Change the config files ###
+```nginx
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name photoprism.mydomain.duckdns.org;
 
-Navigate to the config folder of SWAG and head to <code>proxy-confs</code>. If you used the example above, you should navigate to: <code>/etc/config/swag/nginx/proxy-confs/ </code>.
-There are a lot of preconfigured files to use for different apps such as radarr,sonarr,overseerr,... 
+    include /config/nginx/ssl.conf;
+    client_max_body_size 512M;
 
-To use the bundled configuration file, simply rename <code>photoprism.subdomain.conf.sample</code> in the proxy-confs folder to <code>photoprism.subdomain.conf</code>.
-Alternatively, you can create a new file <code>photoprism.subdomain.conf</code> in proxy-confs with the following configuration:
+    location / {
+        include /config/nginx/proxy.conf;
+        resolver 127.0.0.11 valid=30s;
+        set $upstream_app photoprism;
+        set $upstream_port 2342;
+        set $upstream_proto http;
+        proxy_pass $upstream_proto://$upstream_app:$upstream_port;
+    }
+}
+```
 
-!!! example "photoprism.subdomain.conf"
-    ```yaml
-	server {
-    	listen 443 ssl http2;
-    	listen [::]:443 ssl http2;
+Adjust `server_name` and the upstream container name or IP as needed. If your PhotoPrism container is not called `photoprism`, update both the SWAG config and your Compose file (`container_name: photoprism`) so the DNS lookup succeeds.
 
-    	server_name photoprism.*;
+## Step 4: Reload SWAG
 
-    	include /config/nginx/ssl.conf;
+Apply configuration changes with `docker restart swag` or by sending `docker exec swag nginx -s reload`. Watch the container logs for certificate renewal or proxy errors.
 
-    	client_max_body_size 0;
+## Step 5: Test Access
 
-    	location / {
-        	include /config/nginx/proxy.conf;
-        	resolver 127.0.0.11 valid=30s;
-        	set $upstream_app photoprism;
-        	set $upstream_port 2342;
-        	set $upstream_proto http;
-        	proxy_pass $upstream_proto://$upstream_app:$upstream_port;
-    	}
-
-	}	
-    ```
-
-### Step 4: Port-forward port 443 ###
-
-Since SWAG allows you to set up a secure connection, you will need to open port 443 on your router for encrypted traffic. This is way more secure than port 80 for http.
-
-### Step 5: Restart SWAG ##
-
-When you change anything in the config of Nginx, you will need to restart the container using <code>docker restart swag</code>.
-If everything went well, you can now access photoprism on the subdomain you configured: photoprism.mydomain.duckdns.org
+Browse to `https://photoprism.mydomain.duckdns.org/` and verify you can log in, upload large files, and browse thumbnails. Use `docker logs swag` if uploads fail—messages like `client intended to send too large body` indicate `client_max_body_size` must be raised.
 
 !!! attention
-    PhotoPrism's container name will by default be prefixed with the directory name e.g. "photoprism-photoprism-1", so that it is not just "photoprism". To check this, run `docker ps` and see if it is "photoprism". If not, go to your `compose.yaml` file and add the following line to photoprism under `image`: `container_name: photoprism`. Then restart swag. Note, however, that you may not have two containers with the same name. If you are running multiple instances, you can change the container name in the swag config file in the proxy-confs directory.
+    PhotoPrism’s container name is prefixed by the project directory (e.g., `photoprism-photoprism-1`) when you rely on Compose defaults. Either set `container_name: photoprism` in your `compose.yaml` or update SWAG’s `set $upstream_app` value so the proxy can resolve the container.
 
 ## Why Use a Proxy? ##
 
