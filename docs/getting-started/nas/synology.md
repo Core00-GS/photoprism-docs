@@ -135,6 +135,8 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
           - /volume1/docker/photoprism/import:/photoprism/import
     ```
 
+     Our Docker images are configured to use the default mounts `/photoprism/storage` and `/photoprism/originals`, so no [additional environment variables](../config-options.md#storage) are needed to configure the storage and originals paths.
+
 4. Update the placeholders (passwords, timezone, `/volume1/docker/photoprism`, and your actual originals share such as `/volume1/photo`) before clicking **Next ▸ Create**. Container Manager stores the Compose file with the project so you can edit it later without retyping.
 
 #### 5. Deploy and verify
