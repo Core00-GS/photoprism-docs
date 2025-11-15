@@ -110,8 +110,6 @@ mkdir -p /share/Container/photoprism/{storage,import,database}
           PHOTOPRISM_DATABASE_NAME: "photoprism"
           PHOTOPRISM_DATABASE_USER: "photoprism"
           PHOTOPRISM_DATABASE_PASSWORD: "change-me"
-          # container timezone so cron schedules run at local time
-          TZ: "UTC"
         volumes:
           # config, cache, and backups (use SSD-backed storage if available)
           - /share/Container/photoprism/storage:/photoprism/storage

@@ -124,8 +124,6 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
           PHOTOPRISM_DATABASE_NAME: "photoprism"
           PHOTOPRISM_DATABASE_USER: "photoprism"
           PHOTOPRISM_DATABASE_PASSWORD: "change-me"
-          # container timezone so cron schedules run at local time
-          TZ: "UTC"
         volumes:
           # config, cache, and backups (place on SSD storage if available)
           - /volume1/docker/photoprism/storage:/photoprism/storage

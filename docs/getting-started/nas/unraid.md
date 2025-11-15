@@ -79,7 +79,6 @@ Unraid does not ship with Docker Compose, but the Community Apps plugin offers *
           PHOTOPRISM_DATABASE_NAME: "photoprism"
           PHOTOPRISM_DATABASE_USER: "photoprism"
           PHOTOPRISM_DATABASE_PASSWORD: "change-me"
-          TZ: "UTC"
         volumes:
           # config, cache, and backups (SSD cache preferred)
           - /mnt/user/appdata/photoprism/storage:/photoprism/storage
