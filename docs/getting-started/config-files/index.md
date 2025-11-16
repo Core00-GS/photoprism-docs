@@ -46,7 +46,7 @@ a colon, or other special characters.
 
 ## Sources and Precedence
 
-PhotoPrism loads configuration in the following order:
+PhotoPrism loads configuration values in the following order:
 
 1. **Built-in defaults** defined in the [`internal/config`](https://github.com/photoprism/photoprism/blob/develop/internal/config) package.
 2. **`defaults.yml`** — [configuration defaults](defaults.md) located in `/etc/photoprism` or the *config path*.
@@ -56,7 +56,7 @@ PhotoPrism loads configuration in the following order:
 
 ### Inspect Before Editing
 
-Before changing environment variables or YAML files, run `photoprism config | grep -i <flag>` to confirm the current values, such as for `password-length`:
+Before changing [environment variables](../config-options.md#environment-variables) or YAML files, run `photoprism config | grep -i <flag>` to confirm the current values, such as for `password-length`:
 
 ```bash
 photoprism config | grep -i password-length

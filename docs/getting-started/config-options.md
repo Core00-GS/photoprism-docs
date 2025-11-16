@@ -3,6 +3,8 @@
 !!! tldr ""
     Note that changes to the config options listed below **always require a restart** to take effect.[^1] Instead of using environment variables, you can alternatively use an ↪ [`options.yml`](config-files/index.md) file to configure your instance.
 
+## Environment Variables
+
 ### Authentication
 
 | Environment                                      | CLI Flag          | Default                      | Description                                                                                         |
@@ -318,3 +320,20 @@ The following variables are used by our Docker images only and have no effect ot
 
 [^1]: If you are using [Docker Compose](docker-compose.md), you can open a terminal, run `docker compose stop`, and then run `docker compose up -d` to restart all services.
 [^2]: Enabling public mode is not recommended for instances installed on a server outside your home network, as this allows others to access your pictures without authentication.
+
+## CLI Reference
+
+The following commands can be executed on the host or [inside any running container](docker-compose.md#opening-a-terminal):
+
+- `photoprism help` (or `photoprism --help`) lists all subcommands and global flags.
+- `photoprism show config` (alias `photoprism config`) displays the current configuration values. Pass `--json`, `--md`, `--tsv`, or `--csv` to change the output format.
+- `photoprism show config-options` displays the supported environment variables with short descriptions and default values.
+- `photoprism show config-yaml` displays the [YAML configuration](config-files/index.md) keys and their expected types, as well as the corresponding command flags.
+
+### View Current Values
+
+Before changing [environment variables](#environment-variables) or [YAML files](config-files/index.md), run `photoprism config | grep -i <flag>` to confirm the current values, such as for `password-length`:
+
+```bash
+photoprism config | grep -i password-length
+```
