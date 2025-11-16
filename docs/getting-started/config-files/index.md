@@ -119,6 +119,7 @@ Below are the names of the config options that you can set in the `options.yml` 
 | CachePath       | string | --cache-path       |
 | TempPath        | string | --temp-path        |
 | AssetsPath      | string | --assets-path      |
+| ModelsPath      | string | --models-path      |
 
 ### Sidecar Files
 
@@ -160,6 +161,7 @@ Below are the names of the config options that you can set in the `options.yml` 
 |:----------------------|:-----|:-------------------------|
 | ReadOnly              | bool | --read-only              |
 | Experimental          | bool | --experimental           |
+| DisableFrontend       | bool | --disable-frontend       |
 | DisableSettings       | bool | --disable-settings       |
 | DisableBackups        | bool | --disable-backups        |
 | DisableRestart        | bool | --disable-restart        |
@@ -221,7 +223,9 @@ Below are the names of the config options that you can set in the `options.yml` 
 |:-------------------|:---------|:-----------------------|
 | HttpsProxy         | string   | --https-proxy          |
 | HttpsProxyInsecure | bool     | --https-proxy-insecure |
+| TrustedPlatform    | string   | --trusted-platform     |
 | TrustedProxies     | []string | --trusted-proxy        |
+| ProxyClientHeaders | []string | --proxy-client-header  |
 | ProxyProtoHeaders  | []string | --proxy-proto-header   |
 | ProxyProtoHttps    | []string | --proxy-proto-https    |
 
@@ -244,17 +248,21 @@ Below are the names of the config options that you can set in the `options.yml` 
 
 ### Database Connection
 
-| Name              | Type   | CLI Flag              |
-|:------------------|:-------|:----------------------|
-| DatabaseDriver    | string | --database-driver     |
-| DatabaseDsn       | string | --database-dsn        |
-| DatabaseName      | string | --database-name       |
-| DatabaseServer    | string | --database-server     |
-| DatabaseUser      | string | --database-user       |
-| DatabasePassword  | string | --database-password   |
-| DatabaseTimeout   | int    | --database-timeout    |
-| DatabaseConns     | int    | --database-conns      |
-| DatabaseConnsIdle | int    | --database-conns-idle |
+| Name                      | Type   | CLI Flag                       |
+|:--------------------------|:-------|:-------------------------------|
+| DatabaseDriver            | string | --database-driver              |
+| DatabaseDSN               | string | --database-dsn                 |
+| DatabaseName              | string | --database-name                |
+| DatabaseServer            | string | --database-server              |
+| DatabaseUser              | string | --database-user                |
+| DatabasePassword          | string | --database-password            |
+| DatabaseTimeout           | int    | --database-timeout             |
+| DatabaseConns             | int    | --database-conns               |
+| DatabaseConnsIdle         | int    | --database-conns-idle          |
+| DatabaseProvisionDriver   | string | --database-provision-driver    |
+| DatabaseProvisionPrefix   | string | --database-provision-prefix    |
+| DatabaseProvisionDSN      | string | --database-provision-dsn       |
+| DatabaseProvisionProxyDSN | string | --database-provision-proxy-dsn |
 
 ### File Conversion
 
@@ -312,20 +320,29 @@ Below are the names of the config options that you can set in the `options.yml` 
 
 ### Computer Vision
 
-| Name       | Type   | CLI Flag      |
-|:-----------|:-------|:--------------|
-| VisionYaml | string | --vision-yaml |
-| VisionApi  | bool   | --vision-api  |
-| VisionUri  | string | --vision-uri  |
-| VisionKey  | string | --vision-key  |
-| DetectNSFW | bool   | --detect-nsfw |
+| Name           | Type   | CLI Flag          |
+|:---------------|:-------|:------------------|
+| VisionYaml     | string | --vision-yaml     |
+| VisionApi      | bool   | --vision-api      |
+| VisionUri      | string | --vision-uri      |
+| VisionKey      | string | --vision-key      |
+| VisionSchedule | string | --vision-schedule |
+| VisionFilter   | string | --vision-filter   |
+| DetectNSFW     | bool   | --detect-nsfw     |
+
+### Face Recognition
+
+| Name              | Type   | CLI Flag              |
+|:------------------|:-------|:----------------------|
+| FaceEngine        | string | --face-engine         |
+| FaceEngineThreads | int    | --face-engine-threads |
 
 ### Daemon Mode
 
 If you start the server as a *daemon* in the background, you can additionally specify a filename for the log and the process ID:
 
-| Name         | Type   | CLI Flag        |
-|:-------------|:-------|:----------------|
-| PIDFilename  | string | --pid-filename  |
-| LogFilename  | string | --log-filename  |
-| DetachServer | bool   | --detach-server |
+| Name              | Type    | CLI Flag        |
+|:------------------|:--------|:----------------|
+| PIDFilename       | string  | --pid-filename  |
+| LogFilename       | string  | --log-filename  |
+| DetachServer      | bool    | --detach-server |
