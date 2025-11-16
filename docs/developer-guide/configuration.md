@@ -6,7 +6,7 @@ This page summarizes the tooling available to inspect those values and highlight
 
 ## Sources and Precedence
 
-PhotoPrism loads configuration in the following order:
+PhotoPrism loads configuration values in the following order:
 
 1. **Built-in defaults** defined in the [`internal/config`](https://github.com/photoprism/photoprism/blob/develop/internal/config) package.
 2. **`defaults.yml`** — optional configuration defaults. PhotoPrism first checks `/etc/photoprism/defaults.yml` (or `.yaml`). If that file is missing or empty, it automatically falls back to `storage/config/defaults.yml` (respecting `.yml` / `.yaml` as well) under `PHOTOPRISM_CONFIG_PATH`. See ↪ [`defaults.yml`](../getting-started/config-files/defaults.md) if you package PhotoPrism for other environments and need to override the compiled defaults.
