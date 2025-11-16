@@ -158,21 +158,6 @@
 | PHOTOPRISM_CORS_HEADERS     | --cors-headers     | Accept, Accept-Ranges, Content-Disposition, Content-Encoding, Content-Range, Location | one or more `HEADERS` that browsers should see when performing a cross-origin request                                        |
 | PHOTOPRISM_CORS_METHODS     | --cors-methods     | GET, HEAD, OPTIONS                                                                    | one or more `METHODS` that may be used when performing a cross-origin request                                                |
 
-### Cluster Configuration
-
-| Environment               | CLI Flag         | Default                                     | Description                                                             |
-|:--------------------------|:-----------------|:--------------------------------------------|:------------------------------------------------------------------------|
-| PHOTOPRISM_CLUSTER_DOMAIN | --cluster-domain |                                             | cluster `DOMAIN` (lowercase DNS name; 1–63 chars)                       |
-| PHOTOPRISM_PORTAL_URL     | --portal-url     | https://portal.${PHOTOPRISM_CLUSTER_DOMAIN} | base `URL` of the cluster management portal                             |
-| PHOTOPRISM_JOIN_TOKEN     | --join-token     |                                             | secret `TOKEN` required to join a cluster; min 24 chars                 |
-| PHOTOPRISM_NODE_NAME      | --node-name      |                                             | node `NAME` (unique in cluster domain; [a-z0-9-]{1,32})                 |
-| PHOTOPRISM_NODE_ROLE      | --node-role      |                                             | node `ROLE` (app or service)                                            |
-| PHOTOPRISM_JWKS_URL       | --jwks-url       |                                             | JWKS endpoint `URL` provided by the cluster portal for JWT verification |
-| PHOTOPRISM_JWKS_CACHE_TTL | --jwks-cache-ttl | 300                                         | JWKS cache lifetime in `SECONDS` (default 300, max 3600)                |
-| PHOTOPRISM_JWT_SCOPE      | --jwt-scope      | config cluster vision metrics               | allowed JWT `SCOPES` (space separated). Leave empty to accept defaults  |
-| PHOTOPRISM_JWT_LEEWAY     | --jwt-leeway     | 60                                          | JWT clock skew allowance in `SECONDS` (default 60, max 300)             |
-| PHOTOPRISM_ADVERTISE_URL  | --advertise-url  |                                             | advertised `URL` for intra-cluster calls (scheme://host[:port])         |
-
 ### Proxy Server
 
 | Environment                     | CLI Flag               | Default             | Description                                                                                             |
