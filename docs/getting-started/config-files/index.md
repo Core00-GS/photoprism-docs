@@ -1,24 +1,19 @@
 # `options.yml`
 
-As an alternative to [configuring your instance with environment variables](../config-options.md), it may be more
-convenient to use an `options.yml` file located in your *config path*, for example if PhotoPrism was
-installed [through an app store](../nas/asustor.md) or with
-the [installation packages we provide](https://dl.photoprism.app/pkg/linux/README.html).
+As an alternative to [configuring your instance with environment variables](../config-options.md), it may be more convenient to use an `options.yml` file located in your *config path*, for example if PhotoPrism was installed [through an app store](../nas/asustor.md) or with the [installation packages we provide](https://dl.photoprism.app/pkg/linux/README.html).
 
-You can specify a custom *config path* by adding the `ConfigPath` option to a ↪ [`defaults.yml`](defaults.md) file in
-the `/etc/photoprism` directory (requires root privileges). It is also possible to use the command flag `--config-path`
-or the environment variable `PHOTOPRISM_CONFIG_PATH` for this. By default, it is a subdirectory of the [*storage
-path*](../docker-compose.md#photoprismstorage).
+By default, the *config path* is a subdirectory of the [*storage path*](../docker-compose.md#photoprismstorage). You can specify a custom configuration path by setting a `ConfigPath` value in your ↪ [`defaults.yml`](defaults.md) file. You can also use the command flag `--config-path` or the [environment variable](../config-options.md#storage) `PHOTOPRISM_CONFIG_PATH` to specify a custom configuration directory.
 
-If you use a third-party integration or package, you should find the exact location of the configuration files in the
-corresponding documentation.
+Custom [config defaults](defaults.md) are automatically loaded from `/etc/photoprism/defaults.yml`. If that file is missing or empty, they are loaded from `<config-path>/defaults.yml` (or `.yaml`) instead. This allows you to set defaults in the regular config directory without modifying or mounting `/etc/photoprism`, which is useful in containerized environments and for non-root installations.
+
+If you use a third-party integration or package, you should find the exact location of the configuration files in the corresponding documentation.
 
 !!! tldr ""
     Note that changes to the `options.yml` file require a restart to take effect and
     that [config values changed through the web interface](../../user-guide/settings/advanced.md) will also be saved to this
     file. We therefore recommend that you only edit it manually while your instance is stopped.
 
-### File Format ###
+### YAML File Format ###
 
 You can use any text editor to [create or modify YAML config files](../../developer-guide/technologies/yaml.md). When
 specifying values, make sure that [their data type matches the documentation](index.md#config-options), e.g. *bool*
@@ -49,21 +44,27 @@ a colon, or other special characters.
     File and directory paths may be specified using `~` as a placeholder for the home directory of the current user, e.g. `~/Pictures`. Relative paths can also be specified via `./pathname`.
     If no explicit [*originals*](../docker-compose.md#photoprismoriginals), [*import*](../docker-compose.md#photoprismimport) and/or *assets* path has been configured, a list of [default directory paths](https://github.com/photoprism/photoprism/blob/develop/pkg/fs/directories.go) will be searched and the first existing directory will be used for the respective path.
 
-### Global Defaults
+## Sources and Precedence
 
-Global [configuration defaults](defaults.md), including the storage paths to be used, can optionally be specified in a
-↪ [`defaults.yml`](defaults.md) file.
+PhotoPrism loads configuration in the following order:
 
-### Current Values
+1. **Built-in defaults** defined in the [`internal/config`](https://github.com/photoprism/photoprism/blob/develop/internal/config) package.
+2. **`defaults.yml`** — [configuration defaults](defaults.md) located in `/etc/photoprism` or the *config path*.
+3. **Environment variables** prefixed with ↪ [`PHOTOPRISM_…`](../config-options.md). This is the primary override mechanism in Docker/Kubernetes container environments.
+4. **`options.yml`** — [user-level configuration](#config-options) loaded from `<config-path>/options.yml`. Values here override both [configuration defaults](defaults.md) and [environment variables](../config-options.md).
+5. **Command-line flags** (for example `photoprism --cache-path=/tmp/cache`). Flags always win when a conflict exists.
 
-Run `photoprism --help` in [a terminal](../docker-compose.md#command-line-interface) to get
-an [overview of the command flags and environment variables](../config-options.md) available for configuration. Their
-current values can be displayed with the `photoprism config` command.
+### Inspect Before Editing
 
-Below are the corresponding names of the config options that you can use in the `options.yml`
-and [`defaults.yml`](defaults.md) files, grouped by purpose.
+Before changing environment variables or YAML files, run `photoprism config | grep -i <flag>` to confirm the current values, such as for `password-length`:
+
+```bash
+photoprism config | grep -i password-length
+```
 
 ## Config Options
+
+Below are the names of the config options that you can set in the `options.yml` and ↪ [`defaults.yml`](defaults.md) configuration files, grouped by purpose.
 
 ### Authentication
 

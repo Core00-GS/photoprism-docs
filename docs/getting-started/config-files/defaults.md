@@ -1,14 +1,19 @@
 # `defaults.yml`
 
-Global config defaults, including the *config* and *storage* paths to be used, can be defined [with a `defaults.yml` file](https://dl.photoprism.app/pkg/linux/defaults.yml) in the `/etc/photoprism` directory (requires root privileges).
-It is possible to use the environment variable `PHOTOPRISM_DEFAULTS_YAML` or the command flag `--defaults-yaml` to load the defaults from another file instead.
+Global config defaults, including the *config* and *storage* paths to be used, can be defined [with a `defaults.yml` file](https://dl.photoprism.app/pkg/linux/defaults.yml). PhotoPrism automatically checks for `/etc/photoprism/defaults.yml` (or `.yaml`) first and, when the system file is missing or empty, falls back to `<config-path>/defaults.yml` (also `.yaml`) under `PHOTOPRISM_CONFIG_PATH`, which is useful in containerized environments and for non-root installations. You can override the lookup entirely by pointing the environment variable `PHOTOPRISM_DEFAULTS_YAML` or the command flag `--defaults-yaml` to another file.
+
+PhotoPrism resolves these files in the following order:
+
+1. `PHOTOPRISM_DEFAULTS_YAML` / `--defaults-yaml` (only if the referenced file exists and is readable)
+2. `/etc/photoprism/defaults.yml` or `/etc/photoprism/defaults.yaml`
+3. `<config-path>/defaults.yml` or `<config-path>/defaults.yaml` (the config path defaults to `storage/config`)
 
 Keep in mind that any changes to the config options, either [through the UI](../../user-guide/settings/advanced.md), [config files](index.md), or by [setting environment variables](../config-options.md), always require a restart to take effect.
 
 !!! tldr ""
     A `defaults.yml` file affects all users and should only contain options for which you want to set a global default.
 
-### File Format ###
+### YAML File Format ###
 
 You can use any text editor to [create or modify YAML config files](../../developer-guide/technologies/yaml.md). When specifying values, make sure that [their data type matches the documentation](index.md#config-options), e.g. *bool* values must be either `true` or `false` (without quotes, unlike [in `compose.yaml` files](../../developer-guide/technologies/yaml.md#true-false)) and *int* values must be whole numbers, as shown in [this example](https://dl.photoprism.app/pkg/linux/defaults.yml):
 
@@ -52,7 +57,7 @@ To avoid ambiguity, it is recommended to enclose text strings in `"` (double quo
 
 ### Overriding Defaults ###
 
-Defaults can be overridden by values in [an `options.yml` file](index.md) as well as by [command flags and environment variables](../config-options.md).
+Defaults can be overridden by values in [an `options.yml` file](index.md) as well as by [command flags and environment variables](../config-options.md). PhotoPrism evaluates settings in this order, with each step overriding the previous one when a key is present: built-in defaults → the resolved `defaults.yml` file → environment variables → `options.yml` → CLI flags. Changes made through the web UI are persisted back to `options.yml`, so they follow the same precedence.
 
 To override values with an `options.yml` file, you can specify its path (without the file name) by adding the `ConfigPath` option to your `defaults.yml`. Alternatively, you can use the command flag `--config-path` or the environment variable `PHOTOPRISM_CONFIG_PATH`. By default, it is located in the *config* subdirectory of the [*storage path*](../docker-compose.md#photoprismstorage).
 
