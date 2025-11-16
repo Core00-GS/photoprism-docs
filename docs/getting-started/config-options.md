@@ -20,11 +20,11 @@
 | PHOTOPRISM_OIDC_SCOPES                           | --oidc-scopes     | openid email profile address | client authorization `SCOPES` for single sign-on via OpenID Connect                                 |
 | PHOTOPRISM_OIDC_PROVIDER                         | --oidc-provider   |                              | custom identity provider `NAME`, e.g. Google                                                        |
 | PHOTOPRISM_OIDC_ICON                             | --oidc-icon       |                              | custom identity provider icon `URI`                                                                 |
-| PHOTOPRISM_OIDC_REDIRECT                         | --oidc-redirect   |                              | automatically redirect unauthenticated users to the configured identity provider                    |
-| PHOTOPRISM_OIDC_REGISTER                         | --oidc-register   |                              | allow new users to create an account when they sign in with OpenID Connect                          |
+| PHOTOPRISM_OIDC_REDIRECT                         | --oidc-redirect   |                              | automatically redirects unauthenticated users to the configured identity provider                   |
+| PHOTOPRISM_OIDC_REGISTER                         | --oidc-register   |                              | allows new users to create an account when they sign in with OpenID Connect                         |
 | PHOTOPRISM_OIDC_USERNAME                         | --oidc-username   | preferred_username           | preferred username `CLAIM` for new OpenID Connect users (preferred_username, name, nickname, email) |
-| PHOTOPRISM_OIDC_WEBDAV                           | --oidc-webdav     |                              | allow new OpenID Connect users to use WebDAV when they have a role that allows it                   |
-| PHOTOPRISM_DISABLE_OIDC                          | --disable-oidc    |                              | disable single sign-on via OpenID Connect, even if an identity provider has been configured         |
+| PHOTOPRISM_OIDC_WEBDAV                           | --oidc-webdav     |                              | allows new OpenID Connect users to use WebDAV when they have a role that allows it                  |
+| PHOTOPRISM_DISABLE_OIDC                          | --disable-oidc    |                              | disables single sign-on via OpenID Connect, even if an identity provider has been configured        |
 | PHOTOPRISM_SESSION_MAXAGE                        | --session-maxage  | 1209600                      | session expiration time in `SECONDS`, doubled for accounts with 2FA (-1 to disable)                 |
 | PHOTOPRISM_SESSION_TIMEOUT                       | --session-timeout | 604800                       | session idle time in `SECONDS`, doubled for accounts with 2FA (-1 to disable)                       |
 | PHOTOPRISM_SESSION_CACHE                         | --session-cache   | 900                          | session cache duration in `SECONDS` (60-3600)                                                       |
@@ -34,44 +34,45 @@
 | Environment          | CLI Flag    | Default | Description                                                        |
 |:---------------------|:------------|:--------|:-------------------------------------------------------------------|
 | PHOTOPRISM_LOG_LEVEL | --log-level | info    | log message verbosity `LEVEL` (trace, debug, info, warning, error) |
-| PHOTOPRISM_PROD      | --prod      |         | disable debug mode and log startup warnings and errors only        |
-| PHOTOPRISM_DEBUG     | --debug     |         | enable debug mode for development and troubleshooting              |
-| PHOTOPRISM_TRACE     | --trace     |         | enable trace mode to display all debug and trace logs              |
+| PHOTOPRISM_PROD      | --prod      |         | disables debug mode and only logs startup warnings and errors      |
+| PHOTOPRISM_DEBUG     | --debug     |         | enables debug mode for development and troubleshooting             |
+| PHOTOPRISM_TRACE     | --trace     |         | enables trace mode to display all debug and trace logs             |
 
 ### Storage
 
 | Environment                 | CLI Flag           | Default                      | Description                                                                                                                |
 |:----------------------------|:-------------------|:-----------------------------|:---------------------------------------------------------------------------------------------------------------------------|
 | PHOTOPRISM_CONFIG_PATH      | --config-path      |                              | config storage `PATH` or options.yml filename, values in this file override CLI flags and environment variables if present |
-| PHOTOPRISM_DEFAULTS_YAML    | --defaults-yaml    | /etc/photoprism/defaults.yml | load default config values from `FILENAME` if it exists, does not override CLI flags or environment variables              |
+| PHOTOPRISM_DEFAULTS_YAML    | --defaults-yaml    | /etc/photoprism/defaults.yml | loads default config values from `FILENAME` if it exists, does not override CLI flags or environment variables             |
 | PHOTOPRISM_ORIGINALS_PATH   | --originals-path   |                              | storage `PATH` of your original media files (photos and videos)                                                            |
 | PHOTOPRISM_ORIGINALS_LIMIT  | --originals-limit  | 1000                         | maximum size of media files in `MB` (1-100000; -1 to disable)                                                              |
 | PHOTOPRISM_RESOLUTION_LIMIT | --resolution-limit | 150                          | maximum resolution of media files in `MEGAPIXELS` (1-900; -1 to disable)                                                   |
 | PHOTOPRISM_USERS_PATH       | --users-path       | users                        | relative `PATH` to create base and upload subdirectories for users                                                         |
 | PHOTOPRISM_STORAGE_PATH     | --storage-path     |                              | writable storage `PATH` for sidecar, cache, and database files                                                             |
 | PHOTOPRISM_IMPORT_PATH      | --import-path      |                              | base `PATH` from which files can be imported to originals *optional*                                                       |
-| PHOTOPRISM_IMPORT_DEST      | --import-dest      |                              | relative originals `PATH` to which the files should be imported by default *optional*                                      |
-| PHOTOPRISM_IMPORT_ALLOW     | --import-allow     |                              | restrict imports to these file types (comma-separated list of `EXTENSIONS`; leave blank to allow all)                      |
-| PHOTOPRISM_UPLOAD_NSFW      | --upload-nsfw      |                              | allow uploads that might be offensive (detecting unsafe content requires TensorFlow)                                       |
-| PHOTOPRISM_UPLOAD_ALLOW     | --upload-allow     |                              | restrict uploads to these file types (comma-separated list of `EXTENSIONS`; leave blank to allow all)                      |
-| PHOTOPRISM_UPLOAD_ARCHIVES  | --upload-archives  |                              | allow upload of zip archives (will be extracted before import)                                                             |
+| PHOTOPRISM_IMPORT_DEST      | --import-dest      |                              | relative originals `PATH` in which files should be imported by default *optional*                                          |
+| PHOTOPRISM_IMPORT_ALLOW     | --import-allow     |                              | restricts imports to these file types (comma-separated list of `EXTENSIONS`; leave blank to allow all)                     |
+| PHOTOPRISM_UPLOAD_NSFW      | --upload-nsfw      |                              | allows uploads that might be offensive (detecting unsafe content requires TensorFlow)                                      |
+| PHOTOPRISM_UPLOAD_ALLOW     | --upload-allow     |                              | restricts uploads to these file types (comma-separated list of `EXTENSIONS`; leave blank to allow all)                     |
+| PHOTOPRISM_UPLOAD_ARCHIVES  | --upload-archives  |                              | allows upload of zip archives (will be extracted before import)                                                            |
 | PHOTOPRISM_UPLOAD_LIMIT     | --upload-limit     | 1000                         | maximum total size of uploaded files in `MB` (1-100000; -1 to disable)                                                     |
 | PHOTOPRISM_CACHE_PATH       | --cache-path       |                              | custom cache `PATH` for sessions and thumbnail files *optional*                                                            |
 | PHOTOPRISM_TEMP_PATH        | --temp-path        |                              | temporary file `PATH` *optional*                                                                                           |
 | PHOTOPRISM_ASSETS_PATH      | --assets-path      |                              | assets `PATH` containing static resources like icons, models, and translations                                             |
+| PHOTOPRISM_MODELS_PATH      | --models-path      |                              | custom model assets `PATH` where computer vision models are located                                                        |
 
 ### Sidecar Files
 
-| Environment             | CLI Flag       | Default | Description                                           |
-|:------------------------|:---------------|:--------|:------------------------------------------------------|
-| PHOTOPRISM_SIDECAR_PATH | --sidecar-path |         | custom relative or absolute sidecar `PATH` *optional* |
-| PHOTOPRISM_SIDECAR_YAML | --sidecar-yaml | true    | create YAML sidecar files to back up picture metadata |
+| Environment             | CLI Flag       | Default | Description                                            |
+|:------------------------|:---------------|:--------|:-------------------------------------------------------|
+| PHOTOPRISM_SIDECAR_PATH | --sidecar-path |         | custom relative or absolute sidecar `PATH` *optional*  |
+| PHOTOPRISM_SIDECAR_YAML | --sidecar-yaml | true    | creates YAML sidecar files to back up picture metadata |
 
 ### Usage
 
 | Environment            | CLI Flag      | Default | Description                                                       |
 |:-----------------------|:--------------|:--------|:------------------------------------------------------------------|
-| PHOTOPRISM_USAGE_INFO  | --usage-info  |         | display usage information in the user interface                   |
+| PHOTOPRISM_USAGE_INFO  | --usage-info  |         | displays storage usage information in the user interface          |
 | PHOTOPRISM_FILES_QUOTA | --files-quota | 0       | maximum total size of all indexed files in `GB` (0 for unlimited) |
 
 ### Backup
@@ -81,8 +82,8 @@
 | PHOTOPRISM_BACKUP_PATH     | --backup-path     |         | custom base `PATH` for creating and restoring backups *optional*                                              |
 | PHOTOPRISM_BACKUP_SCHEDULE | --backup-schedule | daily   | backup `SCHEDULE` in cron format (e.g. "0 12 \* \* \*" for daily at noon) or at a random time (daily, weekly) |
 | PHOTOPRISM_BACKUP_RETAIN   | --backup-retain   | 3       | `NUMBER` of index backups to keep (-1 to keep all)                                                            |
-| PHOTOPRISM_BACKUP_DATABASE | --backup-database | true    | create regular backups based on the configured schedule                                                       |
-| PHOTOPRISM_BACKUP_ALBUMS   | --backup-albums   | true    | create YAML files to back up album metadata                                                                   |
+| PHOTOPRISM_BACKUP_DATABASE | --backup-database | true    | enables regular backups based on the configured schedule                                                      |
+| PHOTOPRISM_BACKUP_ALBUMS   | --backup-albums   | true    | enables the use of YAML files for backing up album metadata                                                   |
 
 ### Indexing
 
@@ -96,54 +97,55 @@
 
 ### Feature Flags
 
-| Environment                       | CLI Flag                 | Default | Description                                                                                      |
-|:----------------------------------|:-------------------------|:--------|:-------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_READONLY               | --read-only              |         | disable features that require write permission for the originals folder                          |
-| PHOTOPRISM_EXPERIMENTAL           | --experimental           |         | enable new features that may be incomplete or unstable                                           |
-| PHOTOPRISM_DISABLE_SETTINGS       | --disable-settings       |         | disable the settings user interface and server API, e.g. in combination with public mode         |
-| PHOTOPRISM_DISABLE_BACKUPS        | --disable-backups        |         | prevent database and album backups as well as YAML sidecar files from being created              |
-| PHOTOPRISM_DISABLE_RESTART        | --disable-restart        |         | prevent admins from restarting the server through the user interface                             |
-| PHOTOPRISM_DISABLE_WEBDAV         | --disable-webdav         |         | prevent other apps from accessing PhotoPrism as a shared network drive                           |
-| PHOTOPRISM_DISABLE_PLACES         | --disable-places         |         | disable interactive world maps and reverse geocoding                                             |
-| PHOTOPRISM_DISABLE_TENSORFLOW     | --disable-tensorflow     |         | disable features depending on TensorFlow, e.g. image classification and face recognition         |
-| PHOTOPRISM_DISABLE_FACES          | --disable-faces          |         | disable face detection and recognition (requires TensorFlow)                                     |
-| PHOTOPRISM_DISABLE_CLASSIFICATION | --disable-classification |         | disable image classification (requires TensorFlow)                                               |
-| PHOTOPRISM_DISABLE_FFMPEG         | --disable-ffmpeg         |         | disable video transcoding and thumbnail extraction with FFmpeg                                   |
-| PHOTOPRISM_DISABLE_EXIFTOOL       | --disable-exiftool       |         | disable metadata extraction with ExifTool (required for full Video, Live Photo, and XMP support) |
-| PHOTOPRISM_DISABLE_VIPS           | --disable-vips           |         | disable image processing and conversion with libvips                                             |
-| PHOTOPRISM_DISABLE_SIPS           | --disable-sips           |         | disable file conversion using the sips command under macOS                                       |
-| PHOTOPRISM_DISABLE_DARKTABLE      | --disable-darktable      |         | disable conversion of RAW images with Darktable                                                  |
-| PHOTOPRISM_DISABLE_RAWTHERAPEE    | --disable-rawtherapee    |         | disable conversion of RAW images with RawTherapee                                                |
-| PHOTOPRISM_DISABLE_IMAGEMAGICK    | --disable-imagemagick    |         | disable conversion of image files with ImageMagick                                               |
-| PHOTOPRISM_DISABLE_HEIFCONVERT    | --disable-heifconvert    |         | disable conversion of HEIC images with libheif                                                   |
-| PHOTOPRISM_DISABLE_RSVGCONVERT    | --disable-rsvgconvert    |         | disable conversion of SVG graphics with librsvg *plus*                                           |
-| PHOTOPRISM_DISABLE_VECTORS        | --disable-vectors        |         | disable vector graphics support *plus*                                                           |
-| PHOTOPRISM_DISABLE_JPEGXL         | --disable-jpegxl         |         | disable JPEG XL file format support                                                              |
-| PHOTOPRISM_DISABLE_RAW            | --disable-raw            |         | disable indexing and conversion of RAW images                                                    |
-| PHOTOPRISM_RAW_PRESETS            | --raw-presets            |         | enables applying user presets when converting RAW images (reduces performance)                   |
-| PHOTOPRISM_EXIF_BRUTEFORCE        | --exif-bruteforce        |         | always perform a brute-force search if no Exif headers were found                                |
+| Environment                       | CLI Flag                 | Default | Description                                                                                       |
+|:----------------------------------|:-------------------------|:--------|:--------------------------------------------------------------------------------------------------|
+| PHOTOPRISM_READONLY               | --read-only              |         | disables features that require write permission for the originals folder                          |
+| PHOTOPRISM_EXPERIMENTAL           | --experimental           |         | enables new features that may be incomplete or unstable                                           |
+| PHOTOPRISM_DISABLE_FRONTEND       | --disable-frontend       |         | disables the web user interface so that only the service API endpoints are accessible             |
+| PHOTOPRISM_DISABLE_SETTINGS       | --disable-settings       |         | disables the settings frontend and related API endpoints, e.g. in combination with public mode    |
+| PHOTOPRISM_DISABLE_BACKUPS        | --disable-backups        |         | prevents database and album backups as well as YAML sidecar files from being created              |
+| PHOTOPRISM_DISABLE_RESTART        | --disable-restart        |         | prevents admins from restarting the server through the user interface                             |
+| PHOTOPRISM_DISABLE_WEBDAV         | --disable-webdav         |         | prevents other apps from accessing PhotoPrism as a shared network drive                           |
+| PHOTOPRISM_DISABLE_PLACES         | --disable-places         |         | disables interactive world maps and reverse geocoding                                             |
+| PHOTOPRISM_DISABLE_TENSORFLOW     | --disable-tensorflow     |         | disables face recognition with TensorFlow *deprecated*                                            |
+| PHOTOPRISM_DISABLE_FACES          | --disable-faces          |         | disables face detection and recognition (requires TensorFlow)                                     |
+| PHOTOPRISM_DISABLE_CLASSIFICATION | --disable-classification |         | disables all image classification and label generation                                            |
+| PHOTOPRISM_DISABLE_FFMPEG         | --disable-ffmpeg         |         | disables video transcoding and thumbnail extraction with FFmpeg                                   |
+| PHOTOPRISM_DISABLE_EXIFTOOL       | --disable-exiftool       |         | disables metadata extraction with ExifTool (required for full Video, Live Photo, and XMP support) |
+| PHOTOPRISM_DISABLE_VIPS           | --disable-vips           |         | disables image processing and conversion with libvips                                             |
+| PHOTOPRISM_DISABLE_SIPS           | --disable-sips           |         | disables file conversion using the sips command under macOS                                       |
+| PHOTOPRISM_DISABLE_DARKTABLE      | --disable-darktable      |         | disables conversion of RAW images with Darktable                                                  |
+| PHOTOPRISM_DISABLE_RAWTHERAPEE    | --disable-rawtherapee    |         | disables conversion of RAW images with RawTherapee                                                |
+| PHOTOPRISM_DISABLE_IMAGEMAGICK    | --disable-imagemagick    |         | disables conversion of image files with ImageMagick                                               |
+| PHOTOPRISM_DISABLE_HEIFCONVERT    | --disable-heifconvert    |         | disables conversion of HEIC images with libheif                                                   |
+| PHOTOPRISM_DISABLE_RSVGCONVERT    | --disable-rsvgconvert    |         | disables conversion of SVG graphics with librsvg *plus*                                           |
+| PHOTOPRISM_DISABLE_VECTORS        | --disable-vectors        |         | disables vector graphics support *plus*                                                           |
+| PHOTOPRISM_DISABLE_JPEGXL         | --disable-jpegxl         |         | disables JPEG XL file format support                                                              |
+| PHOTOPRISM_DISABLE_RAW            | --disable-raw            |         | disables indexing and conversion of RAW images                                                    |
+| PHOTOPRISM_RAW_PRESETS            | --raw-presets            |         | enables custom user presets when converting RAW images (reduces performance)                      |
+| PHOTOPRISM_EXIF_BRUTEFORCE        | --exif-bruteforce        |         | performs a brute-force search if no Exif headers were found                                       |
 
 ### Customization
 
-| Environment                 | CLI Flag           | Default    | Description                                                              |
-|:----------------------------|:-------------------|:-----------|:-------------------------------------------------------------------------|
-| PHOTOPRISM_DEFAULT_LOCALE   | --default-locale   | en         | default user interface language `CODE`                                   |
-| PHOTOPRISM_DEFAULT_TIMEZONE | --default-timezone | Local      | default time zone `NAME`, e.g. for scheduling backups                    |
-| PHOTOPRISM_DEFAULT_THEME    | --default-theme    |            | default user interface theme `NAME`                                      |
-| PHOTOPRISM_PLACES_LOCALE    | --places-locale    | local      | location details language `CODE`, e.g. en, de, or local                  |
-| PHOTOPRISM_APP_NAME         | --app-name         |            | progressive web app `NAME` when installed on a device                    |
-| PHOTOPRISM_APP_MODE         | --app-mode         | standalone | progressive web app `MODE` (fullscreen, standalone, minimal-ui, browser) |
-| PHOTOPRISM_APP_ICON         | --app-icon         |            | home screen `ICON` (logo, app, crisp, mint, bold, square)                |
-| PHOTOPRISM_APP_COLOR        | --app-color        | #000000    | splash screen `COLOR` code                                               |
-| PHOTOPRISM_LEGAL_INFO       | --legal-info       |            | legal information `TEXT`, displayed in the page footer                   |
-| PHOTOPRISM_LEGAL_URL        | --legal-url        |            | legal information `URL`                                                  |
-| PHOTOPRISM_WALLPAPER_URI    | --wallpaper-uri    |            | login screen background image `URI`                                      |
+| Environment                 | CLI Flag           | Default    | Description                                                      |
+|:----------------------------|:-------------------|:-----------|:-----------------------------------------------------------------|
+| PHOTOPRISM_DEFAULT_LOCALE   | --default-locale   | en         | default user interface language `CODE`                           |
+| PHOTOPRISM_DEFAULT_TIMEZONE | --default-timezone | Local      | default time zone `NAME`, e.g. for scheduling backups            |
+| PHOTOPRISM_DEFAULT_THEME    | --default-theme    |            | default user interface theme `NAME`                              |
+| PHOTOPRISM_PLACES_LOCALE    | --places-locale    | local      | location details language `CODE`, e.g. en, de, or local          |
+| PHOTOPRISM_APP_NAME         | --app-name         |            | app `NAME` when installed as a Progressive Web App (PWA)         |
+| PHOTOPRISM_APP_MODE         | --app-mode         | standalone | app display `MODE` (fullscreen, standalone, minimal-ui, browser) |
+| PHOTOPRISM_APP_ICON         | --app-icon         |            | home screen app `ICON` (logo, app, crisp, mint, bold, square)    |
+| PHOTOPRISM_APP_COLOR        | --app-color        | #19191a    | app background and splash screen `COLOR`                         |
+| PHOTOPRISM_LEGAL_INFO       | --legal-info       |            | legal information `TEXT`, displayed in the page footer           |
+| PHOTOPRISM_LEGAL_URL        | --legal-url        |            | legal information `URL`                                          |
+| PHOTOPRISM_WALLPAPER_URI    | --wallpaper-uri    |            | login screen background image `URI`                              |
 
 ### Site Information
 
 | Environment                 | CLI Flag           | Default                                                                               | Description                                                                                                                  |
 |:----------------------------|:-------------------|:--------------------------------------------------------------------------------------|:-----------------------------------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_SITE_URL         | --site-url         | http://localhost:2342/                                                                | public site `URL`                                                                                                            |
+| PHOTOPRISM_SITE_URL         | --site-url         | http://localhost:2342/                                                                | canonical site `URL` used in generated links and to determine HTTPS/TLS (scheme://host[:port])                               |
 | PHOTOPRISM_SITE_AUTHOR      | --site-author      |                                                                                       | site `OWNER`, copyright, or artist                                                                                           |
 | PHOTOPRISM_SITE_TITLE       | --site-title       |                                                                                       | site `TITLE`                                                                                                                 |
 | PHOTOPRISM_SITE_CAPTION     | --site-caption     | AI-Powered Photos App                                                                 | site `CAPTION`                                                                                                               |
@@ -151,18 +153,35 @@
 | PHOTOPRISM_SITE_FAVICON     | --site-favicon     |                                                                                       | site favicon `FILENAME` *optional*                                                                                           |
 | PHOTOPRISM_SITE_PREVIEW     | --site-preview     |                                                                                       | sharing preview image `URL`                                                                                                  |
 | PHOTOPRISM_CDN_URL          | --cdn-url          |                                                                                       | content delivery network `URL`                                                                                               |
-| PHOTOPRISM_CDN_VIDEO        | --cdn-video        |                                                                                       | stream videos over the specified CDN                                                                                         |
+| PHOTOPRISM_CDN_VIDEO        | --cdn-video        |                                                                                       | streams videos over the specified CDN                                                                                        |
 | PHOTOPRISM_CORS_ORIGIN      | --cors-origin      |                                                                                       | origin `URL` from which browsers are allowed to perform cross-origin requests (leave blank to disable or use * to allow all) |
 | PHOTOPRISM_CORS_HEADERS     | --cors-headers     | Accept, Accept-Ranges, Content-Disposition, Content-Encoding, Content-Range, Location | one or more `HEADERS` that browsers should see when performing a cross-origin request                                        |
 | PHOTOPRISM_CORS_METHODS     | --cors-methods     | GET, HEAD, OPTIONS                                                                    | one or more `METHODS` that may be used when performing a cross-origin request                                                |
+
+### Cluster Configuration
+
+| Environment               | CLI Flag         | Default                                     | Description                                                             |
+|:--------------------------|:-----------------|:--------------------------------------------|:------------------------------------------------------------------------|
+| PHOTOPRISM_CLUSTER_DOMAIN | --cluster-domain |                                             | cluster `DOMAIN` (lowercase DNS name; 1–63 chars)                       |
+| PHOTOPRISM_PORTAL_URL     | --portal-url     | https://portal.${PHOTOPRISM_CLUSTER_DOMAIN} | base `URL` of the cluster management portal                             |
+| PHOTOPRISM_JOIN_TOKEN     | --join-token     |                                             | secret `TOKEN` required to join a cluster; min 24 chars                 |
+| PHOTOPRISM_NODE_NAME      | --node-name      |                                             | node `NAME` (unique in cluster domain; [a-z0-9-]{1,32})                 |
+| PHOTOPRISM_NODE_ROLE      | --node-role      |                                             | node `ROLE` (app or service)                                            |
+| PHOTOPRISM_JWKS_URL       | --jwks-url       |                                             | JWKS endpoint `URL` provided by the cluster portal for JWT verification |
+| PHOTOPRISM_JWKS_CACHE_TTL | --jwks-cache-ttl | 300                                         | JWKS cache lifetime in `SECONDS` (default 300, max 3600)                |
+| PHOTOPRISM_JWT_SCOPE      | --jwt-scope      | config cluster vision metrics               | allowed JWT `SCOPES` (space separated). Leave empty to accept defaults  |
+| PHOTOPRISM_JWT_LEEWAY     | --jwt-leeway     | 60                                          | JWT clock skew allowance in `SECONDS` (default 60, max 300)             |
+| PHOTOPRISM_ADVERTISE_URL  | --advertise-url  |                                             | advertised `URL` for intra-cluster calls (scheme://host[:port])         |
 
 ### Proxy Server
 
 | Environment                     | CLI Flag               | Default             | Description                                                                                             |
 |:--------------------------------|:-----------------------|:--------------------|:--------------------------------------------------------------------------------------------------------|
 | PHOTOPRISM_HTTPS_PROXY          | --https-proxy          |                     | proxy server `URL` to be used for outgoing connections *optional*                                       |
-| PHOTOPRISM_HTTPS_PROXY_INSECURE | --https-proxy-insecure |                     | ignore invalid HTTPS certificates when using a proxy                                                    |
+| PHOTOPRISM_HTTPS_PROXY_INSECURE | --https-proxy-insecure |                     | ignores invalid HTTPS certificates when using a proxy                                                   |
+| PHOTOPRISM_TRUSTED_PLATFORM     | --trusted-platform     |                     | trusted client IP header `NAME`, e.g. when running behind a cloud provider load balancer                |
 | PHOTOPRISM_TRUSTED_PROXY        | --trusted-proxy        | "172.16.0.0/12"     | `CIDR` ranges or IPv4/v6 addresses from which reverse proxy headers can be trusted, separated by commas |
+| PHOTOPRISM_PROXY_CLIENT_HEADER  | --proxy-client-header  | "X-Forwarded-For"   | proxy client IP header `NAME`, e.g. X-Forwarded-For, X-Client-IP, X-Real-IP, or CF-Connecting-IP        |
 | PHOTOPRISM_PROXY_PROTO_HEADER   | --proxy-proto-header   | "X-Forwarded-Proto" | proxy protocol header `NAME`                                                                            |
 | PHOTOPRISM_PROXY_PROTO_HTTPS    | --proxy-proto-https    | "https"             | forwarded HTTPS protocol `NAME`                                                                         |
 
@@ -170,11 +189,11 @@
 
 | Environment                     | CLI Flag               | Default       | Description                                                                                             |
 |:--------------------------------|:-----------------------|:--------------|:--------------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_DISABLE_TLS          | --disable-tls          |               | disable HTTPS/TLS even if the site URL starts with https:// and a certificate is available              |
-| PHOTOPRISM_DEFAULT_TLS          | --default-tls          |               | default to a self-signed HTTPS/TLS certificate if no other certificate is available                     |
+| PHOTOPRISM_DISABLE_TLS          | --disable-tls          |               | disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available             |
+| PHOTOPRISM_DEFAULT_TLS          | --default-tls          |               | uses a self-signed HTTPS/TLS certificate if no other certificate is available                           |
 | PHOTOPRISM_TLS_CERT             | --tls-cert             |               | public HTTPS certificate `FILENAME` (.crt), ignored for Unix domain sockets                             |
 | PHOTOPRISM_TLS_KEY              | --tls-key              |               | private HTTPS key `FILENAME` (.key), ignored for Unix domain sockets                                    |
-| PHOTOPRISM_DISABLE_STS          | --disable-sts          |               | disable HTTP Strict-Transport-Security (STS) header                                                     |
+| PHOTOPRISM_DISABLE_STS          | --disable-sts          |               | disables HTTP Strict-Transport-Security (STS) header                                                    |
 | PHOTOPRISM_STS_SECONDS          | --sts-seconds          | 31536000      | `TIME` for the browser to remember that the site is to be accessed only via HTTPS (0 to disable) *plus* |
 | PHOTOPRISM_STS_SUBDOMAINS       | --sts-subdomains       |               | rule applies to all subdomains as well *plus*                                                           |
 | PHOTOPRISM_STS_PRELOAD          | --sts-preload          |               | submit to Google's HSTS preload service *plus*                                                          |
@@ -192,7 +211,7 @@
 | PHOTOPRISM_HTTP_XSS_PROTECTION  | --http-xss-protection  | 1; mode=block | HTTP X-XSS-Protection `HEADER` *plus*                                                                   |
 | PHOTOPRISM_HTTP_MODE            | --http-mode            |               | Web server `MODE` (debug, release, test)                                                                |
 | PHOTOPRISM_HTTP_COMPRESSION     | --http-compression     |               | Web server compression `METHOD` (gzip, none)                                                            |
-| PHOTOPRISM_HTTP_CACHE_PUBLIC    | --http-cache-public    |               | allow static content to be cached by a CDN or caching proxy                                             |
+| PHOTOPRISM_HTTP_CACHE_PUBLIC    | --http-cache-public    |               | allows static content to be cached by a CDN or caching proxy                                            |
 | PHOTOPRISM_HTTP_CACHE_MAXAGE    | --http-cache-maxage    | 2592000       | time in `SECONDS` until cached content expires                                                          |
 | PHOTOPRISM_HTTP_VIDEO_MAXAGE    | --http-video-maxage    | 21600         | time in `SECONDS` until cached videos expire                                                            |
 | PHOTOPRISM_HTTP_HOST            | --http-host            | 0.0.0.0       | Web server `IP` address or Unix domain socket, e.g. unix:/var/run/photoprism.sock?force=true&mode=660   |
@@ -206,7 +225,7 @@
 | PHOTOPRISM_DATABASE_DRIVER     | --database-driver     | sqlite     | database `DRIVER` (sqlite, mysql)                                  |
 | PHOTOPRISM_DATABASE_DSN        | --database-dsn        |            | database connection `DSN` (sqlite file, optional for mysql)        |
 | PHOTOPRISM_DATABASE_NAME       | --database-name       | photoprism | database schema `NAME`                                             |
-| PHOTOPRISM_DATABASE_SERVER     | --database-server     |            | database `HOST` incl. port e.g. "mariadb:3306" (or socket path)    |
+| PHOTOPRISM_DATABASE_SERVER     | --database-server     |            | database `HOST` incl. port, e.g. "mariadb:3306" (or socket path)   |
 | PHOTOPRISM_DATABASE_USER       | --database-user       | photoprism | database user `NAME`                                               |
 | PHOTOPRISM_DATABASE_PASSWORD   | --database-password   |            | database user `PASSWORD`                                           |
 | PHOTOPRISM_DATABASE_TIMEOUT    | --database-timeout    | 15         | timeout in `SECONDS` for establishing a database connection (1-60) |
@@ -257,7 +276,7 @@
 | PHOTOPRISM_THUMB_FILTER        | --thumb-filter        | auto    | downscaling filter `NAME` (imaging best to worst: blackman, lanczos, cubic, linear, nearest) |
 | PHOTOPRISM_THUMB_SIZE          | --thumb-size          | 1920    | maximum size of pre-generated thumbnails in `PIXELS` (720-7680)                              |
 | PHOTOPRISM_THUMB_SIZE_UNCACHED | --thumb-size-uncached | 5120    | maximum size of thumbnails generated on demand in `PIXELS` (720-7680)                        |
-| PHOTOPRISM_THUMB_UNCACHED      | --thumb-uncached      |         | generate missing thumbnails on demand (high memory and cpu usage)                            |
+| PHOTOPRISM_THUMB_UNCACHED      | --thumb-uncached      |         | generates missing thumbnails on demand (high memory and cpu usage)                           |
 
 ### Image Quality
 
@@ -269,31 +288,41 @@
 
 ### Computer Vision
 
-| Environment            | CLI Flag      | Default | Description                                                                                           |
-|:-----------------------|:--------------|:--------|:------------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_VISION_YAML | --vision-yaml |         | computer vision model configuration `FILENAME` *optional*                                             |
-| PHOTOPRISM_VISION_API  | --vision-api  |         | enable computer vision service API endpoints under /api/v1/vision (requires authorized access token)  |
-| PHOTOPRISM_VISION_URI  | --vision-uri  |         | remote computer vision service `URI`, e.g. https://example.com/api/v1/vision (leave blank to disable) |
-| PHOTOPRISM_VISION_KEY  | --vision-key  |         | remote computer vision service access `TOKEN` *optional*                                              |
-| PHOTOPRISM_DETECT_NSFW | --detect-nsfw |         | flag newly added pictures as private if they might be offensive (requires TensorFlow)                 |
+| Environment                | CLI Flag          | Default     | Description                                                                                                                     |
+|:---------------------------|:------------------|:------------|:--------------------------------------------------------------------------------------------------------------------------------|
+| PHOTOPRISM_VISION_YAML     | --vision-yaml     |             | computer vision model configuration `FILENAME` *optional*                                                                       |
+| PHOTOPRISM_VISION_API      | --vision-api      |             | enables the computer vision API endpoints under /api/v1/vision (requires authorization)                                         |
+| PHOTOPRISM_VISION_URI      | --vision-uri      |             | vision service base `URI`, e.g. https://example.com/api/v1/vision (leave blank to disable)                                      |
+| PHOTOPRISM_VISION_KEY      | --vision-key      |             | vision service access `TOKEN` *optional*                                                                                        |
+| PHOTOPRISM_VISION_SCHEDULE | --vision-schedule |             | vision worker `SCHEDULE` for background processing (e.g. "0 12 \* \* \*" for daily at noon) or at a random time (daily, weekly) |
+| PHOTOPRISM_VISION_FILTER   | --vision-filter   | public:true | vision worker search `FILTER` applied to scheduled runs (same syntax as photoprism vision run)                                  |
+| PHOTOPRISM_DETECT_NSFW     | --detect-nsfw     |             | flags newly added pictures as private if they might be offensive (requires TensorFlow)                                          |
 
 ### Face Recognition
 
 !!! info ""
-    To [recognize faces](https://docs.photoprism.app/user-guide/organize/people/), PhotoPrism first extracts crops from your images using a [library](https://github.com/esimov/pigo) based on [pixel intensity comparisons](https://dl.photoprism.app/pdf/publications/20140820-Pixel_Intensity_Comparisons.pdf). These are then fed into TensorFlow to compute [512-dimensional vectors](https://dl.photoprism.app/pdf/publications/20150101-FaceNet.pdf) for characterization. In the final step, the [DBSCAN algorithm](https://en.wikipedia.org/wiki/DBSCAN) attempts to cluster these so-called face embeddings, so they can be matched to persons with just a few clicks. A reasonable range for the similarity distance between face embeddings is between 0.60 and 0.70, with a higher value being more aggressive and leading to larger clusters with more false positives. To cluster a smaller number of faces, you can reduce the core to 3 or 2 similar faces. It is **strongly recommended** that you run the "photoprism faces reset" command in a terminal to remove existing clusters and mappings after changing any of the clustering parameters, as otherwise inconsistencies may result in unexpected behavior or errors. 
+    A reasonable range for the similarity distance is between 0.60 and 0.85, with higher values resulting in more aggressive clustering and more false positives. To cluster a smaller number of faces, reduce the core to 3 or 2 similar faces. After changing any of the clustering parameters, it is **strongly recommended** that you run the "photoprism faces reset" command in a terminal to remove existing clusters and mappings, as otherwise inconsistencies may result in unexpected behavior or errors.
 
 We recommend that only advanced users change these parameters:
 
-| Environment                   | CLI Flag             | Default | Description                                                             |
-|:------------------------------|:---------------------|:--------|:------------------------------------------------------------------------|
-| PHOTOPRISM_FACE_SIZE          | --face-size          | 50      | minimum size of faces in `PIXELS` (20-10000)                            |
-| PHOTOPRISM_FACE_SCORE         | --face-score         | 9       | minimum face `QUALITY` score (1-100)                                    |
-| PHOTOPRISM_FACE_OVERLAP       | --face-overlap       | 42      | face area overlap threshold in `PERCENT` (1-100)                        |
-| PHOTOPRISM_FACE_CLUSTER_SIZE  | --face-cluster-size  | 80      | minimum size of automatically clustered faces in `PIXELS` (20-10000)    |
-| PHOTOPRISM_FACE_CLUSTER_SCORE | --face-cluster-score | 15      | minimum `QUALITY` score of automatically clustered faces (1-100)        |
-| PHOTOPRISM_FACE_CLUSTER_CORE  | --face-cluster-core  | 4       | `NUMBER` of faces forming a cluster core (1-100)                        |
-| PHOTOPRISM_FACE_CLUSTER_DIST  | --face-cluster-dist  | 0.64    | similarity `DISTANCE` of faces forming a cluster core (0.1-1.5)         |
-| PHOTOPRISM_FACE_MATCH_DIST    | --face-match-dist    | 0.46    | similarity `OFFSET` for matching faces with existing clusters (0.1-1.5) |
+| Environment                      | CLI Flag                | Default      | Description                                                             |
+|:---------------------------------|:------------------------|:-------------|:------------------------------------------------------------------------|
+| PHOTOPRISM_FACE_ENGINE           | --face-engine           | auto         | face detection engine `NAME` (auto, pigo, onnx)                         |
+| PHOTOPRISM_FACE_ENGINE_THREADS   | --face-engine-threads   | 0            | face detection thread `COUNT` (0 uses half the available CPU cores)     |
+| PHOTOPRISM_FACE_SIZE             | --face-size             | 25           | minimum size of faces in `PIXELS` (20-10000)                            |
+| PHOTOPRISM_FACE_SCORE            | --face-score            | 9            | minimum face `QUALITY` score (1-100)                                    |
+| PHOTOPRISM_FACE_ANGLE            | --face-angle            | -0.3, 0, 0.3 | face detection `ANGLE` in radians (repeatable)                          |
+| PHOTOPRISM_FACE_OVERLAP          | --face-overlap          | 42           | face area overlap threshold in `PERCENT` (1-100)                        |
+| PHOTOPRISM_FACE_CLUSTER_SIZE     | --face-cluster-size     | 60           | minimum size of automatically clustered faces in `PIXELS` (20-10000)    |
+| PHOTOPRISM_FACE_CLUSTER_SCORE    | --face-cluster-score    | 20           | minimum `QUALITY` score of automatically clustered faces (1-100)        |
+| PHOTOPRISM_FACE_CLUSTER_CORE     | --face-cluster-core     | 4            | `NUMBER` of faces forming a cluster core (1-100)                        |
+| PHOTOPRISM_FACE_CLUSTER_DIST     | --face-cluster-dist     | 0.64         | similarity `DISTANCE` of faces forming a cluster core (0.1-1.5)         |
+| PHOTOPRISM_FACE_CLUSTER_RADIUS   | --face-cluster-radius   | 0.42         | maximum cluster `RADIUS` accepted for automatic matches (0.1-1.5)       |
+| PHOTOPRISM_FACE_COLLISION_DIST   | --face-collision-dist   | 0.05         | minimum collision discrimination `DISTANCE` (0.01-1)                    |
+| PHOTOPRISM_FACE_EPSILON_DIST     | --face-epsilon-dist     | 0.01         | collision tolerance `DELTA` appended to max match distances (0.001-0.1) |
+| PHOTOPRISM_FACE_MATCH_DIST       | --face-match-dist       | 0.4          | similarity `OFFSET` for matching faces with existing clusters (0.1-1.5) |
+| PHOTOPRISM_FACE_SKIP_CHILDREN    | --face-skip-children    |              | skips automatic matching of child face embeddings                       |
+| PHOTOPRISM_FACE_ALLOW_BACKGROUND | --face-allow-background |              | allows matching of probable background embeddings                       |
 
 ### Daemon Mode
 
