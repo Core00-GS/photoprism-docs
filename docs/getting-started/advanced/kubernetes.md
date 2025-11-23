@@ -45,12 +45,12 @@ helm upgrade --install photos photoprism/photoprism-plus \
 
 ## Persist Originals and Data
 
-The chart always provisions `/photoprism/storage` (5 GiB by default) because it contains the database, cache, and logs. Originals default to a 10 GiB PVC but you can disable or remap them:
+The chart always provisions `/photoprism/storage` (5 GiB by default) because it contains the database, cache, and logs. Originals default to a 10 GiB PVC but you can disable or remap them, for example:
 
 ```yaml
 # values.plus.yaml
 persistence:
-  storageClassName: fast-nvme
+  # storageClassName: fast-nvme   # override default class
   storage:
     size: 20Gi
   originals:
