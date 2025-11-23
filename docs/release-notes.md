@@ -31,7 +31,7 @@ What's new?
 - Index: [Underlying errors are logged when file type detection fails](https://github.com/photoprism/photoprism/issues/5149)
 - Index: [Improved error logging when PDF documents cannot be indexed](https://github.com/photoprism/photoprism/issues/5166)
 - Index: [Fixed in-memory photo and file lookup tables to prevent file rescans](https://github.com/photoprism/photoprism/issues/5235)
-- Thumbs: [Embedding of ICC profiles based on InteropIndex](https://github.com/photoprism/photoprism/pull/5178) by [Jarrad Whitaker](https://github.com/akdor1154)
+- Thumbs: [Embedding of ICC profiles based on InteropIndex](https://github.com/photoprism/photoprism/pull/5178) by [@akdor1154](https://github.com/akdor1154)
 - Videos: [Fixed issues with non-keyframes when extracting still images](https://github.com/photoprism/photoprism/issues/5189)
 - Intel QSV: [`libvpl2` will be installed when `PHOTOPRISM_INIT` includes "intel"](https://github.com/photoprism/photoprism/discussions/5098)
 - API: [Added a force flag to the `DELETE /api/v1/albums/UID` endpoint](https://github.com/photoprism/photoprism/issues/5122)
