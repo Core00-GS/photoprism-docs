@@ -71,6 +71,11 @@ There can be several reasons why a face was not detected:
 
 The person you just added will appear under *Recognized*
 
+## Change Cover for a Person ##
+1. Go to the [people tab](./edit.md#people) on the photo edit dialog of the photo that contains the face that should be used as the cover
+2. Hover over :material-dots-vertical: in the upper right corner of the face
+3. Click *Set as Cover Image*
+
 ## Hiding People ##
 
 You can hide a person in the *Recognized* section by clicking :material-close: in the upper right corner.
