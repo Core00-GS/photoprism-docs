@@ -35,20 +35,23 @@ When disabled, no files can be downloaded using the PhotoPrism UI. Please note t
 #### :material-folder-plus: Import ####
 When disabled, there is no possibility to [*import*](../library/import.md) photos. You need to use [*index*](../library/originals.md) instead to add new photos.
 
+#### :material-pencil: Edit ####
+When disabled, it is not possible to edit photo details.
+
+#### :material-form-select: Batch Edit ####
+When disabled, it is not possible to batch edit photo details.
+
 #### :material-share-variant: Share ####
 When disabled, album sharing and upload to remote services like ownCloud is not possible.
 
-#### :material-pencil: Edit ####
-When disabled, it is not possible to edit photo details.
+#### :material-sync: Services ####
+Allow sharing pictures with [apps and services](./sync.md).
 
 #### :material-package-down: Archive ####
 When disabled, there is no *Archive*. Photos that have been archived beforehand will appear again in search results.
 
 #### :material-delete: Delete ####
 When disabled, permanent deletion of files from the archive is not possible.
-
-#### :material-sync: Services ####
-Allow sharing pictures with [apps and services](./sync.md).
 
 #### :material-film: Library ####
 When disabled, there is no *Library* section.

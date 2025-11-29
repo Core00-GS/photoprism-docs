@@ -51,6 +51,12 @@ Requires restart for changes to be applied.
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_WEBDAV`.
 
+### Disable Faces
+When selected, all face detection and recognition features will be disabled.
+
+The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_FACES`.
+
+
 ### Disable Places
 When selected, geo-information (latitude, longitude) will still be read (and indexed)
 from your files metadata, however PhotoPrism will not use reverse lookup to
@@ -66,10 +72,14 @@ Note that you must have [ExifTool](https://exiftool.org/) enabled to extract vid
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_EXIFTOOL`.
 
-### Disable TensorFlow
+### Disable TensorFlow - Deprecated
+!!! warning ""
+    Note that this option is deprecated. To disable image classification and facial recognition, use the configuration options `PHOTOPRISM_DISABLE_FACES` and `PHOTOPRISM_DISABLE_CLASSIFICATION` instead. For more details, see the related [Github Issue](https://github.com/photoprism/photoprism/issues/5310).
+
 When selected, image classification and facial recognition will be disabled as both rely on tensorflow.
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_TENSORFLOW`.
+
 
 ## Backups
 
