@@ -3,7 +3,9 @@
 !!! note ""
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
-### Development Preview  
+<!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview) -->
+
+### November 30, 2025
 <span class="build">Build 251130-b3068414c</span>
 
 This major update introduces the long-awaited [Batch Edit](https://docs.photoprism.app/user-guide/organize/batch-edit/) dialog, which allows you to [edit the metadata of multiple pictures](https://docs.photoprism.app/user-guide/organize/batch-edit/) at once. On the AI side, an [upgraded face recognition pipeline](https://github.com/photoprism/photoprism/issues/5167) delivers more and better matches. PhotoPrism now integrates directly with [Ollama](https://docs.photoprism.app/user-guide/ai/using-ollama/) and [OpenAI](https://docs.photoprism.app/user-guide/ai/using-openai/) to [generate rich captions](https://docs.photoprism.app/user-guide/ai/ollama-models/#qwen3-vl) and [accurate labels](https://docs.photoprism.app/user-guide/ai/using-ollama/#step-3-create-configuration). Support for [custom TensorFlow models](https://docs.photoprism.app/developer-guide/vision/tensorflow/custom-models/), [refined configuration](https://docs.photoprism.app/user-guide/ai/), and [new scheduling options](https://github.com/photoprism/photoprism/issues/5234) offer further flexibility.
@@ -11,8 +13,6 @@ This major update introduces the long-awaited [Batch Edit](https://docs.photopri
 You'll also notice many performance and usability enhancements, such as the ability to [change the cover image for a person](https://docs.photoprism.app/user-guide/organize/people/#change-cover-for-a-person), as well as updated dependencies and new translations.
 
 As always, a big thank you to [everyone who contributed](https://docs.photoprism.app/developer-guide/) and [helped with testing](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! We hope you enjoy the new release as much as we do. 🌈💎✨
-
-<!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview) -->
 
 Important Changes
 
