@@ -6,7 +6,13 @@
 ### Development Preview  
 <span class="build">Build 251130-22e3c6d6d</span>
 
-Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
+This major new release introduces the long-awaited Batch Edit dialog, allowing you to edit the metadata of multiple pictures at once.
+
+On the AI side, an upgraded face recognition pipeline delivers more and better matches. PhotoPrism now integrates directly with Ollama and OpenAI to generate rich captions and accurate labels for your pictures. Support for custom TensorFlow classification models is included as well. Improved configuration and new scheduling options offer additional flexibility.
+
+You'll also notice many enhancements to the usability and performance of the user interface and CLI commands, as well as updated dependencies and new translations contributed by our community. As always, a big thank you to everyone who contributed and helped with testing! ✨
+
+<!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview) -->
 
 What's new?
 
