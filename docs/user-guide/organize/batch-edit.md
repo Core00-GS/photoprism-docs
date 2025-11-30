@@ -19,9 +19,9 @@ The dialog displays the current values if they are the same for the entire selec
 
 ## Editing Labels and Albums
 
-Any labels and albums assigned to the entire selection are listed first. To remove a label or album, click on its chip.
+Albums and labels assigned to the entire selection are listed first. To remove them, click on the corresponding chip.
 
-To add a label or album assigned to some, but not all, of the selected photos to all, click the label or album chip once. Click twice to remove it from all. You can add or create additional labels or albums using the input field.
+Click a label or album chip once to apply the label or album to all of selected pictures. Click it twice to remove it from all. You can add or create additional labels or albums using the input field.
 
 ![Screenshot](img/batch-edit-3-1125.jpg){ class="shadow" }
 
