@@ -6,7 +6,7 @@
 ### Development Preview  
 <span class="build">Build 251130-22e3c6d6d</span>
 
-This major update introduces the long-awaited [Batch Edit dialog](https://github.com/photoprism/photoprism/issues/271), which allows you to edit the metadata of multiple pictures at once. On the AI side, an [upgraded face recognition pipeline](https://github.com/photoprism/photoprism/issues/5167) delivers more and better matches. PhotoPrism now integrates directly with Ollama and OpenAI to generate rich captions and accurate labels. Support for custom TensorFlow classification models is included as well. Refined configuration and scheduling options offer further flexibility.
+This major update introduces the long-awaited [Batch Edit dialog](user-guide/organize/batch-edit.md), which allows you to edit the metadata of multiple pictures at once. On the AI side, an [upgraded face recognition pipeline](https://github.com/photoprism/photoprism/issues/5167) delivers more and better matches. PhotoPrism now integrates directly with Ollama and OpenAI to generate rich captions and accurate labels. Support for custom TensorFlow classification models is included as well. Refined configuration and scheduling options offer further flexibility.
 
 You'll also notice many performance and usability enhancements, such as the ability to [change the cover image for a person](user-guide/organize/people.md#change-cover-for-a-person), as well as updated dependencies and new translations.
 

@@ -76,6 +76,8 @@ The person you just added will appear under *Recognized*
 2. Hover over :material-dots-vertical: in the upper right corner of the face
 3. Click *Set as Cover Image*
 
+![Screenshot](img/change-people-cover-1125.jpg){ class="shadow" }
+
 ## Hiding People ##
 
 You can hide a person in the *Recognized* section by clicking :material-close: in the upper right corner.
