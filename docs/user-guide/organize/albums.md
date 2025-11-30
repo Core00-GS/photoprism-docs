@@ -14,6 +14,7 @@ Go to *Albums* and open the *album edit dialog*.
   
 === "From Title"
       Click on the *album title*.
+
       ![Screenshot](img/album-edit-title-2503.jpg){ class="shadow" }
    
 === "Context Menu"
