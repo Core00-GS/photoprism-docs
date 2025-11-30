@@ -10,10 +10,12 @@ To open the batch dialog:
 2. Open the context menu
 3. Click :material-pencil:
 
-The dialog shows the current value if **all selected items** share the same value. If values differ, the field displays `<mixed>`.
-Please note that you can deselect items in the dialog, but the field previews are **not updated** dynamically.
+The dialog displays the current values if they are the same for the entire selection. If values differ, you will see `<mixed>`.
 
 ![Screenshot](img/batch-edit-1-1125.jpg){ class="shadow" }
+
+!!! note ""
+    You can deselect pictures in the dialog to exclude them from the changes. Note, however, that this will **not update** the displayed values dynamically.
 
 ## Editing Labels and Albums
 
