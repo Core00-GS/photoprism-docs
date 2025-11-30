@@ -6,11 +6,11 @@
 ### Development Preview  
 <span class="build">Build 251130-22e3c6d6d</span>
 
-This major update introduces the long-awaited Batch Edit dialog, which allows you to edit the metadata of multiple pictures at once. On the AI side, an upgraded face recognition pipeline delivers more and better matches. PhotoPrism now integrates directly with Ollama and OpenAI to generate rich captions and accurate labels. Support for custom TensorFlow classification models is included as well. Refined configuration and scheduling options offer further flexibility.
+This major update introduces the long-awaited [Batch Edit dialog](https://github.com/photoprism/photoprism/issues/271), which allows you to edit the metadata of multiple pictures at once. On the AI side, an [upgraded face recognition pipeline](https://github.com/photoprism/photoprism/issues/5167) delivers more and better matches. PhotoPrism now integrates directly with Ollama and OpenAI to generate rich captions and accurate labels. Support for custom TensorFlow classification models is included as well. Refined configuration and scheduling options offer further flexibility.
 
-You'll also notice many performance and usability enhancements, such as the ability to select a cover image for people, as well as updated dependencies and new translations.
+You'll also notice many performance and usability enhancements, such as the ability to [change the cover image for a person](user-guide/organize/people.md#change-cover-for-a-person), as well as updated dependencies and new translations.
 
-As always, a big thank you to everyone who contributed and helped with testing! We hope you enjoy the new release as much as we do. 🌈💎✨
+As always, a big thank you to [everyone who contributed](https://docs.photoprism.app/developer-guide/) and [helped with testing](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! We hope you enjoy the new release as much as we do. 🌈💎✨
 
 <!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview) -->
 
