@@ -109,10 +109,10 @@ This normalization ensures that Euclidean distance comparisons are equivalent to
 To benefit from the [facial recognition improvements](https://github.com/photoprism/photoprism/issues/5167), we recommend running `photoprism faces audit --fix` and `photoprism faces index` [in a terminal](https://docs.photoprism.app/getting-started/docker-compose/#opening-a-terminal) to resolve any inconsistencies before detecting and matching additional faces:
 
 ```bash
-photoprism faces audit --fix # optional consistency pass
-photoprism faces index      # detect faces
-photoprism faces update     # cluster and match
-photoprism faces optimize   # optional tidy-up
+photoprism faces audit --fix # resolve inconsistencies
+photoprism faces index       # detect new faces
+photoprism faces update      # cluster and match
+photoprism faces optimize    # optional tidy-up
 ```
 
 !!! note ""

@@ -1,15 +1,14 @@
-# Using the OpenAI Responses API
+# Using the OpenAI API
 
-Learn how to configure PhotoPrism to use the OpenAI API for generating captions and labels.
+Learn how to use PhotoPrism with OpenAI's GPT-5 models to generate high-quality captions and labels for your pictures.
 
-The Responses API endpoint at `https://api.openai.com/v1/responses` is used for this, with a single 720 px thumbnail (`detail: low`). Engine defaults are applied when `Engine: openai` is set: base64 file scheme, JSON schema for labels, 512/1024 token limits, and deterministic sampling for GPT‑5 models (`temperature`/`top_p` forced to 0).
+## Prerequisites
 
-!!! tldr ""
-    In order to use OpenAI services, you need a valid API key, which can be configured via `OPENAI_API_KEY` or `OPENAI_API_KEY_FILE`. PhotoPrism must also have network access to `api.openai.com`.
+In order to use OpenAI services, you need a valid API key, which can be configured via `OPENAI_API_KEY` or `OPENAI_API_KEY_FILE`. PhotoPrism must also have network access to `api.openai.com`.
 
 ## Configuration
 
-To use OpenAI, add the following caption and/or labels model configurations to your `vision.yml` file:
+Add the following caption and/or labels model configurations to your `vision.yml` file:
 
 ```yaml
 Models:
@@ -41,6 +40,9 @@ Recommendations:
 - Keep the model `Name` exactly as published by OpenAI so defaults apply correctly.
 - `Service.Key` can be omitted if `OPENAI_API_KEY` / `_FILE` is set in the environment.
 - Optional headers: set `Service.Org` and `Service.Project` when your account requires them.
+
+!!! tldr ""
+    By default, PhotoPrism uses the OpenAI Responses API endpoint at `https://api.openai.com/v1/responses` with a single 720 px thumbnail (`detail: low`).
 
 ## Test Your Setup
 
