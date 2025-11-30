@@ -2,16 +2,11 @@
 
 To [recognize faces](https://docs.photoprism.app/user-guide/organize/people/), PhotoPrism uses a multi-stage AI pipeline that detects faces, generates embeddings, and clusters similar faces so they can be easily organized by person.
 
-!!! tldr ""
-    With the upcoming release PhotoPrism will support **two interchangeable detection engines** that you can switch between depending on your hardware and accuracy requirements. The ONNX-based engine provides significantly improved detection of faces that are occluded, at angles, or in challenging lighting conditions.
-
-## How It Works
-
 The face recognition pipeline consists of three stages:
 
-1. **Detection** - Locate faces in photos using Pigo or ONNX SCRFD engines
-2. **Embedding** - Generate 512-dimensional vectors to characterize each face using TensorFlow based on [FaceNet](https://dl.photoprism.app/pdf/publications/20150101-FaceNet.pdf)
-3. **Clustering** - Group similar faces using the [DBSCAN algorithm](https://en.wikipedia.org/wiki/DBSCAN) so they can be assigned to people
+1. **Detection** - The Pigo or ONNX SCRFD engines are used to detect faces in images.
+2. **Embedding** - 512-dimensional vectors are generated to characterize each face.
+3. **Clustering** - Similar faces are grouped, so they can be assigned to a person.
 
 ## Detection Engines
 
@@ -24,7 +19,7 @@ PhotoPrism offers two face detection engines with different characteristics:
 **Best for:**
 
 - Quick processing of well-lit, front-facing portraits
-- Lower resource consumption
+- Lower resource consumption on small devices
 
 ### ONNX SCRFD 0.5g
 
@@ -100,73 +95,25 @@ All face embeddings are L2-normalized to unit length (‖x‖₂ = 1) at:
 
 This normalization ensures that Euclidean distance comparisons are equivalent to cosine similarity, aligning with FaceNet research standards.
 
-## Commands
+## CLI Reference
 
-[Learn more about CLI commands ›](cli.md#face-detection-commands)
+- `photoprism faces stats` — show counts and engine info.
+- `photoprism faces audit [--subject UID] [--fix]` — check and optionally repair face data.
+- `photoprism faces reset [--engine auto|pigo|onnx] [--force]` — wipe people and markers, then regenerate with the chosen engine.
+- `photoprism faces index` — (re)detect faces in originals.
+- `photoprism faces update [--force]` — cluster and match detected faces.
+- `photoprism faces optimize` — compact clusters after updates.
 
-## Performance Improvements
+### Version Upgrade
 
-Recent optimizations have significantly improved face detection and clustering:
+To benefit from the [facial recognition improvements](https://github.com/photoprism/photoprism/issues/5167), we recommend running `photoprism faces audit --fix` and `photoprism faces index` [in a terminal](https://docs.photoprism.app/getting-started/docker-compose/#opening-a-terminal) to resolve any inconsistencies before detecting and matching additional faces:
 
-| Benchmark                   | Before              | After               | Improvement     |
-|-----------------------------|---------------------|---------------------|-----------------|
-| Embedding Distance          | ~242 ns/op          | ~155 ns/op          | 36% faster      |
-| Embeddings Midpoint         | ~194 µs/op, 528 KB  | ~99 µs/op, 4 KB     | 49% faster, 99% less memory |
-| Face Matching (1024 faces)  | 1024 comparisons    | ~16 comparisons     | 98% fewer evaluations |
-| Cluster Materialization     | ~29.8 µs/op, 384 allocs | ~14.8 µs/op, 64 allocs | 50% faster, 83% fewer allocations |
-
-These improvements mean:
-
-- **Faster indexing** of large photo collections
-- **Lower memory usage** during face clustering
-- **Quicker face matching** when organizing people
-- **More efficient** distance calculations
-
-<!-- ## Troubleshooting
-
-### Manual Cluster Merging Warnings
-
-When optimizing face clusters, you may see warnings like:
-
-```
-faces: retained manual clusters after merge: kept 4 candidate cluster(s) [...] 
-for subject <uid> because markers still reference them
+```bash
+photoprism faces audit --fix # optional consistency pass
+photoprism faces index      # detect faces
+photoprism faces update     # cluster and match
+photoprism faces optimize   # optional tidy-up
 ```
 
-This informational message indicates that some manually created face clusters couldn't be merged because their embeddings are too far apart. This can happen when:
-
-- The same person has very different appearances (age, lighting, angles)
-- Some faces were incorrectly assigned to the person
-- Detection engine differences created inconsistent embeddings
-
-**To resolve:**
-
-1. **Re-index with consistent engine:**
-   ```bash
-   docker compose exec photoprism photoprism faces reset --engine=onnx
-   ```
-
-!!! danger ""
-    The `faces reset` command will delete all existing face markers and clusters. Make sure you have backups if needed, as this operation cannot be undone.
-
-
-2. **Review manual clusters** in the UI and remove outliers
-
-3. **Retry optimization:**
-   ```bash
-   docker compose exec photoprism photoprism faces optimize --retry
-   ```
-
-4. **Audit specific subjects:**
-   ```bash
-   docker compose exec photoprism photoprism faces audit --subject=<uid>
-   ```
-
-The optimizer has safeguards to prevent infinite retries:
-
-- Each manual cluster has a retry counter (default max: 1)
-- Warnings only appear when the counter increments
-- Set `PHOTOPRISM_FACE_MERGE_MAX_RETRY=0` for unlimited retries
-- Use `--retry` flag to clear counters after manual cleanup
--->
-
+!!! note ""
+    A [complete rescan](https://docs.photoprism.app/user-guide/library/originals/#when-should-complete-rescan-be-selected) will also detect additional faces, but takes longer since more indexing tasks are performed.

@@ -129,6 +129,12 @@ nav:
       - Mobile Devices: user-guide/sync/mobile-devices.md
       - Apps and Services: user-guide/sync/services-sync.md
       - Syncing with Dropbox: user-guide/sync/dropbox.md
+    - Artificial Intelligence:
+      - Introduction: user-guide/ai/index.md
+      - Using Ollama: user-guide/ai/using-ollama.md
+      - Ollama Models: user-guide/ai/ollama-models.md
+      - Using OpenAI: user-guide/ai/using-openai.md
+      - Face Recognition: user-guide/ai/face-recognition.md
     - Backup Guide:
       - Creating Backups: user-guide/backups/index.md
       - Restoring Backups: user-guide/backups/restore.md
