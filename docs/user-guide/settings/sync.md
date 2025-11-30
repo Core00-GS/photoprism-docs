@@ -1,47 +1,41 @@
 # Services
 
-You can connect your PhotoPrism instance to other services with WebDAV support, such as other PhotoPrism instances, Nextcloud or ownCloud.
+You can connect your PhotoPrism instance to other services with WebDAV support, such as other PhotoPrism instances, Nextcloud or ownCloud. This allows you to share [share](../share/services-share.md) or [synchronize](../sync/services-sync.md) files between multiple services.
 
-This might be useful if you want to [share](../share/services-share.md) or [synchronize](../sync/services-sync.md) files between multiple services.
+PhotoPrism can also share files via WebDAV, which can be browsed on macOS or Windows. [Learn more ›](../sync/webdav.md)
 
 !!! tldr ""
-    Since they are not safe to use without authentication, these settings are not available when running in [public mode](../../getting-started/config-options.md#authentication).
-
-!!! note ""
-    PhotoPrism can also serve/share files via WebDAV to be browsed on macOS or Windows.
-    See [instructions](../sync/webdav.md).
+    These settings are not available when running in public mode because they are not safe to use without authentication.
 
 ## Add Service ##
 
-1. Go to *Settings*
-2. Open *Services tab*
-3. Click *Connect*
-    ![Screenshot](img/services-connect-1-2502.jpg){ class="shadow" }
-4. Fill in your service url, username and password
-5. Click *connect*
-    ![Screenshot](img/services-connect-2-2502.jpg){ class="shadow" }
-6. Now the other service is connected with PhotoPrism
+1. Go to *Settings*.
+2. Open *Services tab*.
+3. Click *Connect*.
+   ![Screenshot](img/services-connect-1-2502.jpg){ class="shadow" }
+4. Fill in your service url, username and password.
+5. Click *Connect*.
+   ![Screenshot](img/services-connect-2-2502.jpg){ class="shadow" }
+6. Now the other service is connected with PhotoPrism.
 
 
 ## Edit Connection Details ##
-1. Go to *Settings*
-2. Open *Services tab*
-3. Click :material-pencil:
-4. Edit account details and click *Save*
 
+1. Go to *Settings*.
+2. Open *Services tab*.
+3. Click the pencil :material-pencil: icon.
+4. Edit account details and click *Save*.
    ![Screenshot](img/services-edit-2502.jpg){ class="shadow" }
 
 
 ## Edit Upload Settings ##
 
-1. Go to *Settings*
-2. Open *Services* tab
-3. Click into the upload cell of your service
-
-![Screenshot](img/services-upload-1-2502.jpg){ class="shadow" }
-4. Select the folder to which photos should be uploaded and click *save*
-
-![Screenshot](img/services-upload-2-2502.jpg){ class="shadow" }
+1. Go to *Settings*.
+2. Open *Services* tab.
+3. Click into the upload cell of your service.
+   ![Screenshot](img/services-upload-1-2502.jpg){ class="shadow" }
+4. Select the folder to which photos should be uploaded and click *Save*.
+   ![Screenshot](img/services-upload-2-2502.jpg){ class="shadow" }
 
 You can now [share albums or files with this service](../share/services-share.md).
 
@@ -51,23 +45,23 @@ You can now [share albums or files with this service](../share/services-share.md
 
 ## Edit Sync Settings ##
 
-1. Go to *Settings*
-2. Open *Services* tab
-3. Click into the sync cell of your service
+1. Go to *Settings*.
+2. Open *Services* tab.
+3. Click into the sync cell of your service.
    ![Screenshot](img/services-sync-1-2502.jpg){ class="shadow" }
-4. Enable synchronization in the upper right corner
-5. Choose a folder from your service
-6. Choose a sync interval
-7. Select the options that are suitable for you and click *Save*
+4. Enable synchronization in the upper right corner.
+5. Choose a folder from your service.
+6. Choose a sync interval.
+7. Select the options that are suitable for you and click *Save*.
 
 
 ![Screenshot](img/services-sync-2-2502.jpg){ class="shadow" }
 
 ### Remote Sync Options ###
 
-* *Download remote files* will download all files from the selected folder of the other service that do not yet exist in PhotoPrism
-* *Upload local files* will upload all files (including private or archived ones) from PhotoPrism to your service that do not yet exist there
-* *Preserve filenames* will keep filenames without renaming them
-* *Sync raw and video files* will upload/download raw and video files alongside with JPEGS
+* *Download remote files* will download all files from the selected folder of the other service that do not yet exist in PhotoPrism.
+* *Upload local files* will upload all files (including private or archived ones) from PhotoPrism to your service that do not yet exist there.
+* *Preserve filenames* will keep filenames without renaming them.
+* *Sync raw and video files* will upload/download raw and video files alongside with JPEGS.
 
 

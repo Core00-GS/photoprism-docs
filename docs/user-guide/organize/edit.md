@@ -8,16 +8,16 @@ When you click on a title in the cards view or :material-pencil: in the full scr
     ![Screenshot](img/edit-open-1-2502.jpg){ class="shadow" }
 
 === "Full Screen Viewer"
-     1. Click on :material-pencil: in the upper right corner
+     1. Click the pencil :material-pencil: icon in the upper right corner
 
     ![Screenshot](img/edit-open-3-2502.jpg){ class="shadow" }
 
     !!! tip "Keyboard Shortcut"
         In the fullscreen viewer, you can quickly open the edit dialog by pressing **Ctrl + E**.
 === "Context Menu"
-     1. Select one pictures
-     2. Click on context menu
-     3. Click :material-pencil:
+     1. Select one pictures.
+     2. Click on context menu.
+     3. Click the pencil :material-pencil: icon.
 
     ![Screenshot](img/edit-open-2-2502.jpg){ class="shadow" }
 
