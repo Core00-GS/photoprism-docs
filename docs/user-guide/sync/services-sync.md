@@ -23,4 +23,4 @@ Under [Settings > Services](../settings/sync.md) you can connect your PhotoPrism
 * *Download remote files* will download all files from the selected folder of the other service that do not yet exist in PhotoPrism
 * *Upload local files* will upload all files (including private or archived ones) from PhotoPrism to your service that do not yet exist there
 * *Preserve filenames* will keep filenames without renaming them
-* *Sync raw and video files* will upload/download raw and video files alongside with JPEGS
+* *Sync raw and video files* will upload/download raw and video files alongside with JPEGs.

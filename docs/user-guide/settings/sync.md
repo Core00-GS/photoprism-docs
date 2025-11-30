@@ -1,6 +1,6 @@
 # Services
 
-You can connect your PhotoPrism instance to other services with WebDAV support, such as other PhotoPrism instances, Nextcloud or ownCloud. This allows you to share [share](../share/services-share.md) or [synchronize](../sync/services-sync.md) files between multiple services.
+You can connect your PhotoPrism instance to other services with WebDAV support, such as other PhotoPrism instances, Nextcloud or ownCloud. This allows you to [share](../share/services-share.md) or [synchronize](../sync/services-sync.md) files between multiple services.
 
 PhotoPrism can also share files via WebDAV, which can be browsed on macOS or Windows. [Learn more ›](../sync/webdav.md)
 
@@ -59,9 +59,9 @@ You can now [share albums or files with this service](../share/services-share.md
 
 ### Remote Sync Options ###
 
-* *Download remote files* will download all files from the selected folder of the other service that do not yet exist in PhotoPrism.
-* *Upload local files* will upload all files (including private or archived ones) from PhotoPrism to your service that do not yet exist there.
-* *Preserve filenames* will keep filenames without renaming them.
-* *Sync raw and video files* will upload/download raw and video files alongside with JPEGS.
+- *Download remote files* will download all files from the selected folder of the other service that do not yet exist in PhotoPrism.
+- *Upload local files* will upload all files (including private or archived ones) from PhotoPrism to your service that do not yet exist there.
+- *Preserve filenames* will keep filenames without renaming them.
+- *Sync raw and video files* will upload/download raw and video files alongside with JPEGs.
 
 
