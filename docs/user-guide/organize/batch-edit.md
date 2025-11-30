@@ -1,6 +1,6 @@
 # Batch Edit
 
-Batch editing lets you change metadata for many items at once. When enabled in Settings, you can select up to 999 photos and apply the same changes in a single step.
+With batch editing, you can change the metadata, albums, and labels of multiple pictures at once. If this feature is enabled, you can select up to 999 photos and apply the same changes to either the entire selection or a subset of it.
 
 ## Batch Dialog
 
