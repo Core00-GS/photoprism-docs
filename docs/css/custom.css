@@ -328,6 +328,13 @@ div.appstore-buttons a {
 
 /* IMAGES */
 
+img.shadow.right,
+img.compact {
+    min-width: 100px;
+    width: 35%;
+    max-width: 320px;
+}
+
 img.center {
     display: block;
     margin: 0 auto;
@@ -356,16 +363,16 @@ img.xs {
 
 img.small,
 img.sm {
-    min-width: 100px;
-    width: 20%;
-    max-width: 250px;
+    min-width: 100px !important;
+    width: 20% !important;
+    max-width: 250px !important;
 }
 
 img.medium,
 img.md {
-    min-width: 75px;
-    width: 40%;
-    max-width: 400px;
+    min-width: 75px !important;
+    width: 40% !important;
+    max-width: 400px !important;
 }
 
 img.large,
