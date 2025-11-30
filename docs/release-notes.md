@@ -4,9 +4,9 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview  
-<span class="build">Build 251130-22e3c6d6d</span>
+<span class="build">Build 251130-b3068414c</span>
 
-This major update introduces the long-awaited [Batch Edit dialog](user-guide/organize/batch-edit.md), which allows you to edit the metadata of multiple pictures at once. On the AI side, an [upgraded face recognition pipeline](https://github.com/photoprism/photoprism/issues/5167) delivers more and better matches. PhotoPrism now integrates directly with Ollama and OpenAI to generate rich captions and accurate labels. Support for custom TensorFlow classification models is included as well. Refined configuration and scheduling options offer further flexibility.
+This major update introduces the long-awaited [Batch Edit](user-guide/organize/batch-edit.md) dialog, which allows you to [edit the metadata of multiple pictures](user-guide/organize/batch-edit.md) at once. On the AI side, an [upgraded face recognition pipeline](https://github.com/photoprism/photoprism/issues/5167) delivers more and better matches. PhotoPrism now integrates directly with [Ollama](https://docs.photoprism.app/developer-guide/vision/label-generation/#ollama-setup-guide) and OpenAI to [generate rich captions](https://docs.photoprism.app/developer-guide/vision/caption-generation/) and [accurate labels](https://docs.photoprism.app/developer-guide/vision/label-generation/). Support for [custom TensorFlow models](https://docs.photoprism.app/developer-guide/vision/tensorflow/custom-models/) is included as well. Refined configuration and scheduling options offer further flexibility.
 
 You'll also notice many performance and usability enhancements, such as the ability to [change the cover image for a person](user-guide/organize/people.md#change-cover-for-a-person), as well as updated dependencies and new translations.
 
@@ -17,7 +17,7 @@ As always, a big thank you to [everyone who contributed](https://docs.photoprism
 Important Changes
 
 - To benefit from the [facial recognition improvements](https://github.com/photoprism/photoprism/issues/5167), we recommend running `photoprism faces audit --fix` and `photoprism faces index` in a terminal to resolve any inconsistencies before detecting and matching additional faces. A full rescan will also detect additional faces, but takes longer since more indexing tasks are performed.
-- PhotoPrism now supports multiple AI engines, so the `PHOTOPRISM_DISABLE_TENSORFLOW` option has been deprecated. You can still disable individual AI features using the `PHOTOPRISM_DISABLE_*` feature flags and/or a custom `vision.yml` configuration.
+- PhotoPrism now [supports multiple AI engines](https://github.com/photoprism/photoprism/issues/5310), so the `PHOTOPRISM_DISABLE_TENSORFLOW` option has been deprecated. You can still disable individual AI features using the [`PHOTOPRISM_DISABLE_*` feature flags](https://docs.photoprism.app/getting-started/config-options/#feature-flags) and/or a custom `vision.yml` configuration.
 
 What's new?
 
