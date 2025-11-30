@@ -14,6 +14,11 @@ As always, a big thank you to [everyone who contributed](https://docs.photoprism
 
 <!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview) -->
 
+Important Changes
+
+- To benefit from the [facial recognition improvements](https://github.com/photoprism/photoprism/issues/5167), we recommend running `photoprism faces audit --fix` and `photoprism faces index` in a terminal to resolve any inconsistencies before detecting and matching additional faces. A full rescan will also detect additional faces, but takes longer since more indexing tasks are performed.
+- PhotoPrism now supports multiple AI engines, so the `PHOTOPRISM_DISABLE_TENSORFLOW` option has been deprecated. You can still disable individual AI features using the `PHOTOPRISM_DISABLE_*` feature flags and/or a custom `vision.yml` configuration.
+
 What's new?
 
 - AI: [Support for custom TensorFlow image classification models](https://github.com/photoprism/photoprism/pull/5011) by [@raystlin](https://github.com/raystlin)
