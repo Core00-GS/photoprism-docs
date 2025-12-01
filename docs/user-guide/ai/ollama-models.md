@@ -60,7 +60,7 @@ We recommend the following prompt to generate concise captions with exactly one 
 
 Example: *A sleek pool extends over a dramatic cliffside overlooking turquoise waters.*
 
-As an alternative, this prompt will generate detailed captions of up to three sentences:
+As an alternative, this prompt may generate detailed captions of up to three sentences:
 
 > Write a descriptive caption in 3 sentences or fewer that captures the essence of the visual content. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as "This image", "The picture", or "Here are". Begin with the subject(s), then describe the surroundings, and finally add atmosphere (e.g., time of day). If possible, include the subject's gender and general age group.
 
