@@ -124,13 +124,6 @@ nav:
       - Advanced: user-guide/settings/advanced.md
       - Services: user-guide/settings/sync.md
       - Account: user-guide/settings/account.md
-    - AI Models:
-      - Introduction: user-guide/ai/index.md
-      - Using Ollama: user-guide/ai/using-ollama.md
-      - Ollama Models: user-guide/ai/ollama-models.md
-      - Using OpenAI: user-guide/ai/using-openai.md
-      - Face Recognition: user-guide/ai/face-recognition.md
-      - CLI Commands: user-guide/ai/cli.md
     - Remote Sync:
       - Using WebDAV: user-guide/sync/webdav.md
       - Mobile Devices: user-guide/sync/mobile-devices.md
@@ -155,6 +148,13 @@ nav:
       - Multiple Libraries: user-guide/users/libraries.md
       - Setting Up 2FA: user-guide/users/2fa.md
       - Client Credentials: user-guide/users/client-credentials.md
+    - Using AI Models:
+      - Introduction: user-guide/ai/index.md
+      - Ollama Setup: user-guide/ai/using-ollama.md
+      - Ollama Models: user-guide/ai/ollama-models.md
+      - OpenAI API: user-guide/ai/using-openai.md
+      - Face Recognition: user-guide/ai/face-recognition.md
+      - CLI Commands: user-guide/ai/cli.md
     - Mobile App (PWA): user-guide/pwa.md
     - iOS and Android: user-guide/native-apps/index.md
     - Release Notes: release-notes.md
