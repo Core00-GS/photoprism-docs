@@ -130,6 +130,7 @@ nav:
       - Ollama Models: user-guide/ai/ollama-models.md
       - Using OpenAI: user-guide/ai/using-openai.md
       - Face Recognition: user-guide/ai/face-recognition.md
+      - CLI Commands: user-guide/ai/cli.md
     - Remote Sync:
       - Using WebDAV: user-guide/sync/webdav.md
       - Mobile Devices: user-guide/sync/mobile-devices.md

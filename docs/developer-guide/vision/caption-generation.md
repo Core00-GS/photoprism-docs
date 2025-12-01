@@ -97,14 +97,8 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
 !!! example "vision.yml"
     ```yaml
     Models:
-    - Type: labels
-      Default: true
-    - Type: nsfw
-      Default: true
-    - Type: face
-      Default: true
     - Type: caption
-      Name: gemma3:latest
+      Model: gemma3:latest
       Engine: ollama
       Run: newly-indexed
       Prompt: Create a caption with exactly one sentence in the active voice that describes
@@ -113,33 +107,10 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
       Service:
         # Ollama API endpoint (adjust as needed):
         Uri: http://ollama:11434/api/generate
-    Thresholds:
-      Confidence: 10
     ```
 
 !!! note ""
     The config file must be named `vision.yml`, not `vision.yaml`, as otherwise it won't be found and will have no effect.
-
-#### Model Defaults
-
-When using a custom `vision.yml` config file, you can apply the default settings to one or more model types by setting the `Default` flag to `true`, as shown in the following example:
-
-!!! example "vision.yml"
-    ```yaml
-    Models:
-    - Type: labels
-      Default: true
-    - Type: nsfw
-      Default: true
-    - Type: face
-      Default: true
-    - Type: caption
-      Default: true
-    Thresholds:
-      Confidence: 10
-    ```
-
-This simplifies your configuration, allowing you to customize only specific model types.
 
 #### Scheduling Options
 

@@ -2,7 +2,7 @@
 
 Learn how to set up and connect a self-hosted Ollama instance to generate detailed captions and accurate labels for your pictures with [vision-capable LLMs](https://ollama.com/search?c=vision).
 
-## Setup
+## Getting Started
 
 ### Step 1: Install Ollama
 
@@ -83,7 +83,7 @@ docker compose exec ollama ollama pull gemma3:latest
 
 [View Model Comparison ›](model-comparison.md)
 
-### Step 3: Create Configuration
+### Step 3: Configure Models
 
 Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
 
@@ -91,13 +91,13 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
     ```yaml
     Models:
     - Type: caption
-      Name: gemma3:latest
+      Model: gemma3:latest
       Engine: ollama
       Run: newly-indexed
       Service:
         Uri: http://ollama:11434/api/generate
     - Type: labels
-      Name: gemma3:latest
+      Model: gemma3:latest
       Engine: ollama
       Run: newly-indexed
       Service:

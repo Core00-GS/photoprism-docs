@@ -54,8 +54,7 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
         Models:
         - Type: caption
           Resolution: 720
-          Name: "llava-phi3"
-          Version: "latest"
+          Model: llava-phi3:latest
           Prompt: |
             Write a journalistic caption that is informative and briefly describes the most important visual content in up to 3 sentences:
             - Use explicit language to describe the scene if necessary for a proper understanding.
@@ -87,8 +86,7 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
         Models:
         - Type: caption
           Resolution: 720
-          Name: "kosmos-2"
-          Version: "latest"
+          Model: kosmos-2:latest
           Prompt: "A"
           Service:
             # IMPORTANT: Replace this IP with the address of your Vision service machine.

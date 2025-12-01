@@ -96,15 +96,7 @@ Create or update the `vision.yml` file in the PhotoPrism *storage* directory (in
     ```yaml
     Models:
       - Type: labels
-        Default: true             # Nasnet fallback
-      - Type: nsfw
-        Default: true
-      - Type: face
-        Default: true
-      - Type: caption
-        Default: true
-      - Type: labels
-        Name: gemma3:latest
+        Model: gemma3:latest
         Engine: ollama
         Run: newly-indexed
         System: |

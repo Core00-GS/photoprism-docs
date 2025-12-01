@@ -35,23 +35,18 @@ It should now contain the following:
 In our tests, the Vision Transformer model achieved the best accuracy. Inception V3 was faster and may better suited to low-power devices it produced more labels and had a higher error rate; it still outperformed the built-in NASNet model.
 
 ## Step 3: Configure PhotoPrism
+
 Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
 
 !!! example "vision.yml"
     ```yaml
     Models:
     - Type: labels
-      Name: modelname
+      Model: "name:version"
       Resolution: 224
       TensorFlow:
         Output:
           Logits: true
-    - Type: nsfw
-      Default: true
-    - Type: face
-      Default: true
-    Thresholds:
-      Confidence: 10
     ```
 
 !!! note ""

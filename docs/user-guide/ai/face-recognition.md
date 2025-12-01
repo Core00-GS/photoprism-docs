@@ -1,8 +1,6 @@
 # Face Recognition
 
-To [recognize faces](https://docs.photoprism.app/user-guide/organize/people/), PhotoPrism uses a multi-stage AI pipeline that detects faces, generates embeddings, and clusters similar faces so they can be easily organized by person.
-
-The face recognition pipeline consists of three stages:
+PhotoPrism uses the following multi-stage AI pipeline that detects faces, generates embeddings, and clusters similar faces so they can be [easily organized by person](https://docs.photoprism.app/user-guide/organize/people/):
 
 1. **Detection** - The Pigo or ONNX SCRFD engines are used to detect faces in images.
 2. **Embedding** - 512-dimensional vectors are generated to characterize each face.
@@ -10,7 +8,7 @@ The face recognition pipeline consists of three stages:
 
 ## Detection Engines
 
-PhotoPrism offers two face detection engines with different characteristics:
+You can choose between two face detection engines, each with different characteristics:
 
 ### Pigo
 

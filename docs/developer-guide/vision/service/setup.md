@@ -72,13 +72,8 @@ The file consists of a list of `Models` and a `Thresholds` section.
 !!! example "`storage/config/vision.yml`"
     ```yaml
     Models:
-    - Type: nsfw
-      Default: true
-    - Type: face
-      Default: true
     - Type: caption
-      Name: gemma3
-      Version: latest
+      Model: gemma3:latest
       Prompt: Create a caption with exactly one sentence in the active voice that describes
         the main visual content. Begin with the main subject and clear action. Avoid text
         formatting, meta-language, and filler words.
@@ -92,8 +87,7 @@ The file consists of a list of `Models` and a `Thresholds` section.
         ResponseFormat: vision
     - Type: labels
       Resolution: 720
-      Name: "kosmos-2"
-      Version: "latest"
+      Model: kosmos-2:latest
       Service:
         Uri: "http://<vision-service-ip>:5000/api/v1/vision/caption"
         FileScheme: base64

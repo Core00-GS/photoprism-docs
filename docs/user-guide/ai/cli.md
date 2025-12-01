@@ -1,15 +1,5 @@
 # Computer Vision Commands
 
-## Save Model Configuration 
-
-To write the model configuration to a `vision.yml` file you can run:
-
-```bash
-docker compose exec photoprism photoprism vision save
-```
-
-You can then configure the `vision.yml` file according to your specific needs.
-
 ## View Model Configuration
 
 You can use the following terminal command, to inspect your current model configuration:

@@ -2,36 +2,35 @@
 
 Learn how to use PhotoPrism with OpenAI's GPT-5 models to generate high-quality captions and labels for your pictures.
 
-## Prerequisites
+## Getting Started
 
-In order to use OpenAI services, you need a valid API key, which can be configured via `OPENAI_API_KEY` or `OPENAI_API_KEY_FILE`. PhotoPrism must also have network access to `api.openai.com`.
+### Prerequisites
 
-## Configuration
+- In order to use OpenAI services, you need a valid API key, which can be configured via `OPENAI_API_KEY` or `OPENAI_API_KEY_FILE`.
+- PhotoPrism must also have network access to `api.openai.com`.
+
+### Configure Models
 
 Add the following caption and/or labels model configurations to your `vision.yml` file:
 
 ```yaml
 Models:
   - Type: caption
-    Name: gpt-5-nano
+    Model: gpt-5-nano
     Engine: openai
     Run: newly-indexed
     Options:
-      Detail: low           # optional; default is low
-      MaxOutputTokens: 512  # default applied automatically
+      Detail: low           # optional: default is low
+      MaxOutputTokens: 512  # optional: change token limit
     Service:
-      Uri: https://api.openai.com/v1/responses
       Key: ${OPENAI_API_KEY}
-
   - Type: labels
-    Name: gpt-5-mini
+    Model: gpt-5-mini
     Engine: openai
     Run: newly-indexed
     Options:
-      Detail: low
-      MaxOutputTokens: 1024
+      MaxOutputTokens: 1024 # optional: change token limit
     Service:
-      Uri: https://api.openai.com/v1/responses
       Key: ${OPENAI_API_KEY}
 ```
 
@@ -44,21 +43,31 @@ Recommendations:
 !!! tldr ""
     By default, PhotoPrism uses the OpenAI Responses API endpoint at `https://api.openai.com/v1/responses` with a single 720 px thumbnail (`detail: low`).
 
-## Test Your Setup
-
-1. Confirm models are registered:
-   ```bash
-   photoprism vision ls --json
-   ```
-2. Run a single photo to verify output:
-   ```bash
-   photoprism vision run -m caption --count 1 --force
-   photoprism vision run -m labels --count 1 --force
-   ```
-3. If the response is unstructured, leave `ForceJson` enabled for labels; captions accept plain text.
-
 ## Usage Tips
 
 - To avoid unexpected API costs, set `Run: manual` and run the models manually with the `photoprism vision run` command.
 - When you remove custom model configuration from you `vision.yml` file, the built-in default models will be enabled again.
 - When you need domain-specific wording, you may override `System` or `Prompt` in `vision.yml`; keep them short and retain the schema reminder for labels.
+
+## Troubleshooting ##
+
+### Verifying Your Configuration
+
+If you encounter issues, a good first step is to verify how PhotoPrism has loaded your `vision.yml` configuration. You can do this by running: 
+
+```bash
+docker compose exec photoprism photoprism vision ls
+```
+
+This command outputs the settings for all supported and configured model types. Compare the results with your `vision.yml` file to confirm that your configuration has been loaded correctly and to identify any parsing errors or misconfigurations.
+
+### Performing Test Runs 
+
+The following [terminal commands](../../getting-started/docker-compose.md#opening-a-terminal) will perform a single run for the specified model type:
+
+```bash
+photoprism vision run -m labels --count 1 --force
+photoprism vision run -m caption --count 1 --force
+```
+
+If output is empty, enable trace logging temporarily (`PHOTOPRISM_LOG_LEVEL=trace`) and re-run the command to inspect the request/response.
