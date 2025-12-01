@@ -56,7 +56,7 @@ All face embeddings are L2-normalized to unit length (‖x‖₂ = 1) at:
 
 This normalization ensures that Euclidean distance comparisons are equivalent to cosine similarity, aligning with FaceNet research standards.
 
-## Configuration
+## Config Options
 
 !!! example ""
     We recommend that only advanced users and developers change these parameters.
