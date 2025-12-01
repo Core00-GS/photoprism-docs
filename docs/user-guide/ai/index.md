@@ -18,7 +18,7 @@ PhotoPrism currently supports the following AI frameworks and services:
 
 - **TensorFlow:** Our built-in models generally perform well on all types of hardware.
 - **Ollama:** On an NVIDIA RTX 4060, generating labels for an image with Ollama usually takes 1-3 seconds. Without GPU acceleration, however, it can be significantly slower, taking anywhere from 10 seconds to over a minute.
-- **OpenAI:** Processing one picture takes about 3 seconds, though this may vary by model, region, and demand.
+- **OpenAI:** Processing one image takes about 3 seconds, though this can vary by model, region, and demand.
 
 ## `vision.yml` Reference
 
