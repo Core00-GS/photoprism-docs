@@ -69,5 +69,5 @@ Example: *A gray cat with a fluffy coat is lounging on a cushion, its eyes close
 ## Usage Tips
 
 - Use `Run: newly-indexed` for everyday workloads; switch to `on-schedule` or `manual` for larger, slower models you want to control.
-- If responses come back empty with Qwen3-VL, upgrade to PhotoPrism 2025.11 or later so the adapter reads the `thinking` field Ollama returns.
+- If responses come back empty with [Qwen3-VL](https://ollama.com/library/qwen3-vl), upgrade to [PhotoPrism 251130](https://github.com/photoprism/photoprism/releases/tag/251130-b3068414c) or later so the adapter reads the `thinking` field Ollama returns.
 - When tuning prompts, keep them short and include a schema reminder for labels. Overly long prompts can increase hallucinations and latency.
