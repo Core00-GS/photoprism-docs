@@ -6,7 +6,7 @@ As an addition to the built-in TensorFlow models, PhotoPrism lets you generate c
 
 ## AI Model Engines
 
-PhotoPrism currently supports the following AI frameworks and services:
+PhotoPrism currently supports the following AI runtimes and services:
 
 | Engine                                                                 | Resolution | Runs        | Best For                                                                                                      |                      
 |------------------------------------------------------------------------|------------|-------------|---------------------------------------------------------------------------------------------------------------|
