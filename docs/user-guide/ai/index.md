@@ -1,12 +1,12 @@
-# Introduction
+# Using AI Models
 
 As an addition to the built-in TensorFlow models, PhotoPrism lets you generate captions and labels with [Ollama](using-ollama.md) and the [OpenAI API](using-openai.md). Our step-by-step guides explain how to set them up and provide tested configuration examples you can use as a starting point.
 
 [Learn more ›](using-ollama.md)
 
-## AI Model Engines
+## Model Engines
 
-PhotoPrism currently supports the following model runtimes and services:
+PhotoPrism currently supports the following runtimes and services:
 
 | Engine                                                                 | Resolution | Runs        | Best For                                                                                                      |                      
 |------------------------------------------------------------------------|------------|-------------|---------------------------------------------------------------------------------------------------------------|
