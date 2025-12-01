@@ -28,10 +28,6 @@ Models:
     Model: gemma3:latest
     Engine: ollama
     Run: newly-indexed
-    Prompt: |
-      Analyze the image and return a JSON object with `labels`,
-      each containing `name`, `confidence` (0-1), and `topicality` (0-1).
-      Keep names as single nouns.
     Options:
       Temperature: 0.01
       TopP: 0.95
