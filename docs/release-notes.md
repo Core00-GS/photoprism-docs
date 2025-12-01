@@ -27,7 +27,7 @@ What's new?
 - AI: [Improved face detection and embedding pipeline with a new CNN engine](https://github.com/photoprism/photoprism/issues/5167)
 - AI: [Improved model configuration and `photoprism vision run` command](https://github.com/photoprism/photoprism/commit/4bc9cd6ca23bb65072b766ae16b7966b4e7b3e36)
 - AI: [Added scheduling options for running vision models in the background](https://github.com/photoprism/photoprism/issues/5234)
-- UX: [Added a batch edit dialog to edit multiple pictures at once](https://github.com/photoprism/photoprism/issues/271)
+- UX: [Added a batch edit dialog to edit multiple pictures at once](https://github.com/photoprism/photoprism/issues/271) by [@AsikNasik](https://github.com/AsikNasik)
 - UX: [Added a menu to select a cover image for people](https://github.com/photoprism/photoprism/issues/4151) by [@omerdduran](https://github.com/omerdduran)
 - UX: ["Add to Album" dialog allows selection of multiple albums](https://github.com/photoprism/photoprism/pull/5177) by [@omerdduran](https://github.com/omerdduran)
 - UX: [Improved people name editing and focus management](https://github.com/photoprism/photoprism/pull/5307) by [@omerdduran](https://github.com/omerdduran)
