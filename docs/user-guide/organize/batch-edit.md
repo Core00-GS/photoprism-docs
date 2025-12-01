@@ -17,10 +17,10 @@ The form fields in the dialog show the current values only if they are the same 
 !!! note ""
     You can deselect pictures in the dialog to exclude them from the changes. The values shown in the fields still reflect the **original selection**, even if you deselect some pictures.
 
-## Albums and Labels 
+## Labels and Albums  
 
 [![Screenshot](img/batch-edit-3-1125.jpg){ class="shadow right" }](img/batch-edit-3-1125.jpg)
-[Labels](labels.md) and [Albums](albums.md) that are assigned to **all** selected pictures are listed first. Each entry is shown as a small chip. If a label or album is assigned to only some of the selected pictures, its chip is shown as *partially assigned*.
+Entries that are assigned to **all** selected pictures are listed first. Each entry is shown as a small chip. If a [label](labels.md) or [album](albums.md) is assigned to only some of the selected pictures, its chip is shown as *partially assigned*.
 
 - Click a partially assigned label or album chip **once** to assign it to **all** selected pictures.
 - Click the same chip **again** to remove that label or album from **all** selected pictures.
