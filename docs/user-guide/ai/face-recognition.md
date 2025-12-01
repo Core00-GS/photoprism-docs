@@ -21,7 +21,7 @@ You can choose between two face detection engines, each with different character
 
 ### ONNX SCRFD 0.5g
 
-ONNX Runtime-backed CNN model that delivers **higher recall** on challenging faces. This engine:
+[ONNX Runtime](https://onnxruntime.ai/)-backed [CNN model](https://dl.photoprism.app/onnx/models/) that delivers **higher recall** on challenging faces. This engine:
 
 - Detects faces that are partially occluded (covered by hands, objects, etc.)
 - Works better with off-axis or angled faces
@@ -37,6 +37,24 @@ The ONNX engine is automatically enabled when `FACE_ENGINE=auto` and the bundled
 - Maximum face detection accuracy
 - Photos with challenging angles or lighting
 - Group photos with partially obscured faces
+
+## Face Embeddings
+
+### FaceNet
+
+After detection, PhotoPrism uses [TensorFlow](index.md#model-engines) to run [FaceNet](https://en.wikipedia.org/wiki/FaceNet), which generates 512-dimensional embedding vectors that characterize each face. These vectors are then used to:
+
+1. **Match faces** across different pictures.
+2. **Cluster similar faces** using the DBSCAN algorithm.
+3. **Assign faces to people** with manual confirmation.
+
+All face embeddings are L2-normalized to unit length (‖x‖₂ = 1) at:
+
+- Creation time (after TensorFlow inference)
+- Midpoint calculation when merging clusters
+- Deserialization when loading from the database
+
+This normalization ensures that Euclidean distance comparisons are equivalent to cosine similarity, aligning with FaceNet research standards.
 
 ## Configuration
 
@@ -74,24 +92,6 @@ The ONNX engine is automatically enabled when `FACE_ENGINE=auto` and the bundled
 - To cluster a smaller number of faces, you can reduce the kernel to 3 or 2 similar faces.
 - The ONNX engine typically provides better results on challenging photos (angles, occlusions, lighting) compared to Pigo.
 - Use `FACE_ENGINE=auto` to automatically select the best available engine.
-
-## Face Embeddings
-
-After detection, PhotoPrism generates 512-dimensional embedding vectors using TensorFlow to characterize each face. These embeddings are used to:
-
-1. **Match faces** across different photos
-2. **Cluster similar faces** using the DBSCAN algorithm
-3. **Assign faces to people** with manual confirmation
-
-### Normalization
-
-All face embeddings are L2-normalized to unit length (‖x‖₂ = 1) at:
-
-- Creation time (after TensorFlow inference)
-- Midpoint calculation when merging clusters
-- Deserialization when loading from the database
-
-This normalization ensures that Euclidean distance comparisons are equivalent to cosine similarity, aligning with FaceNet research standards.
 
 ## CLI Reference
 
