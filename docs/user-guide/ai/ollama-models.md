@@ -20,7 +20,7 @@ Performance also depends on your hardware, so e.g., Qwen3-VL might outperform Ge
 
 When the `Engine` is set to `ollama`, PhotoPrism applies suitable defaults (720 px thumbnails, JSON prompts for labels). You may therefore omit the `Prompt` and `Options` shown in the examples below if you would like to use the defaults.
 
-### Gemma 3: Adjusting the Temperature & Top P for Labels
+### Gemma 3: Adjusting the Temperature & TopP for Labels
 
 ```yaml
 Models:
