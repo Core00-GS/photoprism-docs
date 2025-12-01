@@ -2,14 +2,14 @@
 
 Learn how to use PhotoPrism with OpenAI's GPT-5 models to generate high-quality captions and labels for your pictures.
 
-## Getting Started
+## Setup
 
 ### Prerequisites
 
 - In order to use OpenAI services, you need a valid API key, which can be configured via `OPENAI_API_KEY` or `OPENAI_API_KEY_FILE`.
 - PhotoPrism must also have network access to `api.openai.com`.
 
-### Configure Models
+### Configuration
 
 Add the following caption and/or labels model configurations to your `vision.yml` file:
 

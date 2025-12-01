@@ -2,7 +2,7 @@
 
 Learn how to set up and connect a self-hosted Ollama instance to generate detailed captions and accurate labels for your pictures with [vision-capable LLMs](https://ollama.com/search?c=vision).
 
-## Getting Started
+## Setup
 
 ### Step 1: Install Ollama
 

@@ -53,17 +53,17 @@ Qwen2.5-VL [requires Ollama 0.7.0](https://ollama.com/library/qwen2.5vl#readme) 
 
 #### Prompts
 
-We recommend the following prompt to generate detailed captions of up to three sentences:
+We recommend the following prompt to generate concise captions with exactly one sentence:
+
+> Create a caption with exactly one sentence in the active voice that describes the main visual content. Begin with the main subject and clear action. Avoid text formatting, meta-language, and filler words.
+
+Example: *A sleek pool extends over a dramatic cliffside overlooking turquoise waters.*
+
+As an alternative, this prompt will generate detailed captions of up to three sentences:
 
 > Write a descriptive caption in 3 sentences or fewer that captures the essence of the visual content. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as "This image", "The picture", or "Here are". Begin with the subject(s), then describe the surroundings, and finally add atmosphere (e.g., time of day). If possible, include the subject's gender and general age group.
 
 Example: *A gray cat with a fluffy coat is lounging on a cushion, its eyes closed in a peaceful slumber. The background features a blurred view of trees and a blue sky, suggesting it's daytime. The cat's relaxed posture and the serene outdoor setting create a tranquil and cozy atmosphere.*
-
-Alternatively, this prompt will generate shorter captions that are still relatively detailed:
-
-> Create an interesting caption that sounds natural and briefly describes the visual content in 1 to 2 sentences. Avoid text formatting, meta-language, and filler words. Do not start captions with phrases such as "This image", "The image", "This picture", "The picture", "A picture of", "Here are", or "There is". Instead, start describing the content by identifying the subjects, location, and any actions that might be performed. Use explicit language to describe the scene if necessary for a proper understanding.
-
-Example: *In the darkness, a lone figure stands still, their silhouette barely visible against the pitch-black background.*
 
 #### Summary
 
