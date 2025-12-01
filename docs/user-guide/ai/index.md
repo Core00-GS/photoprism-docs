@@ -11,7 +11,7 @@ PhotoPrism currently supports the following AI frameworks and services:
 | Engine                                                                 | Resolution | Runs        | Best For                                                                                                      |                      
 |------------------------------------------------------------------------|------------|-------------|---------------------------------------------------------------------------------------------------------------|
 | [TensorFlow](../../developer-guide/vision/tensorflow/custom-models.md) | 224 px     | Built-in    | Fast, offline default models for core features (labels, faces, NSFW)                                          | 
-| [Ollama](using-ollama.md)                                              | 720 px     | Self-Hosted | Good for generating quality captions & labels, but a GPU is recommended                                       | 
+| [Ollama](using-ollama.md)                                              | 720 px     | Self-Hosted | Good for generating quality captions & labels; a server with GPU is recommended                               | 
 | [OpenAI API](using-openai.md)                                          | 720 px     | Cloud       | Highest quality captions & labels, also suitable for users without a GPU; requires API key and network access | 
 
 ### Performance
