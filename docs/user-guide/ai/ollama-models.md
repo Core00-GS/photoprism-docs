@@ -128,7 +128,7 @@ Why this works:
 - **Model:** [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) is a lightweight version of Qwen3-VL. You can alternatively try [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
 - **Engine:** Applies suitable **Resolution**, **Format**, and **Options** defaults.
 - **Run:** `on-demand` allows manual, metadata worker, and scheduled jobs ￫ [Run Modes](index.md#run-modes).
-- **Prompt:** Ensures low latency, prevents repetition, and controls the type of labels returned.
+- **Prompt:** Ensures low latency, prevents repetition, and controls the type and number of labels returned. It can be adjusted to your needs.
 - **Seed:** Ensures stable labels. Our example uses the [instruct model variant](https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#instruct-models) default.
 - **Temperature, TopP,** and **TopK:** Push the model to pick high-probability, common words, not creative synonyms.
 - **MinP:** Explicitly cuts off very low-probability tokens, which are typically those rare labels and odd phrasings you don’t want for classification.
