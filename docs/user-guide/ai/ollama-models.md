@@ -73,6 +73,27 @@ Why this works:
 - **Engine:** Applies suitable **Resolution**, **Format**, **Prompt** and **Options** defaults (720 px thumbnails, JSON prompts for labels). Specifying a custom prompt is not required.
 - **Run:** `auto` allows manual, after indexing, and scheduled runs ￫ [Run Modes](index.md#run-modes).
 
+### Gemma 3: Caption
+
+```yaml
+Models:
+- Type: caption
+  Model: gemma3:latest
+  Engine: ollama
+  Run: auto
+  Prompt: >
+    Create a caption with exactly one sentence in the active voice that
+    describes the main visual content. Begin with the main subject and
+    clear action. Avoid text formatting, meta-language, and filler words.
+  Service:
+    Uri: http://ollama:11434/api/generate
+```
+
+Why this works:
+
+- **Engine:** Uses 720 px thumbnails and applies suitable **Format**, **Prompt** and **Options** defaults. Specifying a [custom prompt](#caption-prompts) is not required, but possible.
+- **Run:** `auto` allows manual, after indexing, and scheduled runs ￫ [Run Modes](index.md#run-modes).
+
 ### Qwen3-VL: Labels
 
 ```yaml
