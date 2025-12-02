@@ -82,7 +82,7 @@ If a model type is omitted, PhotoPrism will use the built-in defaults for `label
 
 ### Options
 
-The model `Options` allow you to adjust model parameters such as temperature, top-p, and schema constraints when using [Ollama](using-ollama.md)/[OpenAI](using-openai.md):
+Adjusts model parameters, such as temperature and top-p, as well as other constraints, when using [Ollama](using-ollama.md) or [OpenAI](using-openai.md):
 
 | Option            | Default                                                                                 | Description                                                                             |
 |-------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
@@ -104,7 +104,7 @@ The model `Options` allow you to adjust model parameters such as temperature, to
 
 ### Service
 
-The model `Service` settings allow you to configure endpoints and authentication for engines that perform remote HTTP requests, such as [Ollama](using-ollama.md) and [OpenAI](using-openai.md):
+Configures the endpoint URL, method, format, and authentication for [Ollama](using-ollama.md), [OpenAI](using-openai.md), and other engines that perform remote HTTP requests:
 
 | Field                              | Default                                  | Notes                                                |
 |------------------------------------|------------------------------------------|------------------------------------------------------|
