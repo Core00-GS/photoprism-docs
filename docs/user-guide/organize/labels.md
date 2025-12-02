@@ -1,4 +1,8 @@
 # Labels #
+
+!!! tldr ""
+    Looking for more accurate AI labels? Try our [Ollama](../ai/using-ollama.md) or [OpenAI](../ai/using-openai.md) integration or configure a [more powerful TensorFlow model](../../developer-guide/vision/tensorflow/custom-models.md).
+
 PhotoPrism uses labels to classify images.
 Other tools use the term tags instead of labels.
 Labels are set automatically when adding new photos. 
