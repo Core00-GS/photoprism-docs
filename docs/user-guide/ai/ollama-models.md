@@ -110,15 +110,15 @@ Models:
     - Do NOT add any fields other than name, confidence, topicality.
     - Do NOT output any text before or after the JSON.
   Options:
-    Seed: 3407           # https://github.com/QwenLM/Qwen3-VL
-    Temperature: 0.01    # low randomness
+    Seed: 3407           # model default, see https://github.com/QwenLM/Qwen3-VL
+    Temperature: 0.01    # low randomness, fewer hallucinations
     TopK: 40             # consider only top ~40 tokens
     TopP: 0.9            # cut off tail of distribution
     MinP: 0.05           # drop rare tokens
     TypicalP: 1.0        # effectively off
     RepeatLastN: 128     # look back to prevent repetition
     RepeatPenalty: 1.2   # penalty to avoid simple loops
-    NumPredict: 512      # https://github.com/QwenLM/Qwen3-VL/issues/1611
+    NumPredict: 512      # prevent runaway output
   Service:
     Uri: http://ollama:11434/api/generate
 ```
@@ -153,15 +153,15 @@ Models:
     - Do NOT include quotation marks around the caption.
     - Respond with the caption text only, and nothing else.
   Options:
-    Seed: 3407           # stable captions when inputs are identical
-    Temperature: 0.25    # lower than the model's default (0.7) for fewer hallucinations 
+    Seed: 3407           # model default, see https://github.com/QwenLM/Qwen3-VL
+    Temperature: 0.25    # reduce randomness for fewer hallucinations
     TopK: 20             # matches the model's default
     TopP: 0.8            # matches the model's default
     MinP: 0.05           # cut very low-probability, odd tokens
     TypicalP: 1.0        # effectively disabled; TopP/MinP dominate
-    RepeatLastN: 64      # short history is enough for a 1–2 sentence caption
-    RepeatPenalty: 1.1   # mild penalty to avoid loops without harming fluency
-    NumPredict: 128      # ample for a couple of sentences; prevents runaway output
+    RepeatLastN: 64      # short history for 1–2 sentences
+    RepeatPenalty: 1.1   # penalty to avoid loops without harming fluency
+    NumPredict: 128      # prevent runaway output
   Service:
     Uri: http://ollama:11434/api/generate
 ```
