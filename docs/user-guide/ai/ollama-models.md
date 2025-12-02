@@ -104,7 +104,7 @@ Models:
   Run: on-demand
   Prompt: |
     Analyze the image and return JSON label objects with name, confidence (0-1), and topicality (0-1):
-    - Return AT MOST 3 labels.
+    - Return AT MOST 5 labels.
     - Each label name MUST be a single-word noun in canonical singular form.
     - Do NOT repeat the same label name more than once.
     - Do NOT add any fields other than name, confidence, topicality.
