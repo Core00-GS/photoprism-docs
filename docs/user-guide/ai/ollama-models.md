@@ -2,10 +2,10 @@
 
 We recommend choosing a [vision model](https://ollama.com/search?c=vision) that balances speed, accuracy, and performance. Two models that meet these criteria and that we can recommend are [Gemma 3](https://ollama.com/library/gemma3) and [Qwen3-VL](https://ollama.com/library/qwen3-vl):
 
-| Model    | Use Case                                                   | Notes                                                                |
-|----------|------------------------------------------------------------|----------------------------------------------------------------------|
-| Gemma 3  | Standard caption and label generation                      | Light, reliable JSON output; good default.                           |
-| Qwen3-VL | Advanced vision and reasoning tasks (OCR, complex prompts) | Better visual grounding and multi-language support; needs more VRAM. |
+| Model        | Use Case                                                   | Notes                                                                |
+|--------------|------------------------------------------------------------|----------------------------------------------------------------------|
+| **Gemma 3**  | Standard caption and label generation                      | Light, reliable JSON output; good default.                           |
+| **Qwen3-VL** | Advanced vision and reasoning tasks (OCR, complex prompts) | Better visual grounding and multi-language support; needs more VRAM. |
 
 [**Gemma 3**](https://ollama.com/library/gemma3) is very consistent in terms of performance, with errors occurring rarely. However, it is less suitable for long/complex prompts and captions. We recommend using the standard variant, `gemma3:latest`, for most [use cases](#gemma-3-labels).
 
