@@ -11,9 +11,7 @@ Please note that not all [video and audio formats](https://caniuse.com/?search=v
     You should also have [ExifTool enabled](../../getting-started/config-options.md#feature-flags) to extract metadata such as duration, resolution, and codec.
 
 ## Live Photos
-
-Short videos up to 3 seconds are categorized and displayed as *Live Photos*, regardless of your phone's make and model.
-You can recognize this by the :material-adjust: icon that appears in the upper left corner.
+You can recognize live photos by the :material-adjust: icon that appears in the upper left corner.
 
 Move the mouse cursor over the thumbnail to play the video without changing the view.
 You can limit a search to *Live Photos* by using the `type:live` filter or the keyword `live`.
