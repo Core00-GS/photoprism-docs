@@ -1,6 +1,6 @@
 # Caption Generation
 
-As an addition to its [built-in AI capabilities](tensorflow/index.md), PhotoPrism lets you generate image captions through a direct [Ollama](https://ollama.com/search?c=vision) integration, as [described in this guide](#ollama-setup-guide).[^1]
+As an addition to its [built-in AI capabilities](tensorflow/index.md), PhotoPrism lets you generate image captions through a direct [Ollama](https://ollama.com/search?c=vision) integration, as [described in this guide](#ollama-setup-guide).
 
 It allows you to choose from the [available vision models](https://ollama.com/search?c=vision) and [customize the prompts](#step-3-configure-photoprism) according to your needs.
 
@@ -13,7 +13,7 @@ Follow the steps below to connect PhotoPrism directly to an Ollama instance and 
 
 ### Step 1: Install Ollama
 
-To run Ollama on the same server as PhotoPrism, add the `ollama` service to the `services` section of your `compose.yaml` (or `docker-compose.yml`) file, as shown in the example below.[^2]
+To run Ollama on the same server as PhotoPrism, add the `ollama` service to the `services` section of your `compose.yaml` (or `docker-compose.yml`) file, as shown in the example below.[^1]
 
 Alternatively, most of the [`compose.yaml`](../../getting-started/docker-compose.md) [configuration examples](https://dl.photoprism.app/docker/compose.yaml) on our download server already have Ollama preconfigured, so you can start it with the following command (remove `profiles: ["ollama"]` from the `ollama` service to start it by default, without using `--profile ollama`):
 
@@ -156,5 +156,4 @@ docker compose up -d ollama
 
 This will clear the VRAM and restore normal GPU-accelerated processing performance.
 
-[^1]: Available to all users with the [next stable version](../../release-notes.md), see our [release notes](../../release-notes.md#development-preview) for details.
-[^2]: Unrelated configuration details have been omitted for brevity.
+[^1]: Unrelated configuration details have been omitted for brevity.
