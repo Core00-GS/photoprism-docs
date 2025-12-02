@@ -143,9 +143,8 @@ Models:
   Model: qwen3-vl:4b-instruct
   Engine: ollama
   Run: on-schedule
+  System: You are an image captioning assistant.
   Prompt: |
-    You are an image captioning assistant.
-
     Write one or two concise sentences that describe the main subject, key actions, and setting of the image:
     - Describe only what is clearly visible in the image; do not invent names, ages, or backstories.
     - Use natural, fluent language without bullet points or lists.
@@ -172,9 +171,8 @@ Why this works:
 - **Model:** Using [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) for both labels and captions avoids time-consuming Ollama model swaps. You can alternatively try [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
 - **Engine:** Applies suitable **Resolution**, **Format**, and **Options** defaults.
 - **Run:** `on-schedule` allows manual and scheduled jobs ￫ [Run Modes](index.md#run-modes).
-- **Prompt:** Explicitly asks for one or two sentences describing the subject, actions, and setting while banning meta phrases such as "The image shows...", lists, and extra commentary. 
-  This pushes the model toward clean alt-text-style captions that can be displayed directly in UIs without further processing.
-  Guidelines such as "describe only what is clearly visible" and "do not invent names/ages/backstories" prevent the model from hallucinating brands, story details, or emotions, keeping captions factual and safe for automated use.
+- **System:** Tells the model to describe images in natural language.
+- **Prompt:** Explicitly asks for one or two sentences describing the subject, actions, and setting while banning meta phrases such as "The image shows...", lists, and extra commentary. This pushes the model toward clean alt-text-style captions that can be displayed directly in UIs without further processing. Guidelines such as "describe only what is clearly visible" and "do not invent names/ages/backstories" prevent the model from hallucinating brands, story details, or emotions, keeping captions factual and safe for automated use.
 - **Seed:** Gives stable, reproducible captions for the same image + prompt, which is useful for indexing and re-generating captions in a media library scenario. If you want more variety per refresh, simply drop or randomize the seed.
 - **Temperature** and **MinP:** Removes the long tail of very low-probability tokens (weird words, broken fragments) and keeps token choices close to the most likely ones. Together, this yields simple, high-confidence captions rather than imaginative paraphrases.
 - **TopK** and **TopP:** Ensures stability and lower hallucination risk in a captioning context.
