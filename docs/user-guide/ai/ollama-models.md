@@ -50,7 +50,7 @@ For detailed captions, try this prompt, which should generate up to three senten
 **Example:** *A gray cat with a fluffy coat is lounging on a cushion, its eyes closed in a peaceful slumber. The background features a blurred view of trees and a blue sky, suggesting it's daytime. The cat's relaxed posture and the serene outdoor setting create a tranquil and cozy atmosphere.*
 
 !!! tldr ""
-    When tuning prompts, keep them short and include a schema reminder for labels. Overly long prompts can increase hallucinations and latency.
+    When tuning prompts, keep them as short as possible. Overly long prompts can increase hallucinations and latency.
 
 ## Configuration Examples
 
