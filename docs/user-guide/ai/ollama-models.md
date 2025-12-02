@@ -130,10 +130,10 @@ Why this works:
 - **Run:** `on-demand` allows manual, metadata worker, and scheduled jobs ￫ [Run Modes](index.md#run-modes).
 - **Prompt:** Ensures low latency, prevents repetition, and controls the type and number of labels returned. It can be adjusted to your needs.
 - **Seed:** Ensures stable labels. Our example uses the [instruct model variant](https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#instruct-models) default.
-- **Temperature, TopP,** and **TopK:** Push the model to pick high-probability, common words, not creative synonyms.
-- **MinP:** Explicitly cuts off very low-probability tokens, which are typically those rare labels and odd phrasings you don’t want for classification.
-- **RepeatLastN** and **RepeatPenalty:** ensure that labels are unique by penalizing repetition.
-- **NumPredict:** limits the maximum number of output tokens to prevent unfinite repetition.
+- **Temperature, TopP,** and **TopK:** Picks high-probability, common words, not creative synonyms.
+- **MinP:** Cuts off very low-probability tokens, which are typically those rare labels and odd phrasings you don’t want for classification.
+- **RepeatLastN** and **RepeatPenalty:** Ensures that labels are unique by penalizing repetition.
+- **NumPredict:** Limits the maximum number of output tokens to prevent unfinite repetition.
 
 ### Qwen3-VL: Caption
 
@@ -172,9 +172,9 @@ Why this works:
 - **Engine:** Applies suitable **Resolution**, **Format**, and **Options** defaults.
 - **Run:** `on-schedule` allows manual and scheduled jobs ￫ [Run Modes](index.md#run-modes).
 - **System:** Tells the model to describe images in natural language.
-- **Prompt:** Explicitly asks for one or two sentences describing the subject, actions, and setting while banning meta phrases such as "The image shows...", lists, and extra commentary. This pushes the model toward clean alt-text-style captions that can be displayed directly in UIs without further processing. Guidelines such as "describe only what is clearly visible" and "do not invent names/ages/backstories" prevent the model from hallucinating brands, story details, or emotions, keeping captions factual and safe for automated use.
+- **Prompt:** Asks for one or two sentences describing the subject, actions, and setting while banning meta phrases such as "The image shows...", lists, and extra commentary. This pushes the model toward clean alt-text-style captions that can be displayed directly in UIs without further processing. Guidelines such as "describe only what is clearly visible" and "do not invent names/ages/backstories" prevent the model from hallucinating brands, story details, or emotions, keeping captions factual and safe for automated use.
 - **Seed:** Gives stable, reproducible captions for the same image + prompt, which is useful for indexing and re-generating captions in a media library scenario. If you want more variety per refresh, simply drop or randomize the seed.
 - **Temperature** and **MinP:** Removes the long tail of very low-probability tokens (weird words, broken fragments) and keeps token choices close to the most likely ones. Together, this yields simple, high-confidence captions rather than imaginative paraphrases.
 - **TopK** and **TopP:** Ensures stability and lower hallucination risk in a captioning context.
-- **RepeatPenalty** and **RepeatLastN:** Discourages repetition if the model tries to continue, without noticeably affecting normal phrasing.
-- **NumPredict:** High enough for two short sentences, but low enough to avoid rambling.
+- **RepeatPenalty** and **RepeatLastN:** Discourages repetition without affecting normal phrasing.
+- **NumPredict:** High enough for 1–2 sentences, but low enough to avoid rambling.
