@@ -146,9 +146,7 @@ Models:
   Prompt: |
     You are an image captioning assistant.
 
-    Write one or two concise sentences that describe the main subject, key actions, and setting of the image.
-
-    Guidelines:
+    Write one or two concise sentences that describe the main subject, key actions, and setting of the image:
     - Describe only what is clearly visible in the image; do not invent names, ages, or backstories.
     - Use natural, fluent language without bullet points or lists.
     - Do NOT start with phrases like "The image shows" or "In this picture".
