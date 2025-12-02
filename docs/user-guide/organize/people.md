@@ -1,6 +1,6 @@
 # Face Recognition
 
-Our [latest version](../../release-notes.md) includes facial recognition that lets you find pictures
+PhotoPrism includes facial recognition that lets you find pictures
 of your family and friends. Be ready to discover long forgotten shots! New faces are detected as
 you scan your library. They are then grouped by similarity, so you can quickly match them to people.
 
@@ -36,6 +36,7 @@ shows all faces, so you can name them or report a bad match by pressing the :mat
 
 There can be several reasons why a face was not detected:
 
+- Our [latest release](../../release-notes.md#november-30-2025) includes better face detection. After updating, perform a [complete rescan](https://docs.photoprism.app/user-guide/library/originals/#when-should-complete-rescan-be-selected) or run `photoprism faces index` [in a terminal](https://docs.photoprism.app/getting-started/docker-compose/#opening-a-terminal) to detect more faces that were previously missed
 - You may need to wait until indexing is complete, as face recognition will not begin until your library has been scanned
 - Only the primary file in stacks will be searched for faces
 - Faces can be smaller than the minimum size configured
