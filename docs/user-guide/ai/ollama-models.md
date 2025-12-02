@@ -18,7 +18,7 @@ Performance also depends on your hardware, so e.g., [Qwen3-VL variants](https://
 
 ## Temperature, TopK, and TopP
 
-Specifying the `Temperature`, `TopK`, and `TopP` [options](index.md#options) when using Ollama models allows you to control the randomness and creativity of generative large-language models:
+Specifying the `Temperature`, `TopK`, and `TopP` [options](index.md#options) when using Ollama models allows you to control the randomness and creativity of generative [large-language models](https://en.wikipedia.org/wiki/Large_language_model):
 
 | Parameter   | Effect on Output                           | When to Use                                    |
 |-------------|--------------------------------------------|------------------------------------------------|
