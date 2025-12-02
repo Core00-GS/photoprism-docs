@@ -30,8 +30,8 @@ Specifying the `Temperature`, `TopK`, and `TopP` [options](index.md#options) whe
 
 These methods can be combined to fine-tune the output further. For instance:
 
-- **Temperature + TopK:** adjust randomness while limiting to the top k tokens.
-- **Temperature + TopP:** control creativity with temperature and adaptively limit tokens with Top-p.
+- **Temperature + TopK:** adjust randomness while choosing the most probable tokens.
+- **Temperature + TopP:** control creativity with temperature and adaptively limit tokens.
 
 You can additionally specify **MinP** to cut off tokens with very low probability, which are typically rare labels and odd phrasings that you don't want for classification.
 
