@@ -84,16 +84,23 @@ If a model type is omitted, PhotoPrism will use the built-in defaults for `label
 
 The model `Options` allow you to adjust model parameters such as temperature, top-p, and schema constraints when using [Ollama](using-ollama.md)/[OpenAI](using-openai.md):
 
-| Option            | Default                                                                                 | Description                                                                        |
-|-------------------|-----------------------------------------------------------------------------------------|------------------------------------------------------------------------------------|
-| `Temperature`     | engine default (`0.1` for Ollama; unset for OpenAI)                                     | Controls randomness; clamped to `[0,2]`. `gpt-5*` OpenAI models are forced to `0`. |
-| `TopP`            | engine default (`0.9` for some Ollama label defaults; unset for OpenAI)                 | Nucleus sampling parameter.                                                        |
-| `MaxOutputTokens` | engine default (OpenAI caption 512, labels 1024; Ollama label default 256)              | Upper bound on generated tokens; adapters raise low values to defaults.            |
-| `ForceJson`       | engine-specific (`true` for OpenAI labels; `false` for Ollama labels; captions `false`) | Forces structured output when enabled.                                             |
-| `SchemaVersion`   | derived from schema name                                                                | Override when coordinating schema migrations.                                      |
-| `Stop`            | engine default                                                                          | Array of stop sequences (e.g., `["\\n\\n"]`).                                      |
-| `NumThread`       | runtime auto                                                                            | Caps CPU threads for local engines.                                                |
-| `NumCtx`          | engine default                                                                          | Context window length (tokens).                                                    |
+| Option            | Default                                                                                 | Description                                                                             |
+|-------------------|-----------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
+| `Temperature`     | engine default (`0.1` for Ollama)                                                       | Controls randomness with a value between `0.01` and `2.0`; not used for OpenAI's GPT-5. |
+| `TopK`            | engine default (model-specific)                                                         | Limits sampling to the top K tokens to reduce rare or noisy outputs.                    |
+| `TopP`            | engine default (`0.9` for some Ollama label defaults; unset for OpenAI)                 | Nucleus sampling; keeps the smallest token set whose cumulative probability ≥ `p`.      |
+| `MinP`            | engine default (unset unless provided)                                                  | Drops tokens whose probability mass is below `p`, trimming the long tail.               |
+| `TypicalP`        | engine default (unset unless provided)                                                  | Keeps tokens with typicality under the threshold; combine with TopP/MinP for flow.      |
+| `Seed`            | random per run (unless set)                                                             | Fix for reproducible outputs; unset for more variety between runs.                      |
+| `RepeatLastN`     | engine default (model-specific)                                                         | Number of recent tokens considered for repetition penalties.                            |
+| `RepeatPenalty`   | engine default (model-specific)                                                         | Multiplier >1 discourages repeating the same tokens or phrases.                         |
+| `NumPredict`      | engine default (Ollama only)                                                            | Ollama-specific max output tokens; synonymous intent with `MaxOutputTokens`.            |
+| `MaxOutputTokens` | engine default (OpenAI caption 512, labels 1024; Ollama label default 256)              | Upper bound on generated tokens; adapters raise low values to defaults.                 |
+| `ForceJson`       | engine-specific (`true` for OpenAI labels; `false` for Ollama labels; captions `false`) | Forces structured output when enabled.                                                  |
+| `SchemaVersion`   | derived from schema name                                                                | Override when coordinating schema migrations.                                           |
+| `Stop`            | engine default                                                                          | Array of stop sequences (e.g., `["\\n\\n"]`).                                           |
+| `NumThread`       | runtime auto                                                                            | Caps CPU threads for local engines.                                                     |
+| `NumCtx`          | engine default                                                                          | Context window length (tokens).                                                         |
 
 ### Service
 
