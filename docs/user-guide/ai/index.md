@@ -95,7 +95,7 @@ The model `Options` allow you to adjust model parameters such as temperature, to
 | `RepeatLastN`     | engine default (model-specific)                                                         | Number of recent tokens considered for repetition penalties.                            |
 | `RepeatPenalty`   | engine default (model-specific)                                                         | Multiplier >1 discourages repeating the same tokens or phrases.                         |
 | `NumPredict`      | engine default (Ollama only)                                                            | Ollama-specific max output tokens; synonymous intent with `MaxOutputTokens`.            |
-| `MaxOutputTokens` | engine default (OpenAI caption 512, labels 1024; Ollama label default 256)              | Upper bound on generated tokens; adapters raise low values to defaults.                 |
+| `MaxOutputTokens` | engine default (OpenAI caption 512, labels 1024)                                        | Upper bound on generated tokens; adapters raise low values to defaults.                 |
 | `ForceJson`       | engine-specific (`true` for OpenAI labels; `false` for Ollama labels; captions `false`) | Forces structured output when enabled.                                                  |
 | `SchemaVersion`   | derived from schema name                                                                | Override when coordinating schema migrations.                                           |
 | `Stop`            | engine default                                                                          | Array of stop sequences (e.g., `["\\n\\n"]`).                                           |
