@@ -18,7 +18,7 @@ Models:
   - Type: caption
     Model: gpt-5-nano
     Engine: openai
-    Run: newly-indexed
+    Run: auto
     Options:
       Detail: low           # optional: default is low
       MaxOutputTokens: 512  # optional: change token limit
@@ -27,7 +27,7 @@ Models:
   - Type: labels
     Model: gpt-5-mini
     Engine: openai
-    Run: newly-indexed
+    Run: auto
     Options:
       MaxOutputTokens: 1024 # optional: change token limit
     Service:
@@ -45,7 +45,8 @@ Recommendations:
 
 ## Usage Tips
 
-- To avoid unexpected API costs, set `Run: manual` and run the models manually with the `photoprism vision run` command.
+- To avoid unexpected API costs, set `Run: manual` and run the models manually via `photoprism vision run -m caption` or `photoprism vision run -m labels`.
+- `Run: auto` automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also allows manual and scheduled invocations.
 - When you remove custom model configuration from you `vision.yml` file, the built-in default models will be enabled again.
 - When you need domain-specific wording, you may override `System` or `Prompt` in `vision.yml`; keep them short and retain the schema reminder for labels.
 

@@ -49,6 +49,8 @@ For detailed captions, try this prompt, which should generate up to three senten
 
 **Example:** *A gray cat with a fluffy coat is lounging on a cushion, its eyes closed in a peaceful slumber. The background features a blurred view of trees and a blue sky, suggesting it's daytime. The cat's relaxed posture and the serene outdoor setting create a tranquil and cozy atmosphere.*
 
+For other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German"). This method works for both caption and label prompts.
+
 !!! tldr ""
     When tuning prompts, keep them as short as possible. Overly long prompts can increase hallucinations and latency.
 
@@ -93,6 +95,7 @@ Why this works:
 
 - **Engine:** Uses 720 px thumbnails and applies suitable **Format**, **Prompt** and **Options** defaults. Specifying a [custom prompt](#caption-prompts) is not required, but possible.
 - **Run:** `auto` allows manual, after indexing, and scheduled runs ￫ [Run Modes](index.md#run-modes).
+- **Prompt:** Uses the built-in [default prompt](#caption-prompts). For other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German").
 
 ### Qwen3-VL: Labels
 
@@ -128,7 +131,7 @@ Why this works:
 - **Model:** [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) is a lightweight version of Qwen3-VL. You can alternatively try [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
 - **Engine:** Applies suitable **Resolution**, **Format**, and **Options** defaults.
 - **Run:** `on-demand` allows manual, metadata worker, and scheduled jobs ￫ [Run Modes](index.md#run-modes).
-- **Prompt:** Ensures low latency, prevents repetition, and controls the type and number of labels returned. It can be adjusted to your needs.
+- **Prompt:** Ensures low latency, prevents repetition, and controls the type and number of labels returned. For other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German").
 - **Seed:** Ensures stable labels. Our example uses the [instruct model variant](https://github.com/QwenLM/Qwen3-VL?tab=readme-ov-file#instruct-models) default.
 - **Temperature, TopP,** and **TopK:** Picks high-probability, common words, not creative synonyms.
 - **MinP:** Cuts off very low-probability tokens, which are typically those rare labels and odd phrasings you don’t want for classification.

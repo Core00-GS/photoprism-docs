@@ -32,7 +32,7 @@ Models:
 - Type: caption
   Model: gemma3:latest
   Engine: ollama
-  Run: newly-indexed
+  Run: auto
   Options:
     Temperature: 0.05
   Service:

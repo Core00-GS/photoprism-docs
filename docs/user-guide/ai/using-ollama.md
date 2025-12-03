@@ -1,10 +1,8 @@
-# Using Ollama
+# Ollama Setup Guide
 
 Learn how to set up and connect a self-hosted Ollama instance to generate detailed captions and accurate labels for your pictures with [vision-capable LLMs](https://ollama.com/search?c=vision).
 
-## Setup
-
-### Step 1: Install Ollama
+## Step 1: Install Ollama
 
 To run Ollama on the same server as PhotoPrism, add the `ollama` service to the `services` section of your `compose.yaml` (or `docker-compose.yml`) file, as shown in the example below.[^1]
 
@@ -73,7 +71,7 @@ Note that the [NVIDIA Container Toolkit](https://docs.nvidia.com/datacenter/clou
 !!! danger ""
     Ollama does not enforce authentication by default. Only expose port `11434` inside trusted networks or behind a reverse proxy that adds access control.
 
-### Step 2: Download Models
+## Step 2: Download Models
 
 Once the Ollama service is running (see [Step 1](#step-1-install-ollama)), you can download [any of the listed vision models](https://ollama.com/search?c=vision) that match your hardware capabilities and preferences, as you will need it for the next step. For example:
 
@@ -83,7 +81,7 @@ docker compose exec ollama ollama pull gemma3:latest
 
 [Learn more ›](ollama-models.md)
 
-### Step 3: Configure Models
+## Step 3: Configure Models
 
 Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
 
@@ -93,23 +91,27 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
     - Type: caption
       Model: gemma3:latest
       Engine: ollama
-      Run: newly-indexed
+      Run: auto
       Service:
         Uri: http://ollama:11434/api/generate
     - Type: labels
       Model: gemma3:latest
       Engine: ollama
-      Run: newly-indexed
+      Run: auto
       Service:
         Uri: http://ollama:11434/api/generate
     ```
 
-#### Scheduling Options
+[Learn more ›](ollama-models.md#gemma-3-labels)
 
-- `Run: newly-indexed` (recommended): Runs after indexing completes via the metadata worker, avoiding slowdowns during import while still processing new files automatically. Also supports manual invocations.
-- `Run: manual` disables automatic execution so you can invoke the model explicitly via `photoprism vision run -m caption`
+### Scheduling Options
 
-### Step 4: Restart PhotoPrism
+- `Run: auto` (recommended) automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also allows manual and scheduled invocations.
+- `Run: manual` disables automatic execution, allowing you to run the model manually via `photoprism vision run -m caption` or `photoprism vision run -m labels`.
+
+[Learn more ›](index.md#run-modes)
+
+## Step 4: Restart PhotoPrism
 
 Run the following commands to restart `photoprism` and apply the new settings:
 
