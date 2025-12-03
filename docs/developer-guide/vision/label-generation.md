@@ -8,20 +8,14 @@ Follow the [steps in our User Guide](../../user-guide/ai/using-ollama.md) to con
 
 [Learn more ›](../../user-guide/ai/using-ollama.md)
 
-### Usage Tips
+### Configuration Tips
 
-PhotoPrism evaluates models from the bottom of the list up, so putting the Ollama entry after the default fallback model ensures that Ollama is chosen first, while the default model remains available as a backup.
+PhotoPrism evaluates models from the bottom of the list up, so placing the Ollama entries after the others ensures Ollama is chosen first while the others remain available as fallback options.
 
-PhotoPrism records Ollama-generated labels with the `ollama` metadata source automatically, so you do not need to request a specific `source` field in the schema or pass `--source` to the CLI unless you want to override the default.
+Ollama-generated captions and labels are stored with the `ollama` metadata source automatically, so you do not need to request a specific `source` field in the schema or pass `--source` to the CLI unless you want to override the default.
 
 !!! tip "Prompt Localization"
     To generate output in other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German"). This method works for both [caption](../../user-guide/ai/ollama-models.md#qwen3-vl-caption) and [label prompts](../../user-guide/ai/ollama-models.md#qwen3-vl-labels).
-
-### Scheduling Options
-
-- `Run: newly-indexed` (recommended) runs the Ollama model via the metadata worker shortly after new photos are indexed. This keeps the indexing pipeline responsive while still updating metadata within minutes.
-- `Run: on-index` executes during the primary indexing process. Only use this for lightweight or local models; external calls will otherwise lengthen imports noticeably.
-- `Run: manual` disables automatic execution so you can invoke the model explicitly via `photoprism vision run -m labels`.
 
 ## Troubleshooting
 
