@@ -1,5 +1,8 @@
 # Vision Model Comparison
 
+!!! note ""
+    Additional [guidance with specific configuration examples](../../user-guide/ai/ollama-models.md) can be found in our User Guide. [Learn more ›](../../user-guide/ai/ollama-models.md)
+
 ## Caption Generation
 
 We tested the ability of the following [Ollama Vision models](https://ollama.com/search?c=vision) to generate accurate, natural-sounding captions for 100 different images, including photos, drawings, and memes:
