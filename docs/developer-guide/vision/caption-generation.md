@@ -10,6 +10,15 @@ Follow the [steps in our User Guide](../../user-guide/ai/using-ollama.md) to con
 
 [Learn more ›](../../user-guide/ai/using-ollama.md)
 
+### Usage Tips
+
+PhotoPrism evaluates models from the bottom of the list up, so putting the Ollama entry after the default fallback model ensures that Ollama is chosen first, while the default model remains available as a backup.
+
+PhotoPrism records Ollama-generated captions with the `ollama` metadata source automatically, so you do not need to request a specific `source` field in the schema or pass `--source` to the CLI unless you want to override the default.
+
+!!! tip "Prompt Localization"
+    To generate output in other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German"). This method works for both [caption](../../user-guide/ai/ollama-models.md#qwen3-vl-caption) and [label prompts](../../user-guide/ai/ollama-models.md#qwen3-vl-labels).
+
 ## Troubleshooting ##
 
 ### Verifying Your Configuration ###
