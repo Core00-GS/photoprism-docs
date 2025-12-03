@@ -1,6 +1,6 @@
 # Ollama Models
 
-We recommend choosing a [vision model](https://ollama.com/search?c=vision) that balances speed, accuracy, and performance. Two models that meet these criteria and that we can recommend are [Gemma 3](https://ollama.com/library/gemma3) and [Qwen3-VL](https://ollama.com/library/qwen3-vl):
+We recommend choosing a [vision model](https://ollama.com/search?c=vision) that balances speed, accuracy, and reliability. Two models that meet these criteria and that we can recommend are [Gemma 3](https://ollama.com/library/gemma3) and [Qwen3-VL](https://ollama.com/library/qwen3-vl):
 
 | Model        | Use Case                                                   | Notes                                                                |
 |--------------|------------------------------------------------------------|----------------------------------------------------------------------|
