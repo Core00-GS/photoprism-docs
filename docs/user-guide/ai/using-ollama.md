@@ -106,8 +106,8 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
 
 ### Scheduling Options
 
-- `Run: auto` (recommended) automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also allows manual and scheduled invocations.
-- `Run: manual` disables automatic execution, allowing you to run the model manually via `photoprism vision run -m caption` or `photoprism vision run -m labels`.
+- `Run: auto` (recommended) automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
+- `Run: manual` disables automatic execution, allowing you to [run the model manually](cli.md#run-vision-models) via `photoprism vision run -m caption` or `photoprism vision run -m labels`.
 
 [Learn more ›](index.md#run-modes)
 

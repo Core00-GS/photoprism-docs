@@ -45,10 +45,11 @@ Recommendations:
 
 ## Usage Tips
 
-- To avoid unexpected API costs, set `Run: manual` and run the models manually via `photoprism vision run -m caption` or `photoprism vision run -m labels`.
-- `Run: auto` automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also allows manual and scheduled invocations.
+- To avoid unexpected API costs, set `Run: manual` and [run the models manually](cli.md#run-vision-models)  via `photoprism vision run -m caption` or `photoprism vision run -m labels`.
+- `Run: auto` automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
 - When you remove custom model configuration from you `vision.yml` file, the built-in default models will be enabled again.
 - When you need domain-specific wording, you may override `System` or `Prompt` in `vision.yml`; keep them short and retain the schema reminder for labels.
+- For other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German"). This method works for both caption and label prompts.
 
 ## Troubleshooting ##
 
