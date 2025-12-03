@@ -111,6 +111,15 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
 
 [Learn more ›](index.md#run-modes)
 
+### Configuration Tips
+
+PhotoPrism evaluates models from the bottom of the list up, so placing the Ollama entries after the others ensures Ollama is chosen first while the others remain available as fallback options.
+
+Ollama-generated captions and labels are stored with the `ollama` metadata source automatically, so you do not need to request a specific `source` field in the schema or pass `--source` to the CLI unless you want to override the default.
+
+!!! tip "Prompt Localization"
+    To generate output in other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German"). This method works for both [caption](ollama-models.md#qwen3-vl-caption) and [label prompts](ollama-models.md#qwen3-vl-labels).
+
 ## Step 4: Restart PhotoPrism
 
 Run the following commands to restart `photoprism` and apply the new settings:
@@ -120,7 +129,9 @@ docker compose stop photoprism
 docker compose up -d
 ```
 
-You should now be able to use the `photoprism vision` [CLI commands](./cli.md#run-vision-models) when [opening a terminal](../../getting-started/docker-compose.md#opening-a-terminal), e.g. `photoprism vision run -m caption` to generate captions.
+You should now be able to use the `photoprism vision` [CLI commands](./cli.md#run-vision-models) when [opening a terminal](../../getting-started/docker-compose.md#opening-a-terminal), e.g. `photoprism vision run -m caption` to generate captions, or `photoprism vision run -m labels` to generate labels.
+
+[Learn more ›](cli.md#run-vision-models)
 
 ## Troubleshooting ##
 
