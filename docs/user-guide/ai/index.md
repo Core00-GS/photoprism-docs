@@ -17,8 +17,11 @@ PhotoPrism currently supports the following runtimes and services:
 ### Performance
 
 - **TensorFlow:** Our built-in models generally perform well on all types of hardware.
-- **Ollama:** On an NVIDIA RTX 4060, generating labels for an image with Ollama usually takes 1-3 seconds. Without GPU acceleration, however, it can be significantly slower, taking anywhere from 10 seconds to over a minute.
+- **Ollama:** [Generating labels](ollama-models.md#gemma-3-labels) for an image on an NVIDIA RTX 4060 usually takes 1-4 seconds. The exact time varies depending on the model used and the [number of labels](ollama-models.md#qwen3-vl-labels) generated.
 - **OpenAI:** Processing one image takes about 3 seconds, though this can vary by model, region, and demand.
+
+!!! tldr ""
+    Without GPU acceleration, Ollama models will be significantly slower, taking anywhere from 10 seconds to over a minute to complete. This may be acceptable if you only want to process a few pictures or are willing to wait.
 
 ## `vision.yml` Reference
 
@@ -78,7 +81,8 @@ If a model type is omitted, PhotoPrism will use the built-in defaults for `label
 | `always`        | Indexing, metadata, scheduled, manual                            | High-priority models; watch resource use.      |
 | `never`         | Never executes                                                   | Keep definition without running it.            |
 
-> For performance reasons, `on-index` is only supported for the built-in TensorFlow models.
+!!! tldr ""
+    For performance reasons, `on-index` is only supported for the built-in TensorFlow models.
 
 ### Options
 
@@ -124,17 +128,19 @@ Adjusts model parameters, such as temperature and top-p, as well as other constr
 
 Configures the endpoint URL, method, format, and authentication for [Ollama](using-ollama.md), [OpenAI](using-openai.md), and other engines that perform remote HTTP requests:
 
-| Field                              | Default                                  | Notes                                                                                    |
-|------------------------------------|------------------------------------------|------------------------------------------------------------------------------------------|
-| `Uri`                              | required for remote                      | Endpoint base. Empty keeps model local (TensorFlow).                                     |
-| `Method`                           | `POST`                                   | Override verb if provider needs it.                                                      |
-| `Key`                              | `""`                                     | Bearer token; prefer env expansion (OpenAI: `OPENAI_API_KEY`, Ollama: `OLLAMA_API_KEY`). |
-| `Username` / `Password`            | `""`                                     | Injected as basic auth when URI lacks userinfo.                                          |
-| `Model`                            | `""`                                     | Endpoint-specific override; wins over model/name.                                        |
-| `Org` / `Project`                  | `""`                                     | OpenAI headers (org/proj IDs)                                                            |
-| `RequestFormat` / `ResponseFormat` | set by engine alias                      | Explicit values win over alias defaults.                                                 |
-| `FileScheme`                       | set by engine alias (`data` or `base64`) | Controls image transport.                                                                |
-| `Disabled`                         | `false`                                  | Disable the endpoint without removing the model.                                         |
+| Field                              | Default                                  | Notes                                                                                        |
+|------------------------------------|------------------------------------------|----------------------------------------------------------------------------------------------|
+| `Uri`                              | required for remote                      | Endpoint base. Empty keeps model local (TensorFlow).                                         |
+| `Method`                           | `POST`                                   | Override verb if provider needs it.                                                          |
+| `Key`                              | `""`                                     | Bearer token; prefer env expansion (OpenAI: `OPENAI_API_KEY`, Ollama: `OLLAMA_API_KEY`[^1]). |
+| `Username` / `Password`            | `""`                                     | Injected as basic auth when URI lacks userinfo.                                              |
+| `Model`                            | `""`                                     | Endpoint-specific override; wins over model/name.                                            |
+| `Org` / `Project`                  | `""`                                     | OpenAI headers (org/proj IDs)                                                                |
+| `RequestFormat` / `ResponseFormat` | set by engine alias                      | Explicit values win over alias defaults.                                                     |
+| `FileScheme`                       | set by engine alias (`data` or `base64`) | Controls image transport.                                                                    |
+| `Disabled`                         | `false`                                  | Disable the endpoint without removing the model.                                             |
 
-> **Authentication:** All credentials and identifiers support `${ENV_VAR}` expansion. `Service.Key` sets `Authorization: Bearer <token>`; `Username`/`Password` injects HTTP basic authentication into the service URI when it is not already present. When `Service.Key` is empty, PhotoPrism defaults to `OPENAI_API_KEY` (OpenAI engine) or `OLLAMA_API_KEY` (Ollama engine), also honoring their `_FILE` counterparts.
+!!! tldr ""
+    **Authentication:** All credentials and identifiers support `${ENV_VAR}` expansion. `Service.Key` sets `Authorization: Bearer <token>`; `Username`/`Password` injects HTTP basic authentication into the service URI when it is not already present. When `Service.Key` is empty, PhotoPrism defaults to `OPENAI_API_KEY` (OpenAI engine) or `OLLAMA_API_KEY` (Ollama engine), also honoring their `_FILE` counterparts.
  
+[^1]: Available in our [Development Preview](../../release-notes.md#development-preview) and the upcoming stable release.
