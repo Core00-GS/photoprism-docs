@@ -137,13 +137,13 @@ You should now be able to use the `photoprism vision` [CLI commands](./cli.md#ru
 
 ### Verifying Your Configuration
 
-If you encounter issues, a good first step is to verify how PhotoPrism has loaded your `vision.yml` configuration. You can do this by running: 
+If you encounter issues, a good first step is to verify how PhotoPrism has loaded your [`vision.yml`](index.md#visionyml-reference) configuration. You can do this by running: 
 
 ```bash
 docker compose exec photoprism photoprism vision ls
 ```
 
-This command outputs the settings for all supported and configured model types. Compare the results with your `vision.yml` file to confirm that your configuration has been loaded correctly and to identify any parsing errors or misconfigurations.
+This command outputs the settings for all supported and configured model types. Compare the results with your [`vision.yml`](index.md#visionyml-reference) file to confirm that your configuration has been loaded correctly and to identify any parsing errors or misconfigurations.
 
 ### Performing Test Runs 
 
@@ -154,7 +154,12 @@ photoprism vision run -m labels --count 1 --force
 photoprism vision run -m caption --count 1 --force
 ```
 
-If output is empty, enable trace logging temporarily (`PHOTOPRISM_LOG_LEVEL=trace`) and re-run the command to inspect the request/response.
+If you don't get the expected results or notice any errors, you can re-run the commands with trace log mode enabled to inspect the request and response:
+
+```bash
+photoprism --log-level=trace vision run -m labels --count 1 --force
+photoprism --log-level=trace vision run -m caption --count 1 --force
+```
 
 ### GPU Performance Issues
 
@@ -169,7 +174,7 @@ docker compose down ollama
 docker compose up -d ollama
 ```
 
-This will clear the VRAM and restore normal GPU-accelerated processing performance.
+This should clear the VRAM and restore normal GPU-accelerated processing performance.
 
 [^1]: Unrelated configuration details have been omitted for brevity.
 
