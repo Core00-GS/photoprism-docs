@@ -88,13 +88,13 @@ Now, create a new `config/vision.yml` file or edit the existing file in [the *st
 !!! example "vision.yml"
     ```yaml
     Models:
-    - Type: caption
+    - Type: labels
       Model: gemma3:latest
       Engine: ollama
       Run: auto
       Service:
         Uri: http://ollama:11434/api/generate
-    - Type: labels
+    - Type: caption
       Model: gemma3:latest
       Engine: ollama
       Run: auto
