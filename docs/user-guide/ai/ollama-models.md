@@ -181,3 +181,49 @@ Why this works:
 - **TopK** and **TopP:** Ensures stability and lower hallucination risk in a captioning context.
 - **RepeatPenalty** and **RepeatLastN:** Discourages repetition without affecting normal phrasing.
 - **NumPredict:** High enough for 1–2 sentences, but low enough to avoid rambling.
+
+## Usage Tips
+
+### Model Run Modes
+
+To avoid unexpected API requests, set `Run: manual` and [run the models manually](cli.md#run-vision-models)  via `photoprism vision run -m caption` or `photoprism vision run -m labels`. `Run: auto` automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
+
+[Learn more ›](index.md#run-modes)
+
+### Replacing Existing Labels
+
+If you want to remove existing labels from the built-in image classification model, run the command `photoprism vision reset -m labels -s image` in [a terminal](../../getting-started/docker-compose.md#opening-a-terminal) before you regenerate all labels with OpenAI using the following command:
+
+```
+photoprism vision run -m labels
+```
+
+[Learn more ›](cli.md#reset-vision-data)
+
+## Troubleshooting ##
+
+### Verifying Your Configuration
+
+If you encounter issues, a good first step is to verify how PhotoPrism has loaded your [`vision.yml`](index.md#visionyml-reference) configuration. You can do this by running: 
+
+```bash
+docker compose exec photoprism photoprism vision ls
+```
+
+This command outputs the settings for all supported and configured model types. Compare the results with your [`vision.yml`](index.md#visionyml-reference) file to confirm that your configuration has been loaded correctly and to identify any parsing errors or misconfigurations.
+
+### Performing Test Runs 
+
+The following [terminal commands](../../getting-started/docker-compose.md#opening-a-terminal) will perform a single run for the specified model type:
+
+```bash
+photoprism vision run -m labels --count 1 --force
+photoprism vision run -m caption --count 1 --force
+```
+
+If you don't get the expected results or notice any errors, you can re-run the commands with trace log mode enabled to inspect the request and response:
+
+```bash
+photoprism --log-level=trace vision run -m labels --count 1 --force
+photoprism --log-level=trace vision run -m caption --count 1 --force
+```
