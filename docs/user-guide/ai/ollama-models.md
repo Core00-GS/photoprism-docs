@@ -192,7 +192,7 @@ To avoid unexpected API requests, set `Run: manual` and [run the models manually
 
 ### Replacing Existing Labels
 
-If you want to remove existing labels from the built-in image classification model, run the command `photoprism vision reset -m labels -s image` in [a terminal](../../getting-started/docker-compose.md#opening-a-terminal) before you regenerate all labels with OpenAI using the following command:
+If you want to remove existing labels from the built-in image classification model, run the command `photoprism vision reset -m labels -s image` in [a terminal](../../getting-started/docker-compose.md#opening-a-terminal) before you regenerate all labels with Ollama using the following command:
 
 ```
 photoprism vision run -m labels
