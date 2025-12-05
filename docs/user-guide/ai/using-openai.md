@@ -47,7 +47,7 @@ Recommendations:
 
 ### Model Run Modes
 
-To avoid unexpected API costs, set `Run: manual` and [run the models manually](cli.md#run-vision-models)  via `photoprism vision run -m caption` or `photoprism vision run -m labels`. `Run: auto` automatically runs the model after indexing is complete to prevent slowdowns during indexing or importing. It also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
+To avoid unexpected API costs, especially when testing new models or prompts, set `Run: manual` and [run the models manually](cli.md#run-vision-models) via `photoprism vision run -m caption` or `photoprism vision run -m labels`. `Run: auto` will automatically run the models once indexing is complete to prevent slowdowns during indexing or importing. It also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
 
 [Learn more ›](index.md#run-modes)
 
