@@ -200,7 +200,7 @@ photoprism vision run -m labels
 
 [Learn more ›](cli.md#reset-vision-data)
 
-## Troubleshooting ##
+## Troubleshooting
 
 ### Verifying Your Configuration
 
@@ -212,7 +212,7 @@ docker compose exec photoprism photoprism vision ls
 
 This command outputs the settings for all supported and configured model types. Compare the results with your [`vision.yml`](index.md#visionyml-reference) file to confirm that your configuration has been loaded correctly and to identify any parsing errors or misconfigurations.
 
-### Performing Test Runs 
+### Performing Test Runs
 
 The following [terminal commands](../../getting-started/docker-compose.md#opening-a-terminal) will perform a single run for the specified model type:
 

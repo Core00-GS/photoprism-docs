@@ -47,7 +47,7 @@ Recommendations:
 
 ### Model Run Modes
 
-To avoid unexpected API costs, especially when testing new models or prompts, set `Run: manual` and [run the models manually](cli.md#run-vision-models) via `photoprism vision run -m caption` or `photoprism vision run -m labels`. `Run: auto` will automatically run the models once indexing is complete to prevent slowdowns during indexing or importing. It also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
+To avoid unnecessary API requests and costs, especially when [testing your configuration](#performing-test-runs), set `Run: manual` and [run the models manually](cli.md#run-vision-models) via `photoprism vision run -m caption` or `photoprism vision run -m labels`. `Run: auto` will automatically run a model once indexing is complete to prevent slowdowns during indexing or importing. This option also [allows manual](cli.md#run-vision-models) and [scheduled invocations](../../getting-started/config-options.md#computer-vision).
 
 [Learn more ›](index.md#run-modes)
 
@@ -103,7 +103,7 @@ Models:
       action in the image. Avoid filler words and technical jargon.
 ```
 
-## Troubleshooting ##
+## Troubleshooting
 
 ### Verifying Your Configuration
 
@@ -115,7 +115,7 @@ docker compose exec photoprism photoprism vision ls
 
 This command outputs the settings for all supported and configured model types. Compare the results with your [`vision.yml`](index.md#visionyml-reference) file to confirm that your configuration has been loaded correctly and to identify any parsing errors or misconfigurations.
 
-### Performing Test Runs 
+### Performing Test Runs
 
 The following [terminal commands](../../getting-started/docker-compose.md#opening-a-terminal) will perform a single run for the specified model type:
 
