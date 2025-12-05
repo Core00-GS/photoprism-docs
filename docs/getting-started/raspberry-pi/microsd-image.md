@@ -104,6 +104,6 @@ To avoid this issue, use a valid certificate e.g. obtained for free via Let's En
 
 [Learn more ›](../using-https.md)
 
-[^1]: [PhotoPrismPi](https://dl.photoprism.app/nas/raspberry-pi/) is based on [Ubuntu Server](https://cdimage.ubuntu.com/releases/24.04.2/release/).
+[^1]: [PhotoPrismPi](https://dl.photoprism.app/nas/raspberry-pi/) is based on [Ubuntu Server](https://cdimage.ubuntu.com/releases/24.04.3/release/).
 [^2]: Download and installation time depends on the speed of your Internet connection.
 [^3]: If you can't connect, try using the existing hostname or IP address instead.
