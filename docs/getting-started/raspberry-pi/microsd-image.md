@@ -78,7 +78,7 @@ sudo docker compose logs -f photoprism
 
 ### Getting Updates
 
-Make sure to use the [latest version tag](https://hub.docker.com/_/traefik) for Traefik in your `compose.yaml` file:
+Make sure to use the [latest version tag](https://hub.docker.com/_/traefik) for Traefik in your `compose.yaml` file, e.g.:
 
 ```yaml
 services:
