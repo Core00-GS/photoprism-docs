@@ -44,7 +44,7 @@ Your pictures, uploads, sidecar files, and cache files are stored in subfolders 
 Should you want to make changes to the [default settings](../config-options.md), you can find your `compose.yaml` file in `/opt/photoprism`.
 After [connecting via SSH](https://www.howtogeek.com/311287/how-to-connect-to-an-ssh-server-from-windows-macos-or-linux/) with the credentials provided above, you can obtain root privileges by running `sudo -i`.
 
-## Running Commands and Viewing Logs
+## Running Commands
 
 After [connecting via SSH](https://www.howtogeek.com/311287/how-to-connect-to-an-ssh-server-from-windows-macos-or-linux/), navigate to `/opt/photoprism` to run commands or view logs:
 
@@ -58,7 +58,9 @@ Run PhotoPrism commands:
 sudo docker compose exec photoprism photoprism [command]
 ```
 
-View logs:
+### Viewing Logs
+
+The following will watch the service logs for troubleshooting:
 
 ```bash
 sudo docker compose logs -f photoprism
