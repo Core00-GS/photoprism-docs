@@ -96,7 +96,7 @@ Verify the following if your logs show `incorrect string value` database errors 
 
 - [ ] Full [Unicode support is enabled](https://mariadb.com/docs/server/reference/data-types/string-data-types/character-sets/setting-character-sets-and-collations#example-changing-the-default-character-set-to-utf-8) in MariaDB, for example by using the command flags `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_unicode_ci`, as shown in our [`compose.yaml` examples](https://dl.photoprism.app/docker/compose.yaml)
 - [ ] If [a DSN is used](#custom-dsn) to configure the database connection, it includes all [required parameters](#custom-dsn)
-- [ ] [Open a terminal session](../docker-compose.md#opening-a-terminal) to check whether Unicode or Emoji issues could be caused by the filesystem (for example, run `locale`, `mount`, and `ls -b` in the affected directories).
+- [ ] [Open a terminal session](../docker-compose.md#opening-a-terminal) to check whether Unicode or Emoji issues could be caused by the filesystem (for example, run `locale`, `mount`, and `ls -b` in the affected directories)
 
 Existing databases may still use a different character set or collation, especially if they were imported from another server or created before Unicode support was configured correctly. To check the current character set and collation settings, run the following command in a terminal (adjust the root password `insecure` and database name `photoprism` to match your `compose.yaml` or `docker-compose.yml`):
 
