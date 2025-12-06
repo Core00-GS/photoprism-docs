@@ -60,7 +60,9 @@ If this doesn't help, check the [Docker Logs](docker.md#viewing-logs) for messag
 - [ ] You have to resort to [alternative Docker images](../raspberry-pi.md#older-armv7-based-devices) to run MariaDB on ARMv7-based devices and those with a 32-bit operating system
 - [ ] You may find a solution in the official [MariaDB Docker Image FAQ](https://mariadb.com/kb/en/docker-official-image-frequently-asked-questions/)
 
-## Custom DSN<a id="unsupported-scan"></a><a id="dsn"></a>
+<a id="unsupported-scan"></a><a id="dsn"></a>
+
+## Custom DSN
 
 You may encounter errors similar to this when starting your instance or restoring a backup if you have manually configured a MariaDB [Data Source Name (DSN)](https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-dsn-data-source-name), without [adding the necessary parameters](https://pkg.go.dev/github.com/go-sql-driver/mysql#readme-parameters) such as `parseTime=true` to the [`PHOTOPRISM_DATABASE_DSN`](../config-options.md#database-connection) environment variable or the `--database-dsn` command flag:
 
@@ -87,6 +89,49 @@ Since the [connection parameters](https://github.com/photoprism/photoprism/blob/
 Note that it is not possible to set a custom DSN for MariaDB when a database server is configured at the same time, as the database server setting takes precedence.
 
 When [using SQLite](sqlite.md), the DSN configuration option allows you to specify the database filename and custom parameters. [Learn more ›](sqlite.md#custom-dsn)
+
+## Unicode Support
+
+Verify the following if your logs show `incorrect string value` database errors or if you are experiencing Emoji encoding issues (for example in album, file, or folder names):
+
+- [ ] Full [Unicode support is enabled](https://mariadb.com/docs/server/reference/data-types/string-data-types/character-sets/setting-character-sets-and-collations#example-changing-the-default-character-set-to-utf-8) in MariaDB, for example by using the command flags `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_unicode_ci`, as shown in our [`compose.yaml` examples](https://dl.photoprism.app/docker/compose.yaml)
+- [ ] If [a DSN is used](#custom-dsn) to configure the database connection, it includes all [required parameters](#custom-dsn)
+- [ ] Open a terminal session to check whether Unicode or Emoji issues could be caused by the filesystem (for example, run `locale`, `mount`, and `ls -b` in the affected directories).
+
+Existing databases may still use a different character set or collation, especially if they were imported from another server or created before Unicode support was configured correctly. To check the current character set and collation settings, run the following command in a terminal (adjust the root password `insecure` and database name `photoprism` to match your `compose.yaml` or `docker-compose.yml`):
+
+```bash
+echo "SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';" | \
+docker compose exec -T mariadb mysql -uroot -pinsecure photoprism
+```
+
+Before [submitting a support request](https://www.photoprism.app/kb/getting-support), confirm that the problem also occurs with a **newly created** database based on our [example configuration](https://dl.photoprism.app/docker/compose.yaml):
+
+!!! example "compose.yaml"
+    ```yaml
+    services:
+      mariadb:
+        image: mariadb:11
+        restart: unless-stopped
+        stop_grace_period: 15s
+        command: >
+          --innodb-buffer-pool-size=512M
+          --transaction-isolation=READ-COMMITTED
+          --character-set-server=utf8mb4
+          --collation-server=utf8mb4_unicode_ci
+          --max-connections=512
+          --innodb-rollback-on-timeout=OFF
+          --innodb-lock-wait-timeout=120
+        volumes:
+          - "./database:/var/lib/mysql" # DO NOT REMOVE
+        environment:
+          MARIADB_AUTO_UPGRADE: "1"
+          MARIADB_INITDB_SKIP_TZINFO: "1"
+          MARIADB_DATABASE: "photoprism"
+          MARIADB_USER: "photoprism"
+          MARIADB_PASSWORD: "insecure"
+          MARIADB_ROOT_PASSWORD: "insecure"
+    ```
 
 ## Wrong Password
 
@@ -276,49 +321,6 @@ exit
 
 When you are done, remove the `--skip-grant-tables` flag again to restore the original
 command and restart the `mariadb` service as described above.
-
-## Unicode Support
-
-If your logs show `incorrect string value` database errors and you are running a custom MariaDB server that is **not** based on our [default configuration](https://dl.photoprism.app/docker/compose.yaml),
-please verify the following:
-
-- [ ] Full [Unicode support](https://mariadb.com/docs/server/reference/data-types/string-data-types/character-sets/setting-character-sets-and-collations#example-changing-the-default-character-set-to-utf-8) is enabled, for example with `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_unicode_ci`, as shown in the `compose.yaml` example below
-- [ ] Existing databases may still use a different character set or collation, especially if they were imported from another server or created before Unicode support was configured correctly
-- [ ] Before submitting a support request, confirm that the problem also occurs with a **newly created** database based on our example configuration
-
-To check the current character set and collation settings, run the following command in a terminal (adjust the root password `insecure` and database name `photoprism` to match your `compose.yaml` or `docker-compose.yml`):
-
-
-```bash
-echo "SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';" | \
-docker compose exec -T mariadb mysql -uroot -pinsecure photoprism
-```
-
-!!! example "compose.yaml"
-    ```yaml
-    services:
-      mariadb:
-        image: mariadb:11
-        restart: unless-stopped
-        stop_grace_period: 15s
-        command: >
-          --innodb-buffer-pool-size=512M
-          --transaction-isolation=READ-COMMITTED
-          --character-set-server=utf8mb4
-          --collation-server=utf8mb4_unicode_ci
-          --max-connections=512
-          --innodb-rollback-on-timeout=OFF
-          --innodb-lock-wait-timeout=120
-        volumes:
-          - "./database:/var/lib/mysql" # DO NOT REMOVE
-        environment:
-          MARIADB_AUTO_UPGRADE: "1"
-          MARIADB_INITDB_SKIP_TZINFO: "1"
-          MARIADB_DATABASE: "photoprism"
-          MARIADB_USER: "photoprism"
-          MARIADB_PASSWORD: "insecure"
-          MARIADB_ROOT_PASSWORD: "insecure"
-    ```
 
 ## MySQL Errors
 
