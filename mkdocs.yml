@@ -41,8 +41,6 @@ nav:
       - Performance: getting-started/troubleshooting/performance.md
       - Firewall: getting-started/troubleshooting/firewall.md
     # - Support: getting-started/support.md
-    - Remote Access:
-      - Tailscale VPN: getting-started/vpn/tailscale.md
     - Reverse Proxies:
       - Traefik: getting-started/proxies/traefik.md
       - Caddy 1: getting-started/proxies/caddy-1.md
@@ -51,6 +49,8 @@ nav:
       - Apache 2.4: getting-started/proxies/apache-2.md
       - SWAG: getting-started/proxies/swag.md
       - HAProxy: getting-started/proxies/haproxy.md
+    - Remote Access:
+      - Tailscale VPN: getting-started/vpn/tailscale.md
     - Advanced:
       - OpenID Connect:  getting-started/advanced/openid-connect.md
       - Video Transcoding: getting-started/advanced/transcoding.md
