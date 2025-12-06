@@ -244,10 +244,7 @@ Most database table and/or index corruptions are hardware-related. Corrupted pag
 
 ## Lost Root Password
 
-In case you forgot the MariaDB "root" password and the one specified in your configuration does not work,
-you can [start the server with the `--skip-grant-tables` flag](https://mariadb.com/docs/reference/mdb/cli/mariadbd/skip-grant-tables/)
-added to the `mysqld` command in your `compose.yaml` or `docker-compose.yml`. This will temporarily give full access
-to all users after a restart:
+In case you forgot the MariaDB "root" password and the one specified in your configuration does not work, you can [start the server with the `--skip-grant-tables` flag](https://mariadb.com/docs/reference/mdb/cli/mariadbd/skip-grant-tables/) added to the command in your `compose.yaml` or `docker-compose.yml`. This will temporarily give full access to all users after a restart:
 
 ```yaml
 services:
@@ -282,20 +279,46 @@ command and restart the `mariadb` service as described above.
 
 ## Unicode Support
 
-If the logs show "incorrect string value" database errors and you are running a custom MariaDB or MySQL
-server that is not based on our [default configuration](https://dl.photoprism.app/docker/compose.yaml):
+If your logs show `incorrect string value` database errors and you are running a custom MariaDB server that is **not** based on our [default configuration](https://dl.photoprism.app/docker/compose.yaml),
+please verify the following:
 
-- [ ] Full [Unicode](https://home.unicode.org/basic-info/faq/) support [must be enabled](https://mariadb.com/kb/en/setting-character-sets-and-collations/#example-changing-the-default-character-set-to-utf-8), e.g. using the `mysqld` command parameters `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_unicode_ci`
-- [ ] Note that an existing database may use a different character set if you imported it from another server
-- [ ] Before submitting a support request, verify the problem still occurs with a newly created database based on our example
+- [ ] Full [Unicode support](https://mariadb.com/docs/server/reference/data-types/string-data-types/character-sets/setting-character-sets-and-collations#example-changing-the-default-character-set-to-utf-8) is enabled, for example with `--character-set-server=utf8mb4` and `--collation-server=utf8mb4_unicode_ci`, as shown in the `compose.yaml` example below
+- [ ] Existing databases may still use a different character set or collation, especially if they were imported from another server or created before Unicode support was configured correctly
+- [ ] Before submitting a support request, confirm that the problem also occurs with a **newly created** database based on our example configuration
 
-Run this command in a terminal to see the current values of the collation and character set variables (change the root
-password `insecure` and database name `photoprism` as specified in your `compose.yaml` or `docker-compose.yml`):
+To check the current character set and collation settings, run the following command in a terminal (adjust the root password `insecure` and database name `photoprism` to match your `compose.yaml` or `docker-compose.yml`):
+
 
 ```bash
 echo "SHOW VARIABLES WHERE Variable_name LIKE 'character\_set\_%' OR Variable_name LIKE 'collation%';" | \
 docker compose exec -T mariadb mysql -uroot -pinsecure photoprism
 ```
+
+!!! example "compose.yaml"
+    ```yaml
+    services:
+      mariadb:
+        image: mariadb:11
+        restart: unless-stopped
+        stop_grace_period: 15s
+        command: >
+          --innodb-buffer-pool-size=512M
+          --transaction-isolation=READ-COMMITTED
+          --character-set-server=utf8mb4
+          --collation-server=utf8mb4_unicode_ci
+          --max-connections=512
+          --innodb-rollback-on-timeout=OFF
+          --innodb-lock-wait-timeout=120
+        volumes:
+          - "./database:/var/lib/mysql" # DO NOT REMOVE
+        environment:
+          MARIADB_AUTO_UPGRADE: "1"
+          MARIADB_INITDB_SKIP_TZINFO: "1"
+          MARIADB_DATABASE: "photoprism"
+          MARIADB_USER: "photoprism"
+          MARIADB_PASSWORD: "insecure"
+          MARIADB_ROOT_PASSWORD: "insecure"
+    ```
 
 ## MySQL Errors
 
