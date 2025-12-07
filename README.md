@@ -1,4 +1,4 @@
-# PhotoPrism: Official Documentation (English) #
+# PhotoPrism: Official Documentation (English)
 
 [![GitHub contributors](https://img.shields.io/github/contributors/photoprism/photoprism-docs.svg)](https://github.com/photoprism/photoprism-docs/graphs/contributors/)
 [![Documentation](https://img.shields.io/badge/read-the%20docs-4aa087.svg)][docs]
