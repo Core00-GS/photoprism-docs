@@ -84,9 +84,50 @@ Your droplet is now being created.
 - Use username "admin" and your initial password to sign in
 - You may [change your password](../../user-guide/settings/account.md) using the Web UI
 
-## First Steps
-1. Configure [library](../../user-guide/settings/library.md) and [advanced settings](../../user-guide/settings/advanced.md) according to your needs.
-2. [Choose](../../user-guide/library/index.md) whether you want to [index your originals](../../user-guide/library/originals.md) so that the existing file and folder names are preserved, or [import them](../../user-guide/library/import.md) so that they are automatically organized by year and month.
-3. To add new pictures, you can either copy them to the *import* or *originals* folder [e.g. using WebDAV](../../user-guide/sync/webdav.md), or [upload them with a browser](../../user-guide/library/upload.md), which will import them automatically after upload.
-4. Start [indexing](../../user-guide/library/originals.md) or [importing](../../user-guide/library/import.md)
-5. Finally, set up [automatic syncing](../../user-guide/sync/mobile-devices.md) from your mobile phone and install the [Progressive Web App (PWA)](../../user-guide/pwa.md) on your desktop, tablet, and phone home screens as needed.
+## First Steps 👣
+
+After the installation, only two more steps remain before you can start browsing your pictures:
+
+1. Configure [your content](../../user-guide/settings/library.md) and [advanced settings](../../user-guide/settings/advanced.md) according to your individual preferences.
+2. Choose [whether you want](../../user-guide/library/index.md) to [index your originals directly](../../user-guide/library/originals.md), leaving all file and folder names unchanged, or use the [optional import feature](../../user-guide/library/import.md), which automatically removes duplicates, gives files a unique name, and sorts them by year and month.
+
+To add new pictures, you can either copy them to the *originals* or *import* folder, for example [via WebDAV](../../user-guide/sync/webdav.md), or [upload them using a browser](../../user-guide/library/upload.md), which will automatically import them once uploaded.
+
+[Learn more ›](../../user-guide/first-steps.md)
+
+## Traefik Reverse Proxy
+
+[Traefik](https://traefik.io/traefik) is pre-installed as [a reverse proxy](../proxies/traefik.md) and can be configured in your `/opt/photoprism/compose.yml` file, as well as through the config files located in `/opt/photoprism/traefik`.
+
+[Learn more ›](../proxies/traefik.md)
+
+### Getting Updates
+
+Make sure to use the [latest version tag](https://hub.docker.com/_/traefik) for Traefik in your `compose.yaml` file, e.g.:
+
+```yaml
+services:
+  traefik:
+    image: traefik:v3.6
+```
+
+Then run the following command to pull the latest image and restart the service:
+
+```bash
+sudo docker compose up -d --pull always
+```
+
+This ensures you receive the latest security updates and prevents [errors when upgrading Docker](https://github.com/photoprism/photoprism/discussions/5314) to the latest version.
+
+[Learn more ›](../updates.md)
+
+### Certificate Warnings
+
+Web browsers do not recognize the default TLS certificate as valid, so a warning will appear when connecting over HTTPS.
+
+To avoid this issue, use a valid certificate e.g. obtained for free via Let's Encrypt.
+
+[Learn more ›](../using-https.md)
+
+!!! danger ""
+    If you install PhotoPrism on a public server outside your home network, **always run it behind a secure HTTPS reverse proxy**. Your files and passwords will otherwise be transmitted in clear text and can be intercepted by anyone, including your provider, hackers, and governments. Backup tools and file sync apps may refuse to connect as well.
