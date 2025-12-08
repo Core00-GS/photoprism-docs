@@ -1,8 +1,8 @@
 # Browsing and Searching Your Library
 
-PhotoPrism offers many views and search filters so you can explore your photo collection in multiple dimensions instead of just scrolling through it day by day.
+With its many views and search filters, PhotoPrism allows you to explore your photo collection in multiple ways instead of just scrolling through it day by day.
 
-This helps you rediscover long-forgotten shots, find specific pictures, or quickly create albums based on search results.
+These features help you rediscover long-forgotten shots, find specific pictures, and quickly create albums based on search results.
 
 ## Views and Filters
 
@@ -10,7 +10,7 @@ Using the main navigation you can visit the different sections of your photo lib
 
 ### :material-magnify: Search
 
-Shows all photos and videos that are not in review or archived or private.
+This section shows all photos and videos that are not in review, archived, or private.
 
 !!! hint ""
     In case the review, private or archive functions are turned off - Search displays those photos and videos as well.
@@ -19,31 +19,39 @@ Shows all photos and videos that are not in review or archived or private.
 
 #### Monochrome
 
-Shows all monochrome photos and videos.
+Shows monochrome pictures with little or no color.
 
 #### [Panoramas](../organize/panoramas.md)
 
-Shows all panorama photos.
+Shows only panoramic pictures with a wide aspect ratio.
 
 #### [Stacks](../organize/stacks.md)
 
-Shows all stacked photos.
+Shows photos consisting of multiple image files, such as burst shots and edits.
+
+#### [Vectors](filters.md#filter-reference)
+
+Shows vector graphics, such as SVG and Adobe Illustrator files.
 
 #### [Scans](../organize/scans.md)
 
-Shows all scans.
+Shows scanned pictures and documents.
+
+#### [Documents](filters.md#filter-reference)
+
+Shows PDF documents and other content classified as documents.
 
 #### [Review](../organize/review.md)
 
-Shows all photos that are in review.
+Shows pictures that require approval before they appear in search results.
 
 #### [Archive](../organize/archive.md)
 
-Shows archived photos.
+Shows archived pictures so you can restore or permanently delete them.
 
 ### :material-bookmark: [Albums](../organize/albums.md)
 
-Shows albums you created.
+Shows manually curated albums.
 
 ![Screenshot](../organize/img/albums-section-2503.jpg){ class="shadow" }
 
