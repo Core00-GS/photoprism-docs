@@ -84,9 +84,9 @@ Your droplet is now being created.
 - Use username "admin" and your initial password to sign in
 - You may [change your password](../../user-guide/settings/account.md) using the Web UI
 
-## First Steps 👣
+### First Steps 👣
 
-After the installation, only two more steps remain before you can start browsing your pictures:
+Once you're logged in, only two more steps remain before you can start [browsing your pictures](../../user-guide/search/index.md):
 
 1. Configure [your content](../../user-guide/settings/library.md) and [advanced settings](../../user-guide/settings/advanced.md) according to your individual preferences.
 2. Choose [whether you want](../../user-guide/library/index.md) to [index your originals directly](../../user-guide/library/originals.md), leaving all file and folder names unchanged, or use the [optional import feature](../../user-guide/library/import.md), which automatically removes duplicates, gives files a unique name, and sorts them by year and month.
