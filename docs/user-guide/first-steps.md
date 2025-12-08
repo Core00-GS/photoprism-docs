@@ -2,12 +2,12 @@
 
 Once the [initial setup](../getting-started/index.md) is complete, there are only two more steps before you can start browsing your pictures:
 
-1.  Configure [your content](settings/library.md) and [advanced settings](settings/advanced.md) according to your individual preferences.
+1. Configure [your content](settings/library.md) and [advanced settings](settings/advanced.md) according to your individual preferences.
 2. Choose [whether you want](library/index.md) to [index your originals directly](library/originals.md), leaving all file and folder names unchanged, or use the [optional import feature](library/import.md), which automatically removes duplicates, gives files a unique name, and sorts them by year and month.
 
 If you want to use folders that already exist on your computer, make sure you configured them as *originals* respectively *import* folders during setup.
 
-To add new pictures, you can either copy them to the *originals* or *import* folder, for example [using WebDAV](sync/webdav.md), or [upload them using a browser](library/upload.md), which will automatically import them once uploaded.
+To add new pictures, you can either copy them to the *originals* or *import* folder, for example [via WebDAV](sync/webdav.md), or [upload them using a browser](library/upload.md), which will automatically import them once uploaded.
 
 Then start [indexing](library/originals.md) or [importing](library/import.md), depending on which strategy you have chosen.
 
@@ -15,6 +15,7 @@ Then start [indexing](library/originals.md) or [importing](library/import.md), d
     Ensure [there is enough disk space available](../getting-started/troubleshooting/docker.md#disk-space) for creating thumbnails and [verify filesystem permissions](../getting-started/troubleshooting/docker.md#file-permissions) before starting to index: Files in the *originals* folder must be readable, while the *storage* folder including all subdirectories must be readable and writeable.
 
 ## While indexing is in progress...
+
 [![Library > Index](img/iphone-library-index.png){ align=right }](library/originals.md)
 Your [photos](search/index.md) and [videos](organize/video.md) will
 successively become visible in search results and other parts of the user interface.
