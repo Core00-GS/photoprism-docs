@@ -168,6 +168,8 @@ On Windows, prefix the host path with the drive letter and use `/` instead of `\
       - "D:/Example/Pictures:/photoprism/originals"
 ```
 
+[Learn more ›](troubleshooting/windows.md#mounting-volumes)
+
 !!! tldr ""
     When *read-only mode* is enabled, all features that require write permission to the *originals* folder are disabled, e.g. [WebDAV](../user-guide/sync/webdav.md), uploading and deleting files. To do this, set `PHOTOPRISM_READONLY` to `"true"` in the `environment` section of your `compose.yaml` file.[^2] You can additionally [mount volumes with the `:ro` flag](https://docs.docker.com/compose/compose-file/compose-file-v3/#short-syntax-3) so that writes are also blocked by Docker.
 
