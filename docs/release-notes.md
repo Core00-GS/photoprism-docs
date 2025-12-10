@@ -4,13 +4,14 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251205-fd4519ec0</span>
+<span class="build">Build 251210-e50dafe3e</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. [Learn more ›](getting-started/updates.md#development-preview)
 
 What's new?
 
-- Ollama: [API authentication token can be set via `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
+- Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
+- Security: [Upgraded Go to v1.25.5, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.5)
 
 ### November 30, 2025
 <span class="build">Build 251130-b3068414c</span>
