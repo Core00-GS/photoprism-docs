@@ -11,6 +11,7 @@ Our [preview builds](getting-started/updates.md#development-preview) give you ea
 What's new?
 
 - Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
+- Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
 - Security: [Upgraded Go to v1.25.5, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.5)
 
 ### November 30, 2025
