@@ -13,7 +13,7 @@ What's new?
 - Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
 - Thumbs: [Fixed error buffer handling when interop index was missing](https://github.com/photoprism/photoprism/issues/5389)
 - Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
-- Logs: [Fixed handling for missing caption thumbnails and video remux errors](https://github.com/photoprism/photoprism/issues/5398)
+- Logs: [Fixed handling of missing caption thumbnails and video remux errors](https://github.com/photoprism/photoprism/issues/5398)
 - Security: [Upgraded Go to v1.25.5, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.5)
 
 !!! info ""
