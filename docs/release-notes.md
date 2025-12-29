@@ -4,13 +4,15 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 251212-d4287ef81</span>
+<span class="build">Build 251229-1b09c2b8e</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. Thank you to everyone who [supports us as a member](https://www.photoprism.app/editions#compare), contributes [pull requests](https://docs.photoprism.app/developer-guide/pull-requests/), or helps us [test the changes](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! [Learn more ›](getting-started/updates.md#development-preview)
 
 What's new?
 
 - Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
+- Thumbs: [Fixed an issue where the error buffer filled up when images had no interop index](https://github.com/photoprism/photoprism/issues/5389)
+- Logs: [Fixed error handling for caption thumbnails and video remux](https://github.com/photoprism/photoprism/issues/5398)
 - Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
 - Security: [Upgraded Go to v1.25.5, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.5)
 
