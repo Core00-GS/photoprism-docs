@@ -98,22 +98,24 @@ docker compose exec photoprism photoprism vision reset --models=labels --source=
 !!! note ""
     The `--yes` flag runs the command non-interactively without requiring confirmation. Omit this flag if you want to be prompted before the reset operation begins.
 
-!!! note "Regenerating captions deleted in the UI"
-    If you cleared captions in the Web UI, either individually or via batch edit, the caption source becomes `manual` or `batch`. In this case, `photoprism vision reset` cannot fully clear the processing markers, and `vision run` with the default source may skip those photos.
+!!! info "Regenerating captions deleted in the UI"
+    If you removed captions in the Web UI, either on the edit or the batch edit dialog, the caption source becomes `manual` or `batch`. The `photoprism vision reset` command does not reset captions with source `batch` or `manual`.
 
-    To regenerate captions for these pictures, run the caption model with an explicit `vision` source instead of using `vision reset`:
+    To regenerate captions for these pictures, you need to run the caption model with source `vision`:
 
     ```bash
     docker compose exec photoprism photoprism vision run --models=caption --source=vision
     ```
 
-    The `vision` source has a high priority (64), which allows it to replace `manual` and `batch` caption sources when the model supports overwriting existing data (for example when used together with `--force`). You can inspect all available sources and their priorities with:
+    The `vision` source has a high priority (64), which allows it to replace empty captions with source `manual` and `batch`. 
+    
+    You can inspect all available sources and their priorities with:
 
     ```bash
-    photoprism vision sources show
+    docker compose exec photoprism photoprism photoprism vision sources show
     ```
 
-    Relevant caption-related sources currently have these default priorities:
+    Relevant caption-related sources currently have these priorities:
 
     - `image`: 8 (built-in TensorFlow models)
     - `ollama`: 16 (Ollama captions and labels)
