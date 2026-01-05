@@ -194,6 +194,9 @@ Enable generating thumbnails on-the-fly as they're required
 This saves disk space, but is more processor-intensive and so not recommended
 when hosting on less powerful devices (such as Raspberry Pi).
 
+!!! tip ""
+    Some thumbnails [will always be generated](../../getting-started/faq.md#can-i-skip-creating-thumbnails-completely).
+
 The corresponding [config toggle](../../getting-started/config-options.md#preview-images) is `PHOTOPRISM_THUMB_UNCACHED`.
 
 ## Image Quality
