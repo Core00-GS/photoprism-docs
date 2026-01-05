@@ -122,7 +122,7 @@ docker compose exec photoprism photoprism vision reset --models=labels --source=
     You can inspect all available sources and their priorities with:
 
     ```bash
-    docker compose exec photoprism photoprism photoprism vision sources show
+    docker compose exec photoprism photoprism vision sources show
     ```
 
     Relevant caption-related sources currently have these priorities:
