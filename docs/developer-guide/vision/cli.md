@@ -37,12 +37,12 @@ photoprism vision run [options] [filter]
 
 ### Command Options
 
-| Command Flag                  | Description                                                                                                          |
-|-------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| `--models MODELS`, `-m MODELS`| computer vision MODELS to run, e.g. caption, labels, or nsfw (default: "caption")                                    |
-| `--count value`, `-c value`   | maximum number of pictures to be processed (default: 100000)                                                         | 
-| `--source TYPE`, `-s TYPE`    | custom data source TYPE, e.g. estimate, image, meta, or manual (default: "image")                                    |
-| `--force`, `-f`               | force existing data to be updated if the source priority is equal to or higher than the current one (default: false) |
+| Command Flag                  | Description                                                                                                                     |
+|-------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
+| `--models MODELS`, `-m MODELS`| computer vision MODELS to run, e.g. caption, labels, or nsfw (default: "caption")                                               |
+| `--count NUMBER`, `-n NUMBER` | maximum NUMBER of pictures to be processed (default: 100000)                                                                    | 
+| `--source TYPE`, `-s TYPE`    | custom data source TYPE (auto, default, image, marker, ollama, openai, vision) (default: "image")                              |
+| `--force`, `-f`               | force existing data to be updated if the model supports it and the source priority is equal to or higher (default: false)      |
 
 To generate captions for all photos in your library, you can run:
 
@@ -107,6 +107,30 @@ docker compose exec photoprism photoprism vision reset --models=labels --source=
 
 !!! note ""
     The `--yes` flag runs the command non-interactively without requiring confirmation. Omit this flag if you want to be prompted before the reset operation begins.
+
+!!! note "Regenerating captions deleted in the UI"
+    If you cleared captions in the Web UI, either individually or via batch edit, the caption source becomes `manual` or `batch`. In this case, `photoprism vision reset` cannot fully clear the processing markers, and `vision run` with the default source may skip those photos.
+
+    To regenerate captions for these pictures, run the caption model with an explicit `vision` source instead of using `vision reset`:
+
+    ```bash
+    docker compose exec photoprism photoprism vision run --models=caption --source=vision
+    ```
+
+    The `vision` source has a high priority (64), which allows it to replace `manual` and `batch` caption sources when the model supports overwriting existing data (for example when used together with `--force`). You can inspect all available sources and their priorities with:
+
+    ```bash
+    photoprism vision sources show
+    ```
+
+    Relevant caption-related sources currently have these default priorities:
+
+    - `image`: 8 (built-in TensorFlow models)
+    - `ollama`: 16 (Ollama captions and labels)
+    - `openai`: 16 (OpenAI captions and labels)
+    - `batch`: 64 (batch edit in the UI)
+    - `vision`: 64 (manual vision runs via CLI)
+    - `manual`: 64 (captions edited directly in the UI)
 
 ## Face Detection Commands
 
