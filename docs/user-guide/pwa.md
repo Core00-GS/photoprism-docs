@@ -36,7 +36,7 @@ The compatibility of our PWA has been tested with Apple Safari and Google Chrome
         To preserve the original format:
 
         - In the iOS Photos picker, tap the three-dot menu (…) → *Options* → set **Format** to **Current** instead of **Automatic** so your files are uploaded in the original format.
-        - Alternatively, use dedicated sync apps like [PhotoSync](../sync/mobile-devices.md#using-photosync), which can upload files in their original format via WebDAV.
+        - Alternatively, use dedicated sync apps like [PhotoSync](./sync/mobile-devices.md#using-photosync), which can upload files in their original format via WebDAV.
 
 === "Google Chrome (Android)"
 
