@@ -183,7 +183,7 @@ This is a complete list of supported search filters with examples. Filters can g
 | photo       | switch    | photo:yes                             | Finds regular photos and images, as well as RAW and Live Photos                                                                                |
 | portrait    | switch    | portrait:yes                          | Finds portrait pictures only                                                                                                                   |
 | primary     | switch    | primary:yes                           | Finds primary JPEG or PNG files only                                                                                                           |
-| private     | switch    | private:yes                           | Finds private content                                                                                                                          |
+| private     | switch    | private:yes                           | Finds private content only (except when public:true)                                                                                           |
 | public      | switch    | public:yes                            | Excludes private content                                                                                                                       |
 | raw         | switch    | raw:yes                               | Finds RAW images only                                                                                                                          |
 | review      | switch    | review:yes                            | Finds content in review                                                                                                                        |
@@ -200,6 +200,7 @@ This is a complete list of supported search filters with examples. Filters can g
 | edited      | timestamp | edited:"2006-01-02T15:04:05Z"         | Finds content edited at or after this time                                                                                                     |
 | taken       | timestamp | taken:"2022-01-30"                    | Finds content created on the specified date                                                                                                    |
 | updated     | timestamp | updated:"2006-01-02T15:04:05Z"        | Finds content updated at or after this time                                                                                                    |
+
 
 
 !!! question "Why can't I play live photos or find stacks when I search for specific images?"
