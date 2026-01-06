@@ -26,6 +26,18 @@ The compatibility of our PWA has been tested with Apple Safari and Google Chrome
 
         ![Screenshot](img/ios-3.jpg){: style="width:35%" class="shadow"}
 
+    5. The PWA is now installed on the home screen of your device and can be launched from there.
+
+        ![Screenshot](img/ios-4.jpg){: style="width:35%" class="shadow"}
+
+    !!! info "Keeping iOS Originals"
+        iOS may convert photos and videos to a more compatible format **before** they are uploaded via Safari or the PhotoPrism PWA, so PhotoPrism will receive and store the already converted files.
+
+        To keep your originals:
+
+        - In the iOS Photos picker, tap the three-dot menu (…) → *Options* → set **Format** to **Current** instead of **Automatic** so your original files are kept.
+        - Alternatively, use dedicated sync apps like [PhotoSync](../sync/mobile-devices.md#using-photosync), which can upload files in their original format via WebDAV.
+
 === "Google Chrome (Android)"
 
     1. Open PhotoPrism in Chrome
@@ -40,7 +52,3 @@ The compatibility of our PWA has been tested with Apple Safari and Google Chrome
     4. Choose a name and click *Add*
 
         ![Screenshot](img/android-3.jpg){: style="width:35%" class="shadow"}
-
-The PWA is now installed on the home screen of your device and can be launched from there.
-
-![Screenshot](img/ios-4.jpg){: style="width:35%" class="shadow"}
