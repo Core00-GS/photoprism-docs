@@ -36,11 +36,11 @@
 
     5. Select files
 
-!!! info "Keeping iOS Originals"
+!!! info "Preserve Original Format When Uploading on iOS"
     iOS may convert photos and videos to a more compatible format **before** they are uploaded via Safari or the PhotoPrism PWA, so PhotoPrism will receive and store the already converted files.
 
-    To keep your originals:
+    To preserve the original format:
 
-    - In the iOS Photos picker, tap the three-dot menu (…) → *Options* → set **Format** to **Current** instead of **Automatic** so your original files are kept.
+    - In the iOS Photos picker, tap the three-dot menu (…) → *Options* → set **Format** to **Current** instead of **Automatic** so your files are uploaded in the original format.
     - Alternatively, use dedicated sync apps like [PhotoSync](../sync/mobile-devices.md#using-photosync), which can upload files in their original format via WebDAV.
 
