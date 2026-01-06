@@ -56,7 +56,7 @@ For other languages, keep the base instructions in English and add the desired l
 
 ## Configuration Examples
 
-The following drop-in examples can be specified in your `vision.yml` file, which is located in the `storage/config` directory. [Learn more ›](index.md#visionyml-reference).
+The following drop-in examples can be specified in your `vision.yml` file, which is located in the config directory (default: `storage/config`). [Learn more ›](index.md#visionyml-reference).
 
 ### Gemma 3: Labels
 

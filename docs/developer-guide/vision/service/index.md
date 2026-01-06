@@ -43,7 +43,13 @@ Developers can proceed to the [Build Setup](setup.md) guide, which explains how 
 
 ## Step 2: Configure PhotoPrism
 
-Now, create a new `config/vision.yml` file or edit the existing file in [the *storage* folder](../../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
+Now, create a new `vision.yml` file in your config path (default: `storage/config`) or edit the existing file in [the *storage/config* folder](../../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
+
+!!! info ""
+    If PhotoPrism can’t read your config file, make sure the file exists at the config path configured for your instance. Older installations may use `storage/settings`.
+
+    Run `docker compose exec photoprism photoprism show config | grep config-path` to find out what's your configured config path.
+
 
 === "Example 1: Using an Ollama Model"
 
