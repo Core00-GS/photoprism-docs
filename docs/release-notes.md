@@ -14,6 +14,7 @@ What's new?
 - Index: [Fixed merged photos keeping image type after video file merges](https://github.com/photoprism/photoprism/issues/5418)
 - Places: [Fixed handling of minor GPS coordinate overshoots near map boundaries](https://github.com/photoprism/photoprism/issues/5445)
 - Folders: [Fixed emoji subfolders conflicting with parent folder albums](https://github.com/photoprism/photoprism/issues/5366)
+- Folders: [Fixed folder album path collisions caused by truncated slugs](https://github.com/photoprism/photoprism/issues/5437)
 - Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
 - Thumbs: [Fixed error buffer handling when interop index was missing](https://github.com/photoprism/photoprism/issues/5389)
 - Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
