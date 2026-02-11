@@ -18,7 +18,7 @@ What's new?
 - Folders: [Fixed folder album path collisions caused by truncated slugs](https://github.com/photoprism/photoprism/issues/5437)
 - Library: [Hidden results now display file error reasons in Card and List views](https://github.com/photoprism/photoprism/issues/5391)
 - Thumbs: [Fixed error buffer handling when interop index was missing](https://github.com/photoprism/photoprism/issues/5389)
-- Metadata: [Clamped invalid Google JSON GPS coordinates to geo bounds](https://github.com/photoprism/photoprism/issues/5373#issuecomment-3884200937)
+- Metadata: [Clamped invalid Google JSON GPS coordinates to geo bounds](https://github.com/photoprism/photoprism/issues/5373)
 - Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
 - Logs: [Fixed handling of missing caption thumbnails and video remux errors](https://github.com/photoprism/photoprism/issues/5398)
 - Security: [Upgraded Go to v1.25.7, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.7)
