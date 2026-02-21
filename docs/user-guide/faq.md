@@ -1,6 +1,6 @@
 # Frequently Asked Questions
 
-## General ##
+## General
 
 ??? question "Does your software depend on any external services?"
 
@@ -29,14 +29,14 @@
     [Compare Team Editions ›](https://www.photoprism.app/teams#compare)
 
 ??? question "When exactly will new features be released?"
-    
+
     Our [Project Roadmap](https://link.photoprism.app/roadmap) shows what tasks are in progress and what features will be implemented next. You may give ideas you like a thumbs-up, so we know what's most popular.
 
     Be aware that we have a zero-bug policy and do our best to help users when they need support or have other questions. This comes at a price though, as we can't give exact release dates for new features. Our team receives many more requests than can be implemented, so we want to emphasize that we are in no way obligated to implement the features, enhancements, or other changes you request. We do, however, appreciate your feedback and carefully consider all requests.
 
     **Since [sustained funding](https://www.photoprism.app/oss/faq) is key to quickly releasing new features, we encourage all users to support our mission by [signing up as a member](https://www.photoprism.app/membership) or purchasing a [commercial license](https://www.photoprism.app/teams).**
 
-## Membership ##
+## Membership
 
 ??? question "How can I activate my membership?"
 
@@ -60,7 +60,7 @@
 
     [Compare Features ›](https://www.photoprism.app/editions#compare)
 
-## User Interface ##
+## User Interface
 
 ??? question "Can I select multiple pictures at once?"
 
@@ -107,12 +107,26 @@
     Most users won't be able to sort their memories in a strictly hierarchical way
     and prefer to explore them in multiple dimensions instead.
 
-## Maps & Places ##
+## Search Results
+
+??? question "Why are results ordered by local time instead of UTC when sorting by newest/oldest"?"
+
+    When sorting by time, PhotoPrism uses the local capture time ("wall time") because most photos contain this information, and it is what most people expect to see on a timeline. For still images, EXIF timestamps are usually stored without a reliable time zone, so they are treated as local time by convention. Interpreting them as UTC would often change the chronological order by hours (or even days), making them *appear* incorrect.
+
+    In addition, real-world libraries and cameras mix timestamp fields inconsistently (sometimes with offsets, sometimes without).
+    PhotoPrism therefore avoids "guessing" UTC from incomplete metadata and instead sorts using the local timestamp when available.
+
+    [Learn more ›](https://github.com/photoprism/photoprism/issues/2320)
+
+??? question "Why is the date of pictures without metadata displayed as *Unknown* in the search results?"
+
+    If there is no date information available in the metadata or the original file names, the file system modification time is used to sort pictures in search results and to [create canonical file names for them during import](library/import.md). However, this is usually not the actual date a photo was taken (or a graphic was created by the original author), but only the time you downloaded or copied it. As a result, the date of pictures without a reliable creation date will be displayed as "Unknown" until you manually [set a date in the edit dialog](organize/edit.md).
+
+## Maps & Places
 
 ??? question "Why are some pictures positioned at unvisited locations on the map?"
 
     PhotoPrism can estimate the location of pictures taken without GPS information by extrapolating it from the location of other pictures taken on the same day. These estimates can be [disabled in the settings](./settings/library.md) if you don't want them.
-
 
 ??? question "Are the keys for using interactive world maps provided free of charge?"
 
@@ -130,7 +144,7 @@
 
     [Learn more ›](../getting-started/faq.md#are-the-keys-for-using-interactive-world-maps-provided-free-of-charge)
 
-## Media Library ##
+## Media Library
 
 ??? question "What media file types are supported?"
 
@@ -256,7 +270,7 @@
 
     PhotoPrism generally does not write to the *originals* folder, with the following exceptions: (1) You rotate an image in the user interface, so its Exif header must be updated. (2) You unstack files that were stacked based on their name, so they must be renamed. (3) You add files using the import functionality or the web upload. (4) You manually delete files in the user interface. (5) You have configured the *originals* folder as your sidecar folder. (6) You access the *originals* folder with a WebDAV client to manage your files without having *read-only mode* enabled.
 
-## RAW Images ##
+## RAW Images
 
 ??? question "What is a RAW image file?"
 
@@ -280,7 +294,7 @@
 
     From our experience, some basic edits done with Adobe tools - such as cropping - might be preserved when you convert the same RAW image with other software like Darktable. Advanced edits, such as lens or color corrections, will likely not be applied.
 
-## Live Photos ##
+## Live Photos
 
 ??? question "Why can't I play Live Photos or find stacks when I search for specific images?"
 
@@ -294,7 +308,7 @@
     
     You can combine these filters with other filters such as `live` to ensure that the results include only pictures with a specific media type. Alternatively, you can use the `filename:` filter with a more permissive wildcard that excludes the file extension.
 
-## Metadata ##
+## Metadata
 
 ??? question "Windows shows different metadata values. Could this be a bug in PhotoPrism?"
 
@@ -302,12 +316,8 @@
     
     It might then become clear why there are differences. For example, it could be that Windows does not support some fields and therefore ignores them, or that the data shown is actually from the file system and not from the files. Should you still believe to have found a bug, please [provide us with sample files](https://www.photoprism.app/contact#file-samples) so that we can reproduce the issue.
 
-??? question "Why is the date of pictures without metadata displayed as *Unknown* in the search results?"
-    
-    If there is no date information available in the metadata or the original file names, the file system modification time is used to sort pictures in search results and to [create canonical file names for them during import](library/import.md). However, this is usually not the actual date a photo was taken (or a graphic was created by the original author), but only the time you downloaded or copied it. As a result, the date of pictures without a reliable creation date will be displayed as "Unknown" until you manually [set a date in the edit dialog](organize/edit.md).
-
 ??? question "Why do some pictures have 08/12/2002 as date if they were not taken on that day?"
-    
+
     This is usually caused by a [bug in Android](https://issuetracker.google.com/issues/36963276) that caused photos to be created with an incorrect CreateDate. While the date can easily be changed in the edit dialog, this only updates the index without modifying your originals.
     To fix the date directly in your image or video files, please use other applications like Photoshop, or [ExifTool](https://exiftool.org/), and re-index your library.
 
@@ -337,7 +347,7 @@
 
     [Learn more ›](../getting-started/troubleshooting/metadata.md)
 
-## Thumbnails ##
+## Thumbnails
 
 ??? question "Isn't it insecure that thumbnail image URLs work even if you are not logged in?"
 
@@ -349,7 +359,7 @@
 
     Visit [docs.photoprism.app/developer-guide/media/thumbnails/](https://docs.photoprism.app/developer-guide/media/thumbnails/) to learn more.
 
-## WebDAV ##
+## WebDAV
 
 ??? question "Why are files uploaded via WebDAV not indexed/imported immediately?"
 
