@@ -20,7 +20,7 @@ What's new?
 - Metadata: [Clamped invalid Google JSON GPS coordinates to geo bounds](https://github.com/photoprism/photoprism/issues/5373)
 - Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
 - Logs: [Fixed handling of missing caption thumbnails and video remux errors](https://github.com/photoprism/photoprism/issues/5398)
-- Security: [Upgraded Go to v1.25.7, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.25.7)
+- Security: [Upgraded Go to v1.26, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.26)
 
 !!! info ""
     Missing [user interface translations](https://translate.photoprism.app/projects/photoprism/) have been generated with the help of DeepL and Google Translate. Native speakers are [welcome to help us improve them](https://docs.photoprism.app/developer-guide/translations-weblate/) where needed.
