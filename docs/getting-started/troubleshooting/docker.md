@@ -185,7 +185,7 @@ networks:
 
 ## Viewing Logs
 
-You can run this command to watch the Docker service logs, including the last 100 messages (omit `--tail=100` to see them all, and `-f` to output only the last logs without watching them):
+You can run this command to watch the Docker [service logs](https://docs.docker.com/engine/logging/configure/), including the last 100 messages (omit `--tail=100` to see them all, and `-f` to output only the last logs without watching them):
 
 ```bash
 docker compose logs -f --tail=100 
@@ -223,6 +223,39 @@ docker compose up
 
 !!! tldr ""
     The default [Docker Compose](https://docs.docker.com/compose/) config filename is `compose.yaml`. For simplicity, it doesn't need to be specified when running `docker compose` or `docker-compose` in the same directory. Config files for other apps or instances should be placed in separate folders.
+
+### Log Rotation
+
+By default, Docker [stores container logs](https://docs.docker.com/engine/logging/configure/) on the host using the [`json-file`](https://docs.docker.com/engine/logging/drivers/json-file/) logging driver.[^1] If log rotation is not configured, these files can grow indefinitely and eventually fill up disk space.
+
+To avoid this, you can either configure log rotation **per service** in your `compose.yaml`:
+
+```yaml
+services:
+  app:
+    logging:
+      driver: json-file
+      options:
+        max-size: "10m"
+        max-file: "3"
+```
+
+Alternatively, you can configure logging **globally** for all containers by setting defaults in Docker's `daemon.json` (so you don't need to repeat this for every service):
+
+```json
+{
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "10m",
+    "max-file": "3"
+  }
+}
+```
+
+After changing the Docker daemon configuration, restart Docker and recreate existing containers so the new defaults are applied.
+
+!!! note ""
+	Docker also provides the `local` logging driver, which is optimized for local storage and performs log rotation by default. If you don't depend on `json-file` specifically, using `local` as the global default can be a good choice.
 
 ## Adding Swap
 
@@ -444,3 +477,5 @@ Then [restart all services](../docker-compose.md#step-2-start-the-server) for th
 *[filesystem]: contains your files and folders
 *[RHEL]: Red Hat Enterprise Linux®
 *[MTU]: Maximum Transmission Unit
+
+[^1]: When using Docker's [default `json-file` logging driver](https://docs.docker.com/engine/logging/drivers/json-file/) on Linux, logs are typically stored at `<data-root>/containers/<container-id>/<container-id>-json.log` (usually `/var/lib/docker/containers/...` unless the Docker data root was changed).
