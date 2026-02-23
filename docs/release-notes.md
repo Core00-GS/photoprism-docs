@@ -4,13 +4,14 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 260222-75c2378c4</span>
+<span class="build">Build 260223-8ba783c2f</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. Thank you to everyone who [supports us as a member](https://www.photoprism.app/editions#compare), contributes [pull requests](https://docs.photoprism.app/developer-guide/pull-requests/), or helps us [test the changes](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! [Learn more ›](getting-started/updates.md#development-preview)
 
 What's new?
 
 - Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
+- Ollama: [Added a "thinking" response fallback for captions](https://github.com/photoprism/photoprism/issues/5455)
 - Index: [Fixed merged photos keeping image type after video file merges](https://github.com/photoprism/photoprism/issues/5418)
 - Places: [Fixed handling of minor GPS coordinate overshoots near map boundaries](https://github.com/photoprism/photoprism/issues/5445)
 - Folders: [Fixed emoji subfolders conflicting with parent folder albums](https://github.com/photoprism/photoprism/issues/5366)
