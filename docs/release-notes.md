@@ -11,7 +11,7 @@ Our [preview builds](getting-started/updates.md#development-preview) give you ea
 What's new?
 
 - Ollama: [Added support for configuration via `OLLAMA_BASE_URL` and `OLLAMA_API_KEY`](https://github.com/photoprism/photoprism/issues/5361)
-- Ollama: [Added a "thinking" response fallback for captions](https://github.com/photoprism/photoprism/issues/5455)
+- Ollama: [Added a "thinking" response fallback for captions](https://github.com/photoprism/photoprism/issues/5455) by [@lastzero](https://github.com/lastzero)
 - Index: [Fixed merged photos keeping image type after video file merges](https://github.com/photoprism/photoprism/issues/5418)
 - Places: [Fixed handling of minor GPS coordinate overshoots near map boundaries](https://github.com/photoprism/photoprism/issues/5445)
 - Folders: [Fixed emoji subfolders conflicting with parent folder albums](https://github.com/photoprism/photoprism/issues/5366)
