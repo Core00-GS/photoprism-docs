@@ -83,25 +83,10 @@ You can find the default settings in [the `compose.yaml` file](https://github.co
 
 ### Optional: Build the Frontend in Watch Mode
 
-The integrated web server not only provides the backend API, but is also used to serve static assets. These can be
-automatically rebuilt (updated) when you change a file. To do this, run the following command in a terminal, either
-inside or outside the container (outside is faster if your host is not running Linux):
+The integrated web server provides the backend API and serves static assets. These assets can be automatically rebuilt (updated) when you change a file. Run the following command in a terminal either inside or outside the container:
 
 ```bash
 make watch-js
-```
-
-Alternatively, you can change to the `frontend` directory and run NPM directly:
-
-```bash
-cd frontend
-npm run watch
-```
-
-To update the frontend dependencies, also change to the `frontend` directory and run:
-
-```bash
-npm update
 ```
 
 ### Optional: Use a Go Debugger
