@@ -21,8 +21,9 @@ What's new?
 - Metadata: [Clamped invalid Google JSON GPS coordinates to geo bounds](https://github.com/photoprism/photoprism/issues/5373)
 - CLI: [Standardized input path validation and exit codes](https://github.com/photoprism/photoprism/issues/5457) by [@lastzero](https://github.com/lastzero)
 - SQLite: [Improved compatibility with Google OIDC identity provider](https://github.com/photoprism/photoprism/issues/4951) by [@keif888](https://github.com/keif888)
-- Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
 - Server: [Added HTTP security hardening config options](https://github.com/photoprism/photoprism/issues/5471) by [@lastzero](https://github.com/lastzero)
+- Server: [Improved configuration and performance of Gzip route exclusions](https://github.com/photoprism/photoprism/issues/5384)
+- Server: [Resolved known issues when hosting on a shared domain](https://github.com/photoprism/photoprism/issues/2391)
 - Logs: [Fixed handling of missing caption thumbnails and video remux errors](https://github.com/photoprism/photoprism/issues/5398)
 - Security: [Upgraded Go to v1.26, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.26)
 
