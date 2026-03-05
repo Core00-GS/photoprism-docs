@@ -3,14 +3,14 @@
 !!! note ""
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
-### Development Preview
-<span class="build">Build 260305-ba8ae47e5</span>
+<!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. Thank you to everyone who [supports us as a member](https://www.photoprism.app/editions#compare), contributes [pull requests](https://docs.photoprism.app/developer-guide/pull-requests/), or helps us [test the changes](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! [Learn more ›](getting-started/updates.md#development-preview) -->
+
+### March 5, 2026
+<span class="build">Build 260305-fad9d5395</span>
 
 This service release focuses on security hardening, interoperability improvements, and bug fixes to create a stable platform for upcoming features. 🔧
 
 Ollama users benefit from [easier configuration](https://docs.photoprism.app/user-guide/ai/using-ollama/) with the `OLLAMA_BASE_URL` and `OLLAMA_API_KEY` environment variables, as well as improved fallback response handling for [caption generation](https://docs.photoprism.app/user-guide/ai/ollama-models/#caption-prompts) with reasoning models. To improve reliability, we addressed edge cases in [indexing](https://docs.photoprism.app/user-guide/library/originals/), [Places](https://docs.photoprism.app/user-guide/organize/places/) (GPS boundary overshoots), [folder albums](https://docs.photoprism.app/user-guide/organize/folders/) (emoji and slug collisions), [thumbnails](https://docs.photoprism.app/user-guide/settings/advanced/#preview-images), [metadata parsing](https://docs.photoprism.app/user-guide/library/metadata/), [WebDAV](https://docs.photoprism.app/user-guide/sync/webdav/) response headers, CLI validation, [OIDC](https://docs.photoprism.app/getting-started/advanced/openid-connect/) compatibility, and shared-domain hosting.
-
-<!-- Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. Thank you to everyone who [supports us as a member](https://www.photoprism.app/editions#compare), contributes [pull requests](https://docs.photoprism.app/developer-guide/pull-requests/), or helps us [test the changes](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! [Learn more ›](getting-started/updates.md#development-preview) -->
 
 What's new?
 
