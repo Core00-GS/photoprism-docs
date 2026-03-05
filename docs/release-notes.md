@@ -31,6 +31,7 @@ What's new?
 - Server: [Resolved known issues when hosting on a shared domain](https://github.com/photoprism/photoprism/issues/2391)
 - Logs: [Fixed handling of missing caption thumbnails and video remux errors](https://github.com/photoprism/photoprism/issues/5398)
 - Security: [Upgraded Go to v1.26, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.26)
+- Translations: [Updated French, German, Latvian, and Romanian](https://docs.photoprism.app/developer-guide/translations-weblate/)
 
 !!! info ""
     Missing [user interface translations](https://translate.photoprism.app/projects/photoprism/) have been generated with the help of DeepL and Google Translate. Native speakers are [welcome to help us improve them](https://docs.photoprism.app/developer-guide/translations-weblate/) where needed.
