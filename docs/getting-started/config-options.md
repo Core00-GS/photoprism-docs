@@ -158,50 +158,53 @@
 | PHOTOPRISM_CORS_HEADERS     | --cors-headers     | Accept, Accept-Ranges, Content-Disposition, Content-Encoding, Content-Range, Location | one or more `HEADERS` that browsers should see when performing a cross-origin request                                        |
 | PHOTOPRISM_CORS_METHODS     | --cors-methods     | GET, HEAD, OPTIONS                                                                    | one or more `METHODS` that may be used when performing a cross-origin request                                                |
 
-### Proxy Server
+### Networking
 
-| Environment                     | CLI Flag               | Default             | Description                                                                                             |
-|:--------------------------------|:-----------------------|:--------------------|:--------------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_HTTPS_PROXY          | --https-proxy          |                     | proxy server `URL` to be used for outgoing connections *optional*                                       |
-| PHOTOPRISM_HTTPS_PROXY_INSECURE | --https-proxy-insecure |                     | ignores invalid HTTPS certificates when using a proxy                                                   |
-| PHOTOPRISM_TRUSTED_PLATFORM     | --trusted-platform     |                     | trusted client IP header `NAME`, e.g. when running behind a cloud provider load balancer                |
-| PHOTOPRISM_TRUSTED_PROXY        | --trusted-proxy        | "172.16.0.0/12"     | `CIDR` ranges or IPv4/v6 addresses from which reverse proxy headers can be trusted, separated by commas |
-| PHOTOPRISM_PROXY_CLIENT_HEADER  | --proxy-client-header  | "X-Forwarded-For"   | proxy client IP header `NAME`, e.g. X-Forwarded-For, X-Client-IP, X-Real-IP, or CF-Connecting-IP        |
-| PHOTOPRISM_PROXY_PROTO_HEADER   | --proxy-proto-header   | "X-Forwarded-Proto" | proxy protocol header `NAME`                                                                            |
-| PHOTOPRISM_PROXY_PROTO_HTTPS    | --proxy-proto-https    | "https"             | forwarded HTTPS protocol `NAME`                                                                         |
+| Environment                     | CLI Flag               | Default             | Description                                                                                                        |
+|:--------------------------------|:-----------------------|:--------------------|:-------------------------------------------------------------------------------------------------------------------|
+| PHOTOPRISM_HTTPS_PROXY          | --https-proxy          |                     | proxy server `URL` to be used for outgoing connections *optional*                                                  |
+| PHOTOPRISM_HTTPS_PROXY_INSECURE | --https-proxy-insecure |                     | ignores invalid HTTPS certificates when using a proxy                                                              |
+| PHOTOPRISM_TRUSTED_PLATFORM     | --trusted-platform     |                     | trusted client IP header `NAME`, e.g. when running behind a cloud provider load balancer                           |
+| PHOTOPRISM_TRUSTED_PROXY        | --trusted-proxy        | "172.16.0.0/12"     | `CIDR` ranges or IPv4/v6 addresses from which reverse proxy headers can be trusted, separated by commas            |
+| PHOTOPRISM_PROXY_CLIENT_HEADER  | --proxy-client-header  | "X-Forwarded-For"   | proxy client IP header `NAME`, e.g. X-Forwarded-For, X-Client-IP, X-Real-IP, or CF-Connecting-IP                   |
+| PHOTOPRISM_PROXY_PROTO_HEADER   | --proxy-proto-header   | "X-Forwarded-Proto" | proxy protocol header `NAME`                                                                                       |
+| PHOTOPRISM_PROXY_PROTO_HTTPS    | --proxy-proto-https    | "https"             | forwarded HTTPS protocol `NAME`                                                                                    |
+| PHOTOPRISM_SERVICES_CIDR        | --services-cidr        |                     | comma-separated `CIDR` ranges or IPs allowed for outbound service connections (e.g., 172.18.0.0/16,192.168.1.0/24) |
 
 ### Web Server
 
-| Environment                     | CLI Flag               | Default       | Description                                                                                             |
-|:--------------------------------|:-----------------------|:--------------|:--------------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_DISABLE_TLS          | --disable-tls          |               | disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available             |
-| PHOTOPRISM_DEFAULT_TLS          | --default-tls          |               | uses a self-signed HTTPS/TLS certificate if no other certificate is available                           |
-| PHOTOPRISM_TLS_CERT             | --tls-cert             |               | public HTTPS certificate `FILENAME` (.crt), ignored for Unix domain sockets                             |
-| PHOTOPRISM_TLS_KEY              | --tls-key              |               | private HTTPS key `FILENAME` (.key), ignored for Unix domain sockets                                    |
-| PHOTOPRISM_DISABLE_STS          | --disable-sts          |               | disables HTTP Strict-Transport-Security (STS) header                                                    |
-| PHOTOPRISM_STS_SECONDS          | --sts-seconds          | 31536000      | `TIME` for the browser to remember that the site is to be accessed only via HTTPS (0 to disable) *plus* |
-| PHOTOPRISM_STS_SUBDOMAINS       | --sts-subdomains       |               | rule applies to all subdomains as well *plus*                                                           |
-| PHOTOPRISM_STS_PRELOAD          | --sts-preload          |               | submit to Google's HSTS preload service *plus*                                                          |
-| PHOTOPRISM_AUTH_LIMIT           | --auth-limit           | 60            | maximum number of consecutive invalid access `TOKENS` from a single IP *plus*                           |
-| PHOTOPRISM_AUTH_INTERVAL        | --auth-interval        | 10s           | average `DURATION` between invalid access tokens from a single IP (0-86400s) *plus*                     |
-| PHOTOPRISM_LOGIN_LIMIT          | --login-limit          | 10            | maximum number of consecutive failed `LOGINS` from a single IP *plus*                                   |
-| PHOTOPRISM_LOGIN_INTERVAL       | --login-interval       | 1m0s          | average `DURATION` between failed logins from a single IP (0-86400s) *plus*                             |
-| PHOTOPRISM_IPS_LIMIT            | --ips-limit            | 3             | maximum number of malicious request `ATTEMPTS` before a client IP is blocked (-1 to disable) *plus*     |
-| PHOTOPRISM_IPS_INTERVAL         | --ips-interval         | 1h0m0s        | average `DURATION` between malicious request attempts from a single IP (0-86400s) *plus*                |
-| PHOTOPRISM_HTTP_CSP             | --http-csp             |               | HTTP Content-Security-Policy (CSP) `HEADER` *plus*                                                      |
-| PHOTOPRISM_HTTP_CTO             | --http-cto             | nosniff       | HTTP X-Content-Type-Options `HEADER` *plus*                                                             |
-| PHOTOPRISM_HTTP_COOP            | --http-coop            | same-origin   | HTTP Cross-Origin-Opener-Policy (COOP) `HEADER` *plus*                                                  |
-| PHOTOPRISM_HTTP_REFERRER_POLICY | --http-referrer-policy | same-origin   | HTTP Referrer-Policy `HEADER` *plus*                                                                    |
-| PHOTOPRISM_HTTP_FRAME_OPTIONS   | --http-frame-options   | DENY          | HTTP X-Frame-Options `HEADER` *plus*                                                                    |
-| PHOTOPRISM_HTTP_XSS_PROTECTION  | --http-xss-protection  | 1; mode=block | HTTP X-XSS-Protection `HEADER` *plus*                                                                   |
-| PHOTOPRISM_HTTP_MODE            | --http-mode            |               | Web server `MODE` (debug, release, test)                                                                |
-| PHOTOPRISM_HTTP_COMPRESSION     | --http-compression     |               | Web server compression `METHOD` (gzip, none)                                                            |
-| PHOTOPRISM_HTTP_CACHE_PUBLIC    | --http-cache-public    |               | allows static content to be cached by a CDN or caching proxy                                            |
-| PHOTOPRISM_HTTP_CACHE_MAXAGE    | --http-cache-maxage    | 2592000       | time in `SECONDS` until cached content expires                                                          |
-| PHOTOPRISM_HTTP_VIDEO_MAXAGE    | --http-video-maxage    | 21600         | time in `SECONDS` until cached videos expire                                                            |
-| PHOTOPRISM_HTTP_HOST            | --http-host            | 0.0.0.0       | Web server `IP` address or Unix domain socket, e.g. unix:/var/run/photoprism.sock?force=true&mode=660   |
-| PHOTOPRISM_HTTP_PORT            | --http-port            | 2342          | Web server port `NUMBER`, ignored for Unix domain sockets                                               |
-| PHOTOPRISM_HTTP_HOSTNAME        | --http-hostname        |               | serve requests for this `HOSTNAME` only *plus*                                                          |
+| Environment                     | CLI Flag               | Default     | Description                                                                                             |
+|:--------------------------------|:-----------------------|:------------|:--------------------------------------------------------------------------------------------------------|
+| PHOTOPRISM_DISABLE_TLS          | --disable-tls          |             | disables HTTPS/TLS even if the site URL starts with https:// and a certificate is available             |
+| PHOTOPRISM_DEFAULT_TLS          | --default-tls          |             | uses a self-signed HTTPS/TLS certificate if no other certificate is available                           |
+| PHOTOPRISM_TLS_CERT             | --tls-cert             |             | public HTTPS certificate `FILENAME` (.crt), ignored for Unix domain sockets                             |
+| PHOTOPRISM_TLS_KEY              | --tls-key              |             | private HTTPS key `FILENAME` (.key), ignored for Unix domain sockets                                    |
+| PHOTOPRISM_DISABLE_STS          | --disable-sts          |             | disables HTTP Strict-Transport-Security (STS) header                                                    |
+| PHOTOPRISM_STS_SECONDS          | --sts-seconds          | 31536000    | `TIME` for the browser to remember that the site is to be accessed only via HTTPS (0 to disable) *plus* |
+| PHOTOPRISM_STS_SUBDOMAINS       | --sts-subdomains       |             | rule applies to all subdomains as well *plus*                                                           |
+| PHOTOPRISM_STS_PRELOAD          | --sts-preload          |             | submit to Google's HSTS preload service *plus*                                                          |
+| PHOTOPRISM_AUTH_LIMIT           | --auth-limit           | 60          | maximum number of consecutive invalid access `TOKENS` from a single IP *plus*                           |
+| PHOTOPRISM_AUTH_INTERVAL        | --auth-interval        | 10s         | average `DURATION` between invalid access tokens from a single IP (0-86400s) *plus*                     |
+| PHOTOPRISM_LOGIN_LIMIT          | --login-limit          | 10          | maximum number of consecutive failed `LOGINS` from a single IP *plus*                                   |
+| PHOTOPRISM_LOGIN_INTERVAL       | --login-interval       | 1m0s        | average `DURATION` between failed logins from a single IP (0-86400s) *plus*                             |
+| PHOTOPRISM_IPS_LIMIT            | --ips-limit            | 3           | maximum number of malicious request `ATTEMPTS` before a client IP is blocked (-1 to disable) *plus*     |
+| PHOTOPRISM_IPS_INTERVAL         | --ips-interval         | 1h0m0s      | average `DURATION` between malicious request attempts from a single IP (0-86400s) *plus*                |
+| PHOTOPRISM_HTTP_CSP             | --http-csp             |             | HTTP Content-Security-Policy (CSP) `HEADER` *plus*                                                      |
+| PHOTOPRISM_HTTP_CTO             | --http-cto             | nosniff     | HTTP X-Content-Type-Options `HEADER` *plus*                                                             |
+| PHOTOPRISM_HTTP_COOP            | --http-coop            | same-origin | HTTP Cross-Origin-Opener-Policy (COOP) `HEADER` *plus*                                                  |
+| PHOTOPRISM_HTTP_REFERRER_POLICY | --http-referrer-policy | same-origin | HTTP Referrer-Policy `HEADER` *plus*                                                                    |
+| PHOTOPRISM_HTTP_FRAME_OPTIONS   | --http-frame-options   | DENY        | HTTP X-Frame-Options `HEADER` *plus*                                                                    |
+| PHOTOPRISM_HTTP_MODE            | --http-mode            |             | Web server `MODE` (debug, release, test)                                                                |
+| PHOTOPRISM_HTTP_COMPRESSION     | --http-compression     |             | Web server compression `METHOD` (gzip, none)                                                            |
+| PHOTOPRISM_HTTP_HEADER_TIMEOUT  | --http-header-timeout  | 15s         | timeout for reading request headers as `DURATION`                                                       |
+| PHOTOPRISM_HTTP_HEADER_BYTES    | --http-header-bytes    | 1048576     | maximum request header size in `BYTES`                                                                  |
+| PHOTOPRISM_HTTP_IDLE_TIMEOUT    | --http-idle-timeout    | 3m0s        | timeout for idle keep-alive connections as `DURATION`                                                   |
+| PHOTOPRISM_HTTP_CACHE_PUBLIC    | --http-cache-public    |             | allows static content to be cached by a CDN or caching proxy                                            |
+| PHOTOPRISM_HTTP_CACHE_MAXAGE    | --http-cache-maxage    | 2592000     | time in `SECONDS` until cached content expires                                                          |
+| PHOTOPRISM_HTTP_VIDEO_MAXAGE    | --http-video-maxage    | 21600       | time in `SECONDS` until cached videos expire                                                            |
+| PHOTOPRISM_HTTP_HOST            | --http-host            | 0.0.0.0     | Web server `IP` address or Unix domain socket, e.g. unix:/var/run/photoprism.sock?force=true&mode=660   |
+| PHOTOPRISM_HTTP_PORT            | --http-port            | 2342        | Web server port `NUMBER`, ignored for Unix domain sockets                                               |
+| PHOTOPRISM_HTTP_HOSTNAME        | --http-hostname        |             | serve requests for this `HOSTNAME` only *plus*                                                          |
 
 ### Database Connection
 

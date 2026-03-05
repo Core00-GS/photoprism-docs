@@ -217,7 +217,7 @@ Below are the names of the config options that you can set in the `options.yml` 
 | CORSHeaders     | string | --cors-headers     |
 | CORSMethods     | string | --cors-methods     |
 
-### Proxy Server
+### Networking
 
 | Name               | Type     | CLI Flag               |
 |:-------------------|:---------|:-----------------------|
@@ -228,23 +228,27 @@ Below are the names of the config options that you can set in the `options.yml` 
 | ProxyClientHeaders | []string | --proxy-client-header  |
 | ProxyProtoHeaders  | []string | --proxy-proto-header   |
 | ProxyProtoHttps    | []string | --proxy-proto-https    |
+| ServicesCIDR       | string   | --services-cidr        |
 
 ### Web Server
 
-| Name            | Type   | CLI Flag            |
-|:----------------|:-------|:--------------------|
-| DisableTLS      | bool   | --disable-tls       |
-| DefaultTLS      | bool   | --default-tls       |
-| TLSEmail        | string | --tls-email         |
-| TLSCert         | string | --tls-cert          |
-| TLSKey          | string | --tls-key           |
-| HttpMode        | string | --http-mode         |
-| HttpCompression | string | --http-compression  |
-| HttpCachePublic | bool   | --http-cache-public |
-| HttpCacheMaxAge | int    | --http-cache-maxage |
-| HttpVideoMaxAge | int    | --http-video-maxage |
-| HttpHost        | string | --http-host         |
-| HttpPort        | int    | --http-port         |
+| Name              | Type          | CLI Flag              |
+|:------------------|:--------------|:----------------------|
+| DisableTLS        | bool          | --disable-tls         |
+| DefaultTLS        | bool          | --default-tls         |
+| TLSEmail          | string        | --tls-email           |
+| TLSCert           | string        | --tls-cert            |
+| TLSKey            | string        | --tls-key             |
+| HttpMode          | string        | --http-mode           |
+| HttpCompression   | string        | --http-compression    |
+| HttpHeaderTimeout | time.Duration | --http-header-timeout |
+| HttpHeaderBytes   | int           | --http-header-bytes   |
+| HttpIdleTimeout   | time.Duration | --http-idle-timeout   |
+| HttpCachePublic   | bool          | --http-cache-public   |
+| HttpCacheMaxAge   | int           | --http-cache-maxage   |
+| HttpVideoMaxAge   | int           | --http-video-maxage   |
+| HttpHost          | string        | --http-host           |
+| HttpPort          | int           | --http-port           |
 
 ### Database Connection
 
@@ -341,8 +345,8 @@ Below are the names of the config options that you can set in the `options.yml` 
 
 If you start the server as a *daemon* in the background, you can additionally specify a filename for the log and the process ID:
 
-| Name              | Type    | CLI Flag        |
-|:------------------|:--------|:----------------|
-| PIDFilename       | string  | --pid-filename  |
-| LogFilename       | string  | --log-filename  |
-| DetachServer      | bool    | --detach-server |
+| Name              | Type                                                                                 | CLI Flag        |
+|:------------------|:-------------------------------------------------------------------------------------|:----------------|
+| PIDFilename       | string                                                                               | --pid-filename  |
+| LogFilename       | string                                                                               | --log-filename  |
+| DetachServer      | bool                                                                                 | --detach-server |
