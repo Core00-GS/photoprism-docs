@@ -160,16 +160,16 @@
 
 ### Networking
 
-| Environment                     | CLI Flag               | Default             | Description                                                                                                        |
-|:--------------------------------|:-----------------------|:--------------------|:-------------------------------------------------------------------------------------------------------------------|
-| PHOTOPRISM_HTTPS_PROXY          | --https-proxy          |                     | proxy server `URL` to be used for outgoing connections *optional*                                                  |
-| PHOTOPRISM_HTTPS_PROXY_INSECURE | --https-proxy-insecure |                     | ignores invalid HTTPS certificates when using a proxy                                                              |
-| PHOTOPRISM_TRUSTED_PLATFORM     | --trusted-platform     |                     | trusted client IP header `NAME`, e.g. when running behind a cloud provider load balancer                           |
-| PHOTOPRISM_TRUSTED_PROXY        | --trusted-proxy        | "172.16.0.0/12"     | `CIDR` ranges or IPv4/v6 addresses from which reverse proxy headers can be trusted, separated by commas            |
-| PHOTOPRISM_PROXY_CLIENT_HEADER  | --proxy-client-header  | "X-Forwarded-For"   | proxy client IP header `NAME`, e.g. X-Forwarded-For, X-Client-IP, X-Real-IP, or CF-Connecting-IP                   |
-| PHOTOPRISM_PROXY_PROTO_HEADER   | --proxy-proto-header   | "X-Forwarded-Proto" | proxy protocol header `NAME`                                                                                       |
-| PHOTOPRISM_PROXY_PROTO_HTTPS    | --proxy-proto-https    | "https"             | forwarded HTTPS protocol `NAME`                                                                                    |
-| PHOTOPRISM_SERVICES_CIDR        | --services-cidr        |                     | comma-separated `CIDR` ranges or IPs allowed for outbound service connections (e.g., 172.18.0.0/16,192.168.1.0/24) |
+| Environment                     | CLI Flag               | Default             | Description                                                                                             |
+|:--------------------------------|:-----------------------|:--------------------|:--------------------------------------------------------------------------------------------------------|
+| PHOTOPRISM_HTTPS_PROXY          | --https-proxy          |                     | proxy server `URL` to be used for outgoing connections *optional*                                       |
+| PHOTOPRISM_HTTPS_PROXY_INSECURE | --https-proxy-insecure |                     | ignores invalid HTTPS certificates when using a proxy                                                   |
+| PHOTOPRISM_TRUSTED_PLATFORM     | --trusted-platform     |                     | trusted client IP header `NAME`, e.g. when running behind a cloud provider load balancer                |
+| PHOTOPRISM_TRUSTED_PROXY        | --trusted-proxy        | "172.16.0.0/12"     | `CIDR` ranges or IPv4/v6 addresses from which reverse proxy headers can be trusted, separated by commas |
+| PHOTOPRISM_PROXY_CLIENT_HEADER  | --proxy-client-header  | "X-Forwarded-For"   | proxy client IP header `NAME`, e.g. X-Forwarded-For, X-Client-IP, X-Real-IP, or CF-Connecting-IP        |
+| PHOTOPRISM_PROXY_PROTO_HEADER   | --proxy-proto-header   | "X-Forwarded-Proto" | proxy protocol header `NAME`                                                                            |
+| PHOTOPRISM_PROXY_PROTO_HTTPS    | --proxy-proto-https    | "https"             | forwarded HTTPS protocol `NAME`                                                                         |
+| PHOTOPRISM_SERVICES_CIDR        | --services-cidr        |                     | comma-separated `CIDR` ranges or IPs allowed for outbound service connections, e.g. 172.18.0.0/16       |
 
 ### Web Server
 
