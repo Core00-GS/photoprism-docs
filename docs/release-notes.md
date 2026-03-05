@@ -6,7 +6,7 @@
 ### Development Preview
 <span class="build">Build 260304-0ae82d368</span>
 
-This service release focuses on security hardening, interoperability improvements, and bug fixes to create a stable platform for upcoming features.
+This service release focuses on security hardening, interoperability improvements, and bug fixes to create a stable platform for upcoming features. 🔧
 
 Ollama users benefit from easier configuration with the `OLLAMA_BASE_URL` and `OLLAMA_API_KEY` environment variables, as well as improved fallback response handling for caption generation with reasoning models. To improve reliability, we addressed edge cases in indexing, Places (GPS boundary overshoots), folder albums (emoji and slug collisions), thumbnails, metadata parsing, WebDAV response headers, CLI validation, SQLite OIDC compatibility, and server-side gzip and shared-domain hosting behavior.
 
