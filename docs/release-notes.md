@@ -4,7 +4,7 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 260304-0ae82d368</span>
+<span class="build">Build 260305-ba8ae47e5</span>
 
 This service release focuses on security hardening, interoperability improvements, and bug fixes to create a stable platform for upcoming features. 🔧
 
