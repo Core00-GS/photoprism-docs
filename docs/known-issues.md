@@ -10,7 +10,7 @@ However, sometimes this is not possible right away, for example because it needs
 
 ### Shared Domain
 
-With our latest release, it is possible to run PhotoPrism under a subpath on a [shared domain](https://github.com/photoprism/photoprism/issues/2391).
+With our [latest release](release-notes.md), it is possible to run PhotoPrism under a subpath on a [shared domain](https://github.com/photoprism/photoprism/issues/2391).
 
 ### Nested Import Folder
 
