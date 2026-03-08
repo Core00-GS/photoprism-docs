@@ -4,12 +4,14 @@
     You can test [**upcoming features and enhancements**](https://link.photoprism.app/roadmap) by changing the image tag from `:latest` to [`:preview`](https://hub.docker.com/r/photoprism/photoprism/tags?page=1&name=preview) and then following [our update guide](getting-started/updates.md#development-preview) to download the newest image from [Docker Hub](https://hub.docker.com/r/photoprism/photoprism/tags) and restart your instance.
 
 ### Development Preview
-<span class="build">Build 260307-329779c77</span>
+<span class="build">Build 260308-c1ae7b46f</span>
 
 Our [preview builds](getting-started/updates.md#development-preview) give you early access to [additional features and enhancements](https://github.com/orgs/photoprism/projects/5) that will be part of the next stable release. Thank you to everyone who [supports us as a member](https://www.photoprism.app/editions#compare), contributes [pull requests](https://docs.photoprism.app/developer-guide/pull-requests/), or helps us [test the changes](https://github.com/photoprism/photoprism/issues?q=is%3Aissue%20state%3Aopen%20label%3Aplease-test)! [Learn more ›](getting-started/updates.md#development-preview)
 
 What's new?
 
+- Auth: [Added a "Stay signed in on this device" toggle to the login page](https://github.com/photoprism/photoprism/issues/5476)
+- OIDC: [Provider initialization is retried after transient discovery failure](https://github.com/photoprism/photoprism/issues/5478)
 - Index: [Added support for layered TIFF and Adobe Photoshop PSD images](https://github.com/photoprism/photoprism/issues/5383)
 - Labels: [Added support for homophones and homophone-aware lookups](https://github.com/photoprism/photoprism/issues/5227) by [@keif888](https://github.com/keif888)
 - WebDAV: [Added fallback for servers that only allow PROPFIND with a Depth of 1](https://github.com/photoprism/photoprism/issues/3541)
