@@ -15,7 +15,7 @@ What's new?
 - Index: [Added support for layered TIFF and Adobe Photoshop PSD images](https://github.com/photoprism/photoprism/issues/5383)
 - Labels: [Added support for homophones and homophone-aware lookups](https://github.com/photoprism/photoprism/issues/5227) by [@keif888](https://github.com/keif888)
 - WebDAV: [Added fallback for servers that only allow PROPFIND with a Depth of 1](https://github.com/photoprism/photoprism/issues/3541)
-- WebDAV: [Hardened timeouts, cancellation & Depth-1 fallback diagnostics](https://github.com/photoprism/photoprism/issues/5474)
+- WebDAV: [Hardened timeouts, cancellation, and Depth-1 fallback diagnostics](https://github.com/photoprism/photoprism/issues/5474)
 
 ### March 5, 2026
 <span class="build">Build 260305-fad9d5395</span>
