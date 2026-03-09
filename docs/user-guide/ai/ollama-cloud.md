@@ -28,7 +28,7 @@ With these variables set, PhotoPrism automatically uses the Ollama Cloud endpoin
 
 ## Step 3: Configure Models
 
-Create a new `vision.yml` file in your config path (default: `storage/config`) or edit the existing file in [the *storage/config* folder](../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below. Its absolute path from inside the container is `/photoprism/storage/config/vision.yml`:
+Create a new `vision.yml` file in your config path (default: `storage/config`) or edit the existing file in [the *storage/config* folder](../../getting-started/docker-compose.md#photoprismstorage) of your PhotoPrism instance, following the example below.
 
 Since the service URI is resolved from `OLLAMA_BASE_URL`, you can omit the `Service` block:
 
@@ -36,11 +36,11 @@ Since the service URI is resolved from `OLLAMA_BASE_URL`, you can omit the `Serv
     ```yaml
     Models:
     - Type: labels
-      Model: gemma3:latest
+      Model: qwen3.5:397b-cloud
       Engine: ollama
       Run: auto
     - Type: caption
-      Model: gemma3:latest
+      Model: qwen3.5:397b-cloud
       Engine: ollama
       Run: auto
     ```
