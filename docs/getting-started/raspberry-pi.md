@@ -1,7 +1,7 @@
 # Running PhotoPrism on a Raspberry Pi
 
 Our [stable releases](../release-notes.md) and [preview builds](updates.md#development-preview) are available as [multi-arch Docker images](https://hub.docker.com/r/photoprism/photoprism/tags) for 64-bit AMD, Intel, and ARM processors.[^1]
-As a Raspberry Pi owner, you therefore get the exact same functionality and can follow the same [installation steps](docker-compose.md) after going through a short list of [system requirements](#system-requirements) and [architecture specific notes](#architecture-specific-notes).
+As a Raspberry Pi owner, you therefore get the same core functionality and can follow the same [installation steps](docker-compose.md) after reviewing the [system requirements](#system-requirements) and [architecture-specific notes](#architecture-specific-notes).
 
 !!! verified "PhotoPrismPi"
     The easiest way to run PhotoPrism on a Raspberry Pi[^2] is with [PhotoPrismPi](raspberry-pi/microsd-image.md).
@@ -10,7 +10,6 @@ As a Raspberry Pi owner, you therefore get the exact same functionality and can 
 ### System Requirements ###
 
 - For a good user experience, we recommend running PhotoPrism on [a Raspberry Pi 4 or 5 with at least 4 GB RAM](#is-a-raspberry-pi-fast-enough) and a [64-bit operating system](#modern-arm64-based-devices)
-- High-resolution panoramic images may require additional swap space and/or physical memory above the [recommended minimum](index.md#system-requirements)
 - Indexing performance will benefit greatly from [using SSD storage](troubleshooting/performance.md#storage), e.g. connected via USB 3
 - Ensure that your device has [at least 4 GB of swap](troubleshooting/docker.md#adding-swap) configured and avoid setting a [hard memory limit](faq.md#why-is-my-configured-memory-limit-exceeded-when-indexing-even-though-photoprism-doesnt-actually-seem-to-use-that-much-memory) as this can cause unexpected restarts when the indexer temporarily needs more memory to process large files
 - Indexing RAW images and high-resolution panoramas may require additional [swap space](troubleshooting/docker.md#adding-swap) and/or physical memory beyond the recommended minimum; RAW image conversion and TensorFlow are disabled on systems with 1 GB or less memory
@@ -33,7 +32,7 @@ As a Raspberry Pi owner, you therefore get the exact same functionality and can 
 | Development Preview | `photoprism/photoprism:preview` | 
 | MariaDB             | `arm64v8/mariadb:11`            | 
 
-Running 64-bit Docker images under Raspbian Linux requires a minimum of technical experience to perform the necessary [configuration changes](#raspberry-pi-os). This is because it is a 32-bit operating system with merely a 64-bit kernel to ensure compatibility with legacy software.  If you don't need compatibility with 32-bit apps, we recommend choosing a standard 64-bit Linux distribution instead as it will save you time and requires less experience:
+Running 64-bit Docker images under Raspberry Pi OS may require additional manual [configuration changes](#raspberry-pi-os), especially on installations that still prioritize 32-bit user space for compatibility with older software. If you do not need compatibility with 32-bit apps, we recommend choosing a standard 64-bit Linux distribution instead, as it saves time and reduces setup complexity:
 
 - [Raspberry Pi Debian](https://raspi.debian.net/)
 - [Ubuntu for Raspberry Pi](https://ubuntu.com/raspberry-pi)
@@ -41,15 +40,15 @@ Running 64-bit Docker images under Raspbian Linux requires a minimum of technica
 
 
 !!! info ""
-    Other distributions that target the same use case as Raspbian, such as CoreELEC, will have similar issues and should therefore also be avoided to run modern server applications.
+    Other distributions that target the same use case as Raspberry Pi OS, such as CoreELEC, can have similar limitations and are therefore not ideal for running modern server applications.
 
 ##### Raspberry Pi OS #####
 
-To ensure compatibility with 64-bit Docker images, your Raspberry Pi must boot with the `arm_64bit=1` flag in its [config.txt file](https://www.raspberrypi.org/documentation/installation/installing-images/README.md).
+To ensure compatibility with 64-bit Docker images, your Raspberry Pi must boot with the `arm_64bit=1` flag in its [config.txt file](https://www.raspberrypi.com/documentation/computers/config_txt.html).
 An "exec format" error will occur otherwise.
 
 Try explicitly pulling the ARM64 version if you've booted your device with the `arm_64bit=1` flag 
-and you see the "no matching manifest" error on Raspberry Pi OS (Raspbian):
+and you see the "no matching manifest" error on Raspberry Pi OS:
 
 ```bash
 docker pull --platform=arm64 photoprism/photoprism:latest

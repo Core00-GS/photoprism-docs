@@ -1,4 +1,4 @@
-# MicroSD Image for the Raspberry Pi 
+# MicroSD Image for the Raspberry Pi
 
 ![](microsd-image/card.jpg){ class="w25 right" }
 The easiest way to run PhotoPrism on a Raspberry Pi is with [PhotoPrismPi](https://dl.photoprism.app/nas/raspberry-pi/).[^1]
@@ -14,7 +14,7 @@ It is available for Ubuntu, Windows, and macOS, and can be downloaded for free a
 
 ## Step 2: Download and Flash
 
-After installing [Raspberry Pi Imager](https://www.raspberrypi.com/software/) or another SD card flash tool, you can download the latest version of [PhotoPrismPi](https://dl.photoprism.app/nas/raspberry-pi/) from [dl.photoprism.app/nas/raspberry-pi/latest.img.xz](https://dl.photoprism.app/nas/raspberry-pi/latest.img.xz). 
+After installing [Raspberry Pi Imager](https://www.raspberrypi.com/software/) or another SD card flashing tool, you can download the latest version of [PhotoPrismPi](https://dl.photoprism.app/nas/raspberry-pi/) from [dl.photoprism.app/nas/raspberry-pi/latest.img.xz](https://dl.photoprism.app/nas/raspberry-pi/latest.img.xz).
 
 Then, use the Imager to write the file to an inserted SD card:
 
@@ -24,7 +24,7 @@ Once you have selected the downloaded image under "Operating System" and your SD
 
 ## Step 3: Boot Your Device
 
-Insert the SD card into your Raspberry Pi and ensure that it is connected to a wired network. Then, turn it on. After a few minutes, the operating system will update and download the latest release to your device.[^2]
+Insert the SD card into your Raspberry Pi and ensure that it is connected to a wired network. Then turn it on. After a few minutes, the operating system will finish its first-run setup and download the latest PhotoPrism release to your device.[^2]
 
 You should then be able to access the web interface by navigating to `http://<IP address>:2342/` or <https://photoprism-pi.local/>![^3]
 
@@ -72,7 +72,7 @@ sudo docker compose logs -f photoprism
 
 ## Traefik Reverse Proxy
 
-[Traefik](https://traefik.io/traefik) is pre-installed as [a reverse proxy](../proxies/traefik.md) and can be configured in your `/opt/photoprism/compose.yml` file, as well as through the config files located in `/opt/photoprism/traefik`.
+[Traefik](https://traefik.io/traefik) is pre-installed as [a reverse proxy](../proxies/traefik.md) and can be configured in your `/opt/photoprism/compose.yaml` file, as well as through the config files located in `/opt/photoprism/traefik`.
 
 [Learn more ›](../proxies/traefik.md)
 

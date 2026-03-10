@@ -1,14 +1,14 @@
 # Portainer Setup Guide
 
-[Portainer](https://www.portainer.io/) can be used to manage Docker containers through a web interface. On many [NAS devices](../nas/synology.md), it either comes pre-installed or you can simply install it from the vendor's app store. If you are installing PhotoPrism on a regular home or cloud server, you may instead want to follow our [Docker Compose Setup Guide](../docker-compose.md), which only uses standard Docker tools and commands.
+[Portainer](https://www.portainer.io/) can be used to manage Docker containers through a web interface. On many [NAS devices](../nas/synology.md), it is either available from the vendor's app store or easy to install separately. If you are installing PhotoPrism on a regular home or cloud server, you may instead want to follow our [Docker Compose Setup Guide](../docker-compose.md), which only uses standard Docker tools and commands.
 
 ### Step 1: Create Stack ###
 
-Navigate to "Stacks", click "Add stack" and paste the [contents of our *stack.yml* config template](https://dl.photoprism.app/docker/portainer/stack.yml){:target="_blank"} (opens in a new tab) into the *Web editor* so that you can change the storage folder locations in the `volumes` sections as needed:
+Navigate to "Stacks", click "Add stack", and paste the [contents of our *stack.yml* config template](https://dl.photoprism.app/docker/portainer/stack.yml){:target="_blank"} (opens in a new tab) into the *Web editor* so that you can change the storage folder locations in the `volumes` sections as needed:
 
 ![Screenshot](step-1-add.png){ class="shadow" }
 
-When using the *Web editor*, please make sure that related values remain on the [same indentation level](../../developer-guide/technologies/yaml.md) and that lists start with a dash as shown in our template.
+When using the *Web editor*, please make sure that related values remain on the [same indentation level](../../developer-guide/technologies/yaml.md) and that lists start with a dash, as shown in our template.
 
 #### Volumes ####
 

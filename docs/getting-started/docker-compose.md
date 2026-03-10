@@ -1,7 +1,7 @@
 # Setup Using Docker Compose
 
-With [Docker Compose](https://docs.docker.com/compose/), you [use a YAML file](../developer-guide/technologies/yaml.md) to configure all application services so you can easily start them with a single command.
-Before you proceed, make sure you have [Docker](https://store.docker.com/search?type=edition&offering=community) installed on your system. It is available for [Mac](https://docs.docker.com/desktop/install/mac-install/), [Linux](troubleshooting/docker.md#installation), and [Windows](https://docs.docker.com/desktop/install/windows-install/).
+With [Docker Compose](https://docs.docker.com/compose/), you use [a YAML file](../developer-guide/technologies/yaml.md) to configure all application services so that you can start them with a single command.
+Before you proceed, make sure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system. It is available for [macOS](https://docs.docker.com/desktop/setup/install/mac-install/), [Linux](troubleshooting/docker.md#installation), and [Windows](https://docs.docker.com/desktop/setup/install/windows-install/).
 
 Alternatively, [Podman Compose](troubleshooting/docker.md#podman-compose) is supported as a drop-in replacement for Docker Compose on Red Hat-compatible Linux distributions like RHEL, CentOS, Fedora, AlmaLinux, and Rocky Linux.
 
@@ -26,7 +26,7 @@ Alternatively, [Podman Compose](troubleshooting/docker.md#podman-compose) is sup
 
 === "Podman"
 
-    Download our [docker-compose.yml](https://dl.photoprism.app/podman/docker-compose.yml) example
+    Download our [compose.yaml](https://dl.photoprism.app/podman/docker-compose.yml) example
     (right click and *Save Link As...* or use `wget`) to a folder of your choice,
     and change the [configuration](config-options.md) as needed:
     
@@ -171,7 +171,7 @@ On Windows, prefix the host path with the drive letter and use `/` instead of `\
 [Learn more ›](troubleshooting/windows.md#mounting-volumes)
 
 !!! tldr ""
-    When *read-only mode* is enabled, all features that require write permission to the *originals* folder are disabled, e.g. [WebDAV](../user-guide/sync/webdav.md), uploading and deleting files. To do this, set `PHOTOPRISM_READONLY` to `"true"` in the `environment` section of your `compose.yaml` file.[^2] You can additionally [mount volumes with the `:ro` flag](https://docs.docker.com/compose/compose-file/compose-file-v3/#short-syntax-3) so that writes are also blocked by Docker.
+    When *read-only mode* is enabled, all features that require write permission to the *originals* folder are disabled, e.g. [WebDAV](../user-guide/sync/webdav.md), uploading and deleting files. To do this, set `PHOTOPRISM_READONLY` to `"true"` in the `environment` section of your `compose.yaml` file.[^2] You can additionally [mount volumes with the `:ro` flag](https://docs.docker.com/reference/compose-file/services/#volumes) so that writes are also blocked by Docker.
 
 ##### /photoprism/storage
 
@@ -203,7 +203,7 @@ services:
 [Imported files](../user-guide/library/import.md) receive a canonical filename and will be organized by year and month. You should never configure the *import* folder to be inside the *originals* folder, as this will cause a loop by importing already indexed files.
 
 !!! tldr ""
-    Even if you don't specify an *import* folder, adding files via [Web Upload](../user-guide/library/upload.md) and [WebDAV](../user-guide/sync/webdav.md) remains possible unless [read-only mode](config-options.md) is enabled or the [features have been disabled](../user-guide/settings/general.md).
+    Even if you don't specify an *import* folder, adding files via [Web Upload](../user-guide/library/upload.md) and [WebDAV](../user-guide/sync/webdav.md) remains possible unless [read-only mode](config-options.md#feature-flags) is enabled or the [features have been disabled](../user-guide/settings/general.md).
 
 ### Step 2: Start the server
 
@@ -216,12 +216,12 @@ docker compose up -d
 
 *Note that our examples use the new `docker compose` command by default. If your server does not yet support it, you can still use `docker-compose` or alternatively `podman-compose` on Red Hat-compatible distributions.*
 
-Now open the Web UI by navigating to http://localhost:2342/. You should see a login screen. Sign in with the user `admin` and the initial password configured via `PHOTOPRISM_ADMIN_PASSWORD`. You may change it on the [account settings page](../user-guide/settings/account.md). Enabling [public mode](config-options.md) will disable authentication.
+Now open the Web UI by navigating to http://localhost:2342/. You should see a login screen. Sign in with the user `admin` and the initial password configured via `PHOTOPRISM_ADMIN_PASSWORD`. You may change it on the [account settings page](../user-guide/settings/account.md). Enabling [public mode](config-options.md#authentication) will disable authentication.
 
 !!! info ""
     It can be helpful to [keep Docker running in the foreground while debugging](troubleshooting/docker.md#viewing-logs) so that log messages are displayed directly. To do this, omit the `-d` parameter when restarting.
 
-    Should the server already be running, or you see no errors, you may have started it
+    If the server is already running, or you see no errors, you may have started it
     on a different host and/or port. There could also be an [issue with your browser,
     ad blocker, or firewall settings](troubleshooting/index.md#connection-fails).
 
@@ -259,8 +259,6 @@ Open the *Logs* tab in *Library* to watch the indexer working.
 Of course, you can continue using your favorite tools for processing RAW files, editing metadata, 
 or importing new shots. Go to *Library* and click *Start* to update the index after files have been 
 changed, added, or removed. This can also be automated using CLI commands and a [scheduler](https://dl.photoprism.app/docker/scheduler/).-->
-
-Easy, isn't it?
 
 ### PhotoPrism® Plus
 
@@ -311,7 +309,7 @@ PhotoPrism's command-line interface is also well suited for job automation using
 
 #### Opening a Terminal
 
-To open a terminal session as the [default user](https://docs.docker.com/compose/compose-file/05-services/#user):
+To open a terminal session as the [default user](https://docs.docker.com/reference/compose-file/services/#user):
 
 ```bash
 docker compose exec photoprism bash
@@ -332,7 +330,7 @@ Note, however, that commands that you run without an explicit user ID might be e
 The currently supported user ID ranges are 0, 33, 50-99, 500-600, 900-1250, and 2000-2100.
 
 !!! tip ""
-    We recommend running the `photoprism` service as a non-root user by setting either the [user service property](https://docs.docker.com/compose/compose-file/05-services/#user) or the `PHOTOPRISM_UID` [environment variable](config-options.md#docker-image) in your config file. Don't forget to update file permissions and/or ownership with the `chown` command when you make changes.
+    We recommend running the `photoprism` service as a non-root user by setting either the [user service property](https://docs.docker.com/reference/compose-file/services/#user) or the `PHOTOPRISM_UID` [environment variable](config-options.md#docker-image) in your config file. Don't forget to update file permissions and/or ownership with the `chown` command when you make changes.
 
 #### Examples
 

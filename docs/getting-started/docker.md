@@ -1,7 +1,7 @@
 # Running PhotoPrism with Docker
 
-We recommend using [Docker Compose](docker-compose.md) because it is easier and provides more convenience for running multiple services than the [pure Docker command-line interface](https://docs.docker.com/engine/reference/commandline/cli/).
-Before you proceed, make sure you have [Docker](https://store.docker.com/search?type=edition&offering=community) installed on your system. It is available for Mac, Linux, and Windows.
+We recommend using [Docker Compose](docker-compose.md) because it is easier to manage multiple services than the [Docker command-line interface](https://docs.docker.com/engine/reference/commandline/cli/).
+Before you proceed, make sure you have [Docker](https://docs.docker.com/get-started/get-docker/) installed on your system. It is available for macOS, Linux, and Windows.
 
 Alternatively, [Podman](https://podman.io/) is supported as a drop-in replacement for Docker on Red Hat-compatible Linux distributions like RHEL, CentOS, Fedora, AlmaLinux, and Rocky Linux.
 
@@ -20,7 +20,7 @@ Alternatively, [Podman](https://podman.io/) is supported as a drop-in replacemen
       -p 2342:2342 \
       -e PHOTOPRISM_UPLOAD_NSFW="true" \
       -e PHOTOPRISM_ADMIN_PASSWORD="insecure" \
-      -v /photoprism/storage \
+      -v ~/PhotoPrism/storage:/photoprism/storage \
       -v ~/Pictures:/photoprism/originals \
       photoprism/photoprism:latest
     ```
@@ -39,7 +39,7 @@ Alternatively, [Podman](https://podman.io/) is supported as a drop-in replacemen
       -p 2342:2342 \
       -e PHOTOPRISM_UPLOAD_NSFW="true" \
       -e PHOTOPRISM_ADMIN_PASSWORD="insecure" \
-      -v /photoprism/storage \
+      -v ~/PhotoPrism/storage:/photoprism/storage \
       -v ~/Pictures:/photoprism/originals \
       photoprism/photoprism:latest
     ```
@@ -56,18 +56,18 @@ The server port and other [config options](config-options.md) can be changed as 
 Commands on Linux may have to be prefixed with `sudo` when not running as root.
 Note that this will point the home directory shortcut `~` to `/root` in volume mounts.
 Kernel security modules such as AppArmor and SELinux have been reported to cause
-[issues](troubleshooting/index.md).
+[issues](troubleshooting/docker.md#kernel-security).
 
 When the app has been started, open the Web UI by navigating to http://localhost:2342/. You should see a login screen.
 Sign in with the user `admin` and the password configured via `PHOTOPRISM_ADMIN_PASSWORD`.
 You may change it on the [account settings page](../user-guide/settings/account.md).
-Enabling [public mode](config-options.md) will disable authentication.
+Enabling [public mode](config-options.md#authentication) will disable authentication.
 
 !!! info ""
     It can be helpful to keep Docker running in the foreground while debugging
     so that log messages are displayed directly. To do this, omit the `-d` parameter when restarting.
     
-    Should the server already be running, or you see no errors, you may have started it
+    If the server is already running, or you see no errors, you may have started it
     on a different host and/or port. There could also be an [issue with your browser,
     ad blocker, or firewall settings](troubleshooting/index.md#connection-fails).
 
@@ -104,7 +104,7 @@ SQLite, config, cache, backup, thumbnail and sidecar files are saved in the *sto
 - we recommend placing the *storage* folder on a [local SSD drive](troubleshooting/performance.md#storage) for best performance
 - mounting [symbolic links](https://en.wikipedia.org/wiki/Symbolic_link) or using them inside the *storage* folder is currently not supported
 
-Using our example, an [anonymous volume](https://docs.docker.com/storage/bind-mounts/) is created and mounted as *storage* folder. You can mount a specific host folder instead, just as with *originals*, which is better for production environments.
+Using our example, a host folder is mounted as the *storage* folder so that config, index, cache, and sidecar files remain available after a restart or upgrade. You can change the host path as needed, just as with *originals*.
 
 !!! tldr ""
     Should you later want to move your instance to another host, the easiest and most time-saving way is to copy the entire *storage* folder along with your originals and database.
@@ -119,7 +119,7 @@ in a structured way that avoids duplicates:
 
 !!! tldr ""
     You can safely skip this. Adding files via [Web Upload](../user-guide/library/upload.md)
-    and [WebDAV](../user-guide/sync/webdav.md) remains possible, unless [read-only mode](config-options.md)
+    and [WebDAV](../user-guide/sync/webdav.md) remains possible unless [read-only mode](config-options.md#feature-flags)
     is enabled or the [features have been disabled](../user-guide/settings/general.md).
 
 ### Step 2: First steps
@@ -144,8 +144,6 @@ Open the *Logs* tab in *Library* to watch the indexer working.
 Of course, you can continue using your favorite tools for processing RAW files, editing metadata,
 or importing new shots. Go to *Library* and click *Start* to update the index after files have been
 changed, added, or removed. This can also be automated using CLI commands and a [scheduler](https://dl.photoprism.app/docker/scheduler/). -->
-
-Easy, isn't it?
 
 ### Step 3: When you're done...
 
@@ -256,7 +254,8 @@ The currently supported user ID ranges are 0, 33, 50-99, 500-600, 900-1250, and 
 
 !!! info "Complete Rescan"
     `docker exec -ti photoprism photoprism index -f` rescans all originals, including already indexed and unchanged files.
-    This may be necessary after major upgrades and after migrations of the database schema, especially if search results are missing or incorrect. Note You can also start a [rescan from the user interface](../user-guide/library/originals.md) by navigating to *Library* > *Index*, checking "Full Rescan" and then clicking "Start". Manually entered information such as labels, people, titles or captions will not be modified when indexing, even if you perform a "complete rescan".
+    This may be necessary after major upgrades and after migrations of the database schema, especially if search results are missing or incorrect.
+    You can also start a [rescan from the user interface](../user-guide/library/originals.md) by navigating to *Library* > *Index*, checking "Full Rescan", and then clicking "Start". Manually entered information such as labels, people, titles, or captions will not be modified when indexing, even if you perform a complete rescan.
 
 *[home directory]: \user\username on Windows, /Users/username on macOS, and /root or /home/username on Linux
 *[host]: Computer, Cloud Server, or VM that runs PhotoPrism
