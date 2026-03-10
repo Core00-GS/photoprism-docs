@@ -45,12 +45,51 @@ This file serves as a single, up-to-date reference for agents and contributors w
 
 ## Content Standards
 
-- Headings, link titles, and navigation labels must use Title Case, matching the main repository’s style requirement. When copying headings from other sources, normalize them before committing.
+- Headings, link titles, and navigation labels must use **Title Case** (in APA or AP style), matching the main repository’s style requirement. When copying headings from other sources, normalize them before committing.
 - Prefer Markdown over raw HTML; use MkDocs Material components (admonitions, tabs, tooltips) configured in `mkdocs.yml`. When HTML is unavoidable, keep it minimal and validate that `mkdocs serve` renders it correctly in dark/light themes.
 - Update `mkdocs.yml` navigation whenever you add, rename, or move a page. If a URL changes, add a redirect entry to both `mkdocs.yml` and `mkdocs.deploy.yml` so legacy links stay valid.
 - Store images next to the Markdown that references them (for example, `docs/user-guide/organize/img/`). Optimize screenshots before committing and include descriptive alt text in Markdown.
 - Reuse canonical CLI flags, file paths, and configuration snippets from the main PhotoPrism repository. When documenting new application behavior, confirm the implementation in `photoprism/photoprism` before publishing.
 - Front matter: use MkDocs `meta` blocks (or the `page.meta` keys referenced in `overrides/main.html`) when you need a custom page title or social caption. Avoid adding bespoke metadata keys unless templates consume them.
+
+> **Title Case** rules (APA/AP implementation):
+> - Capitalize the first word of a title/heading and the first word of a subtitle.
+> - Capitalize the first word after a colon, an em dash, or end punctuation.
+> - Capitalize major words, including the second part of hyphenated major words.
+> - Capitalize all words of four letters or more.
+> - Lowercase only minor words of three letters or fewer (articles, short conjunctions, short prepositions), except when they are in one of the positions above.
+> - In headings, prefer `&` where needed; do not use `And` or `Or` in titles.
+
+### Commit Messages
+
+Use concise, imperative subjects with a one-word prefix indicating the scope or topic:
+
+- `Config: Add tests for "darktable-cli" path detection`
+
+If the commit relates to specific issues or pull requests, reference their IDs in the message:
+
+- `Docker: Use two stage build to reduce image size #123 #5632`
+
+Commit messages must not exceed 80 characters in length.
+
+### GitHub Issues
+
+Issue titles MUST be concise, use the imperative mood, and start with a single capitalized prefix followed by a colon and a space, e.g. `Search: Add filter for RAW image formats`.
+
+Issue descriptions MUST begin with a one-sentence **User Story** where the sentence itself is fully bold in the format: `**As a <role>, I want <goal>, so that <outcome>.**`
+Follow the User Story with a clear summary of the expected behavior, rationale, technical considerations, and constraints.
+
+Descriptions MUST conclude with a checklist of **Acceptance Criteria**:
+- Use GitHub checklist formatting: `- [ ]`
+- Criteria MUST be clear, testable, and unambiguous.
+- Each item MUST use one of the following priority keywords:
+  - `MUST`   — required for the issue to be considered complete
+  - `SHOULD` — strongly recommended but not strictly required
+  - `MAY`    — optional enhancement
+
+Additional details MAY be included as needed, such as related issues, references, screenshots, or external resources.
+
+> Agents MUST create, edit, close, reopen, relabel, or otherwise modify GitHub issues only when explicitly requested by the user.
 
 ## Deployment & Publishing
 
