@@ -5,7 +5,7 @@
 
 The example below terminates TLS, enforces SNI routing, and proxies both long uploads and WebSocket connections to a local PhotoPrism service.
 
-Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If HAProxy reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so forwarded client and protocol headers are accepted.
+Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If HAProxy reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) so forwarded client and protocol headers are accepted.
 
 ```haproxy
 global

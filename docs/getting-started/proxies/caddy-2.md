@@ -5,7 +5,7 @@
 
 WebSocket proxying works out of the box, making Caddy one of the easiest front ends for PhotoPrism. Disable PhotoPrism’s internal TLS (`PHOTOPRISM_DISABLE_TLS="true"`) and let Caddy terminate HTTPS.
 
-Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If Caddy reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so forwarded client and protocol headers are accepted.
+Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If Caddy reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) so forwarded client and protocol headers are accepted.
 
 ## Example Caddyfile
 

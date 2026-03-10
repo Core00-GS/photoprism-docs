@@ -5,7 +5,7 @@
 
 Apache 2.4 can proxy HTTP/2 and WebSocket traffic for PhotoPrism as long as the required modules are enabled (`proxy`, `proxy_http`, `proxy_wstunnel`, `ssl`, `headers`, `http2`). Remember to keep `PHOTOPRISM_DISABLE_TLS="true"` so Apache terminates HTTPS instead of the app container.
 
-Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If Apache reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so forwarded client and protocol headers are accepted.
+Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If Apache reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) so forwarded client and protocol headers are accepted.
 
 ## Enable Required Modules
 

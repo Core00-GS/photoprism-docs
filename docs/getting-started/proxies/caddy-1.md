@@ -5,7 +5,7 @@
 
 Caddy 1 can still proxy WebSocket and HTTP/2 traffic for PhotoPrism. Enable the `websocket` and `transparent` options so request headers reach the app unchanged.
 
-Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If Caddy reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so forwarded client and protocol headers are accepted:
+Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If Caddy reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) so forwarded client and protocol headers are accepted:
 
 ```caddyfile
 example.com {

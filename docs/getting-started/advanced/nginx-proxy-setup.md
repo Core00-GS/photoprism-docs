@@ -7,7 +7,7 @@
 
 Running PhotoPrism behind a hardened reverse proxy adds TLS, HTTP/2, request filtering, and long-request buffering that our embedded Go HTTP server intentionally keeps minimal. If you expose PhotoPrism to the public internet, you **must** terminate HTTPS properly and keep the host patched.
 
-Before you start, set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If NGINX connects from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so PhotoPrism accepts forwarded client and protocol headers.
+Before you start, set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If NGINX connects from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) so PhotoPrism accepts forwarded client and protocol headers.
 
 The examples below use `photoprism.example.com`; replace it with your own domain or DynDNS record. Commands target Ubuntu 20.04+, but the concepts apply to other distributions.
 

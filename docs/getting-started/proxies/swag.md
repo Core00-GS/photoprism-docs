@@ -5,7 +5,7 @@
 
 [SWAG](https://github.com/linuxserver/docker-swag) (Secure Web Application Gateway) automates TLS certificates and delivers a hardened NGINX reverse proxy on Docker. Keep PhotoPrism’s internal TLS off (`PHOTOPRISM_DISABLE_TLS="true"`) so SWAG can terminate HTTPS.
 
-Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If SWAG reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so forwarded client and protocol headers are accepted.
+Set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If SWAG reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) so forwarded client and protocol headers are accepted.
 
 ## Step 1: Prepare a Domain or DynDNS Record
 

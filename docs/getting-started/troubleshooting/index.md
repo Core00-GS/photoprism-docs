@@ -27,7 +27,7 @@ Before reporting a bug:
     - [ ] Avoid using IP addresses other than `127.0.0.1` directly, as [they can change](https://github.com/photoprism/photoprism/discussions/2791#discussioncomment-3985376)
     - [ ] We recommend [configuring a local hostname](https://dl.photoprism.app/img/docs/pihole-local-dns.png) to access other hosts on your network
 - [ ] If you use a [firewall](firewall.md), ensure that it is configured correctly and that [outgoing connections to our geocoding API are allowed](../index.md#maps-places)
-- [ ] If you use a reverse proxy, make sure [the public Site URL](../config-options.md#site-information) matches the external address and that `PHOTOPRISM_TRUSTED_PROXY` includes the proxy IP or CIDR; otherwise forwarded client and protocol headers are ignored
+- [ ] If you use a reverse proxy, make sure [the public Site URL](../config-options.md#site-information) matches the external address and that [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#networking) includes the proxy IP or CIDR; otherwise forwarded client and protocol headers are ignored
 - [ ] Note that HTTP security headers will prevent the app from loading in a frame (override them)
 - [ ] Verify your computer meets the [system requirements](../index.md#system-requirements)
 - [ ] Go through the [checklist for fatal server errors](#fatal-server-errors)
