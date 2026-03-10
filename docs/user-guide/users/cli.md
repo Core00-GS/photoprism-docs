@@ -2,7 +2,7 @@
 
 ## Changing a Password
 
-Running the following in a terminal changes the password of an existing user without affecting other account settings, e.g. if you cannot remember the currently set password or if there was a problem [configuring the initial admin account](../../getting-started/config-options.md#authentication) (replace `[username]` with the username of the account you want to update):
+Running the following in a terminal changes the password of an existing user without affecting other account settings, for example if you cannot remember the current password or if there was a problem [configuring the initial admin account](../../getting-started/config-options.md#authentication) (replace `[username]` with the username of the account you want to update):
 
 ```bash
 photoprism passwd [username]
@@ -23,7 +23,7 @@ This also [applies to other terminal commands](../../getting-started/docker-comp
 
 Changing the authentication of an existing account to a password-less provider like [*OIDC*](../../getting-started/advanced/openid-connect.md) will not remove a previously set password, so it can still be used to log in (optionally also with [2FA](2fa.md)).
 
-If a local password has been set for [such an account](../../getting-started/advanced/openid-connect.md#existing-accounts) that should no longer be used, you can remove it by running the following command [in a terminal](../../getting-started/docker-compose.md#opening-a-terminal):
+If a local password has been set for [such an account](../../getting-started/advanced/openid-connect.md#existing-accounts) and should no longer be used, you can remove it by running the following command [in a terminal](../../getting-started/docker-compose.md#opening-a-terminal):
 
 ```bash
 photoprism passwd --rm [username]
@@ -44,25 +44,31 @@ As an alternative to the [web user interface](index.md), you can [run the follow
 | `photoprism users reset --yes`              | Removes all accounts and resets the database |
 
 !!! tldr ""
-    Users who experience login problems after upgrading from [development builds](../../getting-started/updates.md#development-preview), or [old releases prior to November 2022](../../known-issues.md#new-user-management), can run the `photoprism users reset --yes` command to [recreate the session](#session-management) and user management database tables so they are compatible with the current version. Note that any [client access tokens](client-credentials.md#access-tokens) and [app passwords](../settings/account.md#apps-and-devices) that users may have created will also be deleted and must be recreated.
+    Users who experience login problems after upgrading from [development builds](../../getting-started/updates.md#development-preview), or [old releases prior to November 2022](../../known-issues.md#new-user-management), can run the `photoprism users reset --yes` command to recreate the session and user-management database tables so they are compatible with the current version. We recommend trying [`photoprism auth reset --yes`](#session-management) first, since it is less disruptive. Note that any [client access tokens](client-credentials.md#access-tokens) and [app passwords](../settings/account.md#apps-and-devices) that users may have created will also be deleted and must be recreated.
 
 ### Command Options
 
-The `users add` and `users mod` commands support these flags to set or change account properties:
+The `users add` and `users mod` commands support these flags to set or change account properties. The list below shows the baseline flags from the public repository and the edition-specific extensions currently provided by Plus and Pro:
 
 | Command Flag                         | Description                                                         |
 |--------------------------------------|---------------------------------------------------------------------|
 | `--name NAME`, `-n NAME`             | full NAME for display in the interface                              |
 | `--email EMAIL`, `-m EMAIL`          | unique EMAIL address of the user                                    |
 | `--password PASSWORD`, `-p PASSWORD` | PASSWORD for local authentication (8-72 characters)                 |
-| `--role value`, `-r value`           | user account ROLE (admin, user, viewer or guest) (default: "admin") |
-| `--auth PROVIDER`, `-A PROVIDER`     | authentication PROVIDER (default, local, oidc or none)              |
+| `--role value`, `-r value`           | user account ROLE accepted by the current edition                   |
+| `--auth PROVIDER`, `-A PROVIDER`     | authentication PROVIDER supported by the current edition            |
 | `--auth-id ID`                       | authentication ID e.g. Subject ID or Distinguished Name (DN)        |
-| `--superadmin`, `-s`                 | make user super admin with full access                              |
+| `--superadmin`, `--super`            | make user super admin with full access                              |
 | `--no-login`, `-l`                   | disable login on the web interface                                  |
 | `--webdav`, `-w`                     | allow to sync files via WebDAV                                      |
-| `--upload-path value`, `-u value`    | upload files to this sub-folder                                     |
 | `--disable-2fa`                      | deactivate two-factor authentication                                |
+| `--upload-path value`, `-u value`    | upload files to this subfolder in Plus and Pro                      |
+| `--scope SCOPES`, `-s SCOPES`        | set a user authorization scope in Pro                               |
+| `--attr ATTRIBUTES`, `-a ATTRIBUTES` | set custom user attributes in Pro                                   |
+| `--base-path value`, `-d value`      | restrict search to this originals folder in Pro                     |
+
+!!! note ""
+    Option availability depends on the edition you run. Our Community Edition provides the baseline command set, while PhotoPrism Plus and Pro add more flags and account-management capabilities. Use `photoprism users add --help` and `photoprism users mod --help` on your instance to see the exact options supported by that build.
 
 ### Creating a New Account
 
@@ -75,7 +81,7 @@ docker compose exec photoprism photoprism users add -p mysecret -n "Bob" bob
 If you do not specify an initial password with the `-p` flag, you will be prompted to enter a password for the new account. Further account properties can be set with the flags listed above.
 
 !!! example ""
-    Some user [account roles](roles.md#user) such as *User* and *Viewer* are currently [only available with a membership](https://www.photoprism.app/editions#compare) to support development and maintenance.
+    Personal editions focus on *Admin*, *Guest*, and related baseline account types. Additional roles such as *Manager*, *User*, *Viewer*, and *Contributor* are only available with PhotoPrism Pro.
 
 ### Viewing Account Details
 
@@ -137,7 +143,7 @@ You can combine it with these flags to change the output format and the maximum 
 
 ## Session Management
 
-You can use the following terminal commands to generate, inspect and, if necessary, delete access tokens for the authentication of browsers and other clients (including [app passwords](2fa.md#step-3-app-passwords)):
+You can use the following terminal commands to generate, inspect, and, if necessary, delete access tokens for the authentication of browsers and other clients (including [app passwords](2fa.md#step-3-app-passwords)):
 
 | CLI Command                         | Description                                              |
 |-------------------------------------|----------------------------------------------------------|
