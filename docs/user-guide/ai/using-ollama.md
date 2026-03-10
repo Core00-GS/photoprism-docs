@@ -166,6 +166,28 @@ photoprism --log-level=trace vision run -m labels --count 1 --force
 photoprism --log-level=trace vision run -m caption --count 1 --force
 ```
 
+### Incomplete Captions with Thinking Models
+
+If you use a reasoning or "thinking" model and notice incomplete or truncated captions, the model may be spending most of its output token budget on internal reasoning, leaving too few tokens for the actual caption.
+
+To fix this, either disable reasoning for that model with `Service.Think: "false"`, switch to a non-thinking model, or increase the `NumPredict` value in your [`vision.yml`](index.md#visionyml-reference) [options](index.md#options) to give the model more room:
+
+```yaml
+Models:
+- Type: caption
+  Model: qwen3-vl:235b-instruct
+  Engine: ollama
+  Service:
+    Think: "false"
+```
+
+If you still need reasoning enabled, increase the output budget for the final caption:
+
+```yaml
+Options:
+  NumPredict: 4096
+```
+
 ### GPU Performance Issues
 
 When using Ollama with GPU acceleration, you may experience performance degradation over time due to VRAM management issues. This typically manifests as processing times gradually increasing and the Ollama service appearing to "crash" while still responding to requests, but without GPU acceleration.
@@ -182,4 +204,3 @@ docker compose up -d ollama
 This should clear the VRAM and restore normal GPU-accelerated processing performance.
 
 [^1]: Unrelated configuration details have been omitted for brevity.
-

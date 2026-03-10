@@ -6,12 +6,12 @@ The encoder used by FFmpeg can be configured with [`PHOTOPRISM_FFMPEG_ENCODER`](
 
 | Encoder                    | Value       |
 |----------------------------|-------------|
-| Software H.264             | `software`  | 
-| Apple Video Toolbox        | `apple`     | 
-| Intel Quick Sync           | `intel`     | 
-| NVIDIA H.264               | `nvidia`    | 
-| Raspberry Pi / Video4Linux | `raspberry` | 
-| Video Acceleration API     | `vaapi`     | 
+| Software H.264             | `software`  |
+| Apple Video Toolbox        | `apple`     |
+| Intel Quick Sync           | `intel`     |
+| NVIDIA H.264               | `nvidia`    |
+| Raspberry Pi / Video4Linux | `raspberry` |
+| Video Acceleration API     | `vaapi`     |
 
 It defaults to `software` if no value is set or hardware transcoding fails. Please refer to the [FFmpeg documentation](https://trac.ffmpeg.org/wiki/HWAccelIntro) for a full list of encoders and their implementation status. We welcome contributions to support additional encoders.
 
@@ -22,9 +22,9 @@ It defaults to `software` if no value is set or hardware transcoding fails. Plea
 
 The [`PHOTOPRISM_FFMPEG_SIZE`](../config-options.md#file-conversion) config option allows to limit the resolution of transcoded videos. It accepts the following standard sizes, while other values are automatically adjusted to the next supported size:
 
-| Size |       Usage       |
+| Size | Usage             |
 |------|-------------------|
-|  720 | SD TV, Mobile     |
+| 720  | SD TV, Mobile     |
 | 1280 | HD TV, SXGA       |
 | 1920 | Full HD           |
 | 2048 | DCI 2K, Tablets   |
@@ -54,7 +54,7 @@ Note that MPEG-4 AVC videos are not re-encoded if they exceed the [configured bi
 
 Unless you have a lot of high-resolution videos in your library, we recommend keeping the default settings to use the standard software codec for video transcoding. It has a high quality and does not require any special permissions or additional drivers.
 
-Since [FFmpeg 7](https://ffmpeg.org/index.html#pr7.0) has significant [performance optimizations](https://www.debugpoint.com/ffmpeg-7-0-features/) compared to version 6.1.1 that ships with [Ubuntu 24.04](https://packages.ubuntu.com/noble/ffmpeg), users of our [Docker image](https://docs.photoprism.app/release-notes/#may-31-2024) can choose to install the [latest FFmpeg build](https://johnvansickle.com/ffmpeg/release-readme.txt) available at [johnvansickle.com/ffmpeg](https://johnvansickle.com/ffmpeg/) by adding `PHOTOPRISM_INIT: "ffmpeg"` to the environment section of their `compose.yaml` or `docker-compose.yml` file:
+Our current [Docker image](https://docs.photoprism.app/release-notes/#may-31-2024) is based on [Ubuntu 25.10](https://packages.ubuntu.com/questing/ffmpeg), which already includes FFmpeg 7.x from the distribution packages. If you want to try a newer upstream static build, you can add `PHOTOPRISM_INIT: "ffmpeg"` to the environment section of your `compose.yaml` or `docker-compose.yml` file:
 
 ```yaml
 services:
@@ -63,7 +63,20 @@ services:
       PHOTOPRISM_INIT: "ffmpeg"
 ```
 
-Note that this version cannot be used with hardware transcoding and that it may [support a different set](https://johnvansickle.com/ffmpeg/release-readme.txt) of [file formats](https://www.photoprism.app/kb/file-formats).
+Internally, the `ffmpeg` init target installs the current BtbN stable build, equivalent to the `latest` channel in our [`install-ffmpeg.sh`](https://github.com/photoprism/photoprism/blob/develop/scripts/dist/install-ffmpeg.sh) script. At the moment, this updates the preinstalled distro version to FFmpeg 8.0.
+
+You can also install the nightly (master) build instead, which may include newer features and bug fixes that have not yet been included in a stable release:
+
+```yaml
+services:
+  photoprism:
+    environment:
+      PHOTOPRISM_INIT: "ffmpeg-master"
+```
+
+The `ffmpeg-master` init target maps to the script's `master` channel and installs the latest nightly archive from BtbN.
+
+Note that these static builds cannot be used with hardware transcoding and that they may [support a different set](https://github.com/BtbN/FFmpeg-Builds) of [file formats](https://www.photoprism.app/kb/file-formats).
 
 ## GPU Drivers
 

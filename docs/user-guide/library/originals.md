@@ -73,5 +73,7 @@ Ignore files can be placed either in the main directory or in a subfolder to lim
 
 Note that files and folders that have already been indexed cannot be retroactively removed from the index with a `.ppignore` file, i.e. they remain indexed and visible in the user interface, even if you later add their name or a matching name pattern.
 
+Also note that already indexed files may still remain part of a [stack](../organize/stacks.md) if a related file with the same name but a different extension exists and is not ignored, e.g. an already indexed `.raw` file may still appear in a stack with its corresponding `.jpg` file after you add a `.ppignore` rule.
+
 !!! tldr ""
     If you are a new user and files or folders have already been indexed, it is generally easiest to reset the database and start with a new index by running `photoprism reset` in a [terminal](../../getting-started/docker-compose.md#command-line-interface).
