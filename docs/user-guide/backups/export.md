@@ -1,49 +1,42 @@
 # Metadata Exports
 
-Control over your data doesn't end with the [ability to create](index.md) and [restore a database](restore.md) backup.
-PhotoPrism additionally provides you [with human-readable YAML files](../../developer-guide/technologies/yaml.md) that allow you to view and restore the metadata of your albums and photos, even if you didn't create a regular database backup or have lost it.
+Control over your data does not end with the [ability to create](index.md) and [restore a database](restore.md) backup. PhotoPrism also creates [human-readable YAML files](../../developer-guide/technologies/yaml.md) that let you view and restore album and photo metadata, even if you did not create a regular database backup or no longer have it.
 
-If backups have not been disabled in the [Advanced Settings](../settings/advanced.md#backups), metadata exports of all your [albums](#album-backups) and [photos](#photo-backups) are automatically created in your *storage* folder. They will also be updated when changes are made.
+If backups have not been disabled in the [Advanced Settings](../settings/advanced.md#backups), PhotoPrism automatically creates YAML exports for your [albums](#album-backups) and [photos](#photo-backups). Album backups are stored in the album backup directory, and photo metadata is written to your configured *sidecar* path. These files are updated when related records change.
 
-Be aware that the original data remains in your database. Any changes you make to the files therefore have no effect on it and will not become visible on the user interface, unless your database gets lost and the index is restored from the files.
+Keep in mind that the original metadata remains in your database. Changes you make to the YAML files do not affect the user interface unless the index is later restored from those files.
 
 ## Album Backups
-Album backups are created for the following album types: album, folder, state, moment and month.
-You find those backups inside your `storage path` in `/albums`.
+Album backups are created for the following album types: `album`, `folder`, `state`, `moment`, and `month`. By default, they are stored in `storage/backup/albums`. Existing legacy installations may still use `storage/albums`.
 
-### Album Backups
-For each album the following metadata is stored in the YAML file:
+### Albums
+Each album YAML file stores the following metadata:
 
-* UID, Slug, Type, Title, Location, Category, Description, Sort Order, Country, CreatedAt, UpdatedAt, Photos (UID + date the photo was added to the album)
+- UID, slug, type, title, location, category, description, sort order, country, creation time, update time, and photo assignments including the date each photo was added
 
 ### Folder Backups
-For each folder the following metadata is stored in the YAML file:
+Each folder YAML file stores the following metadata:
 
-* UID, Slug, Type, Title, Location, Category, Description, Filter, Sort order, Country, Year, Month, Day, CreatedAt, UpdatedAt
+- UID, slug, type, title, location, category, description, filter, sort order, country, year, month, day, creation time, and update time
 
 ### Month Backups
-For each month the following metadata is stored in the YAML file:
+Each month YAML file stores the following metadata:
 
-* UID, Slug, Type, Title, Location, Category, Description, Filter, Sort Order, Country, Year, Month, CreatedAt, UpdatedAt
+- UID, slug, type, title, location, category, description, filter, sort order, country, year, month, creation time, and update time
 
 ### State Backups
-For each state the following metadata is stored in the YAML file:
+Each state YAML file stores the following metadata:
 
-* UID, Slug, Type, Title, Location, Category, Description, Filter, Sort Order, Country, CreatedAt, UpdatedAt
+- UID, slug, type, title, location, category, description, filter, sort order, country, creation time, and update time
 
 ### Moment Backups
-For each moment the following metadata is stored in the YAML file:
+Each moment YAML file stores the following metadata:
 
-* UID, Slug, Type, Title, Location, Category, Description, Filter, Sort Order, Country, Year, CreatedAt, UpdatedAt
+- UID, slug, type, title, location, category, description, filter, sort order, country, year, creation time, and update time
 
 ## Photo Backups
-PhotoPrism creates YAML backup files for each photo in your `sidecar path`.
+PhotoPrism creates a YAML sidecar file for each primary photo in your configured `sidecar path`.
 
 The following metadata is stored:
 
-* TakenAt + Source, UID, Type, Title + Source, Caption + Source, OriginalName, TimeZone, PlaceSrc, Altitude, 
-  Lat, Lng, Year, Month, Day, Iso, Exposure, FNumber, FocalLength, Quality, Favorite, Private, Keywords + Source, 
-  Notes + Source, Subject + Source, Artist + Source, Copyright + Source, License + Source, CreatedAt, UpdatedAt, EditedAt, DeletedAt (Archived)
-
-
-Helpful information can be found on [GitHub](https://github.com/photoprism/photoprism/discussions/772) as well.
+- TakenAt and source, UID, type, title and source, caption and source, original name, time zone, place source, altitude, latitude, longitude, year, month, day, ISO, exposure, f-number, focal length, quality, favorite state, private state, keywords and source, notes and source, subject and source, artist and source, copyright and source, license and source, creation time, update time, edit time, and deletion state

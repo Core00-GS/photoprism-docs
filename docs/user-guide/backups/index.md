@@ -1,6 +1,6 @@
 # Creating Backups
 
-At a minimum, a backup of PhotoPrism should include the files in [your *originals* folder](../../getting-started/docker-compose.md#photoprismoriginals) and a copy of the index database. We also recommend backing up [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage) so that you don't need to recreate any thumbnail or sidecar files, and your backup includes the complete configuration.
+At a minimum, a backup of PhotoPrism should include the files in [your *originals* folder](../../getting-started/docker-compose.md#photoprismoriginals) and a copy of the index database. We also recommend backing up [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage) so you do not need to recreate thumbnail or sidecar files and your backup includes the complete configuration.
 
 !!! tldr ""
     The easiest way to create a full backup is to first run the backup command to generate a database dump as shown below.
@@ -8,9 +8,9 @@ At a minimum, a backup of PhotoPrism should include the files in [your *original
 
 ## Scheduled Backups
 
-By default, [PhotoPrism 240523-923ee0cf7](../../release-notes.md#may-23-2024) and newer versions automatically create daily database backups for you, with up to 3 copies being retained. The schedule, the type of backups, and the number of backups to be retained can be [changed in the configuration](../../getting-started/config-options.md#backup).
+The default configuration creates daily database backups and retains up to 3 SQL dumps. You can change the schedule, enabled backup types, and retention limits in the [backup configuration](../../getting-started/config-options.md#backup).
 
-We recommend that you manually create a full backup of all files, including your configuration and index database, before starting a [server migration](#mariadb-server-migration) or making any other major changes.
+We recommend creating a full backup of all files, including your configuration and index database, before starting a [server migration](#mariadb-server-migration) or making any other major changes.
 
 ## Backup Command
 
@@ -20,27 +20,27 @@ If you are using Docker Compose, you can run the following command [in a termina
 docker compose exec photoprism photoprism backup -i -f
 ```
 
-By default, a backup is created in `storage/backup/mysql/[YYYY-MM-DD].sql`. Omit the `-f` flag if you do not want to overwrite existing files. A custom backup base folder can be configured with [`PHOTOPRISM_BACKUP_PATH`](../../getting-started/config-options.md#storage)
+By default, a backup is created in a driver-specific subdirectory such as `storage/backup/mysql/[YYYY-MM-DD].sql` or `storage/backup/sqlite/[YYYY-MM-DD].sql`. Omit `-f` if you do not want to overwrite an existing file with the same name. You can change the backup base folder with [`PHOTOPRISM_BACKUP_PATH`](../../getting-started/config-options.md#backup).
 
-If you are using Podman on a Red Hat-compatible Linux distribution, exchange `docker compose` for `podman-compose`.
+If you are using Podman on a Red Hat-compatible Linux distribution, replace `docker compose` with `podman-compose`.
 
-Alternative ways to create SQL dumps from SQLite are shown in our [advanced backup guide](../../getting-started/advanced/backups.md#sqlite-backups).
+Our [Advanced Backup Guide](../../getting-started/advanced/backups.md#sqlite-backups) shows additional ways to create SQLite dumps.
 
 ### Custom file names
 
-You can specify a custom filename as an argument to dump the database to a file of your choice (using the `-f` flag to overwrite existing files):
+You can specify a custom filename as an argument to store the dump in a file of your choice. Use `-f` if you want to overwrite an existing file:
 
 ```
 docker compose exec photoprism photoprism backup -i my_custom_dump.sql
 ```
 
-The file name argument is interpreted as an absolute path, so the example above will create a file `/photoprism/my_custom_dump.sql` inside the container volume. For example, to store the file in the default backup directory:
+If you pass only a filename, it is created in the current working directory inside the container, typically `/photoprism/`. For example, to store the file in the default backup directory:
 
 ```
 docker compose exec photoprism photoprism backup -i /photoprism/storage/backup/mysql/my_custom_dump.sql
 ```
 
-You can also use `-` as file name to write the SQL dump to [stdout](../../getting-started/advanced/backups.md). 
+You can also use `-` as the filename to write the SQL dump to [stdout](../../getting-started/advanced/backups.md).
 
 !!! tldr ""
     Note that our examples use the new `docker compose` command by default. If your server does not yet support it, you can still use `docker-compose` or alternatively `podman-compose` on Red Hat-compatible distributions.
@@ -55,9 +55,9 @@ The [*originals* folder](../../getting-started/docker-compose.md#photoprismorigi
 
 ### Storage
 
-SQLite, config, cache, backup, thumbnail and sidecar files are saved in [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage). As with the *originals* folder, the exact path on your computer [depends on your configuration](../../getting-started/config-options.md#storage).
+SQLite, config, cache, backup, thumbnail, and sidecar files are saved in [the *storage* folder](../../getting-started/docker-compose.md#photoprismstorage). As with the *originals* folder, the exact path on your computer [depends on your configuration](../../getting-started/config-options.md#storage).
 
-We recommend that you back up this folder as well so that you don't need to recreate the thumbnails and have a complete backup of your configuration. As for the *originals* folder, you can use any standard file backup utility to do this.
+We recommend backing up this folder as well so you do not need to recreate thumbnails and have a complete copy of your configuration. As with the *originals* folder, you can use any standard file backup utility for this.
 
 [Learn more ›](folders.md#storage)
 

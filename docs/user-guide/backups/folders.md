@@ -1,4 +1,4 @@
-The following is an overview of the most important files and folders used by PhotoPrism:
+The following overview describes the most important files and folders used by PhotoPrism:
 
 ## Originals
 
@@ -8,7 +8,7 @@ Your original photo and video media files are [stored in the *originals* folder]
 
 ## Storage
 
-Unless you have a [custom configuration](../settings/advanced.md), the [*storage* folder](../../getting-started/docker-compose.md#photoprismstorage) is used to read and write [config](#config), [cache](#cache), [backup](#backup), [thumbnail](#thumbnails), and [sidecar](#sidecar) files. We recommend [not to configure](../../known-issues.md#nested-storage-folder) the *storage* folder to be inside the *originals* folder unless the name starts with a `.` to indicate that it is hidden. The path can be changed using the environment variable `PHOTOPRISM_STORAGE_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#storage), or a [YAML configuration file](../../getting-started/config-files/index.md#storage).
+Unless you have a [custom configuration](../settings/advanced.md), the [*storage* folder](../../getting-started/docker-compose.md#photoprismstorage) is used to read and write [config](#config), [cache](#cache), [backup](#backup), [thumbnail](#thumbnails), and [sidecar](#sidecar) files. We recommend [not configuring](../../known-issues.md#nested-storage-folder) the *storage* folder inside the *originals* folder unless its name starts with `.` so it remains hidden. The path can be changed using the environment variable `PHOTOPRISM_STORAGE_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#storage), or a [YAML configuration file](../../getting-started/config-files/index.md#storage).
 
 [Learn more ›](../../getting-started/docker-compose.md#photoprismstorage)
 
@@ -20,20 +20,19 @@ This folder contains the subdirectories `json` and `thumbnails` for storing Exif
 
 #### JSON
 
-Unless you have disabled [ExifTool](https://exiftool.org/) in [Settings > Advanced](../settings/advanced.md), it may used to create JSON files with the metadata of a file in this directory e.g. when indexing or importing new files.
+Unless you have disabled [ExifTool](https://exiftool.org/) in [Settings > Advanced](../settings/advanced.md), it may create JSON files with file metadata in this directory, for example when indexing or importing new files.
 
 [Learn more ›](../settings/advanced.md#disable-exiftool)
 
 #### Thumbnails
 
-PhotoPrism creates thumbnails in different sizes for each photo. Those are stored in the `thumbnails` directory.
-More information on thumbnails can be found [here](../settings/advanced.md#preview-images).
+PhotoPrism creates thumbnails in different sizes for each photo. They are stored in the `thumbnails` directory. More information can be found in [Preview Images](../settings/advanced.md#preview-images).
 
 [Learn more ›](../settings/advanced.md#preview-images)
 
 ### Sidecar
 
-The *sidecar* folder contains [YAML backup files](export.md#photo-backups) for each picture as well as e.g. automatically generated JPEG versions of RAW images. Both can be configured in [Settings > Advanced](../settings/advanced.md). The path can be changed using the environment variable `PHOTOPRISM_SIDECAR_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#storage), or a [YAML configuration file](../../getting-started/config-files/index.md#storage).
+The *sidecar* folder contains [YAML backup files](export.md#photo-backups) for your photo metadata as well as, for example, automatically generated JPEG versions of RAW images. Both can be configured in [Settings > Advanced](../settings/advanced.md). The path can be changed using the environment variable `PHOTOPRISM_SIDECAR_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#storage), or a [YAML configuration file](../../getting-started/config-files/index.md#storage).
 
 [Learn more ›](../settings/advanced.md#backups)
 
@@ -45,7 +44,7 @@ The *config* folder contains configuration files and certificates. Its path can 
 
 ### Backup
 
-The *backup* folder contains database dumps as well as album [backup files](../../getting-started/advanced/backups.md) and is located in the *storage* folder by default. Its path can be changed using the environment variable `PHOTOPRISM_BACKUP_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#backup), or a [YAML configuration file](../../getting-started/config-files/index.md#backup).
+The *backup* folder contains database dumps as well as album [backup files](../../getting-started/advanced/backups.md). By default, it is located in the *storage* folder. Its path can be changed using the environment variable `PHOTOPRISM_BACKUP_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#backup), or a [YAML configuration file](../../getting-started/config-files/index.md#backup).
 
 [Learn more ›](../../getting-started/config-options.md#backup)
 
@@ -57,7 +56,7 @@ The [import feature](../library/import.md) lets you transfer files from the *imp
 
 ## Database
 
-If you are [using MariaDB](../../getting-started/troubleshooting/mariadb.md) or [another dedicated database server](../../getting-started/faq.md#should-i-use-sqlite-mariadb-or-mysql) instead of [SQLite](../../getting-started/troubleshooting/sqlite.md), they will store their data in a separate *database* folder whose location depends on your configuration, e.g. in the `mariadb` service section of [your `compose.yaml` file](../../getting-started/docker-compose.md#database).
+If you are [using MariaDB](../../getting-started/troubleshooting/mariadb.md) or [another dedicated database server](../../getting-started/faq.md#should-i-use-sqlite-mariadb-or-mysql) instead of [SQLite](../../getting-started/troubleshooting/sqlite.md), it stores its data in a separate *database* folder whose location depends on your configuration, for example in the `mariadb` service section of [your `compose.yaml` file](../../getting-started/docker-compose.md#database).
 
 [Learn more ›](../../getting-started/troubleshooting/mariadb.md#server-migration)
 
@@ -69,6 +68,6 @@ Uploads, downloads, and other *temporary* files may be created in the *temp* fol
 
 ## Assets
 
-The *assets* folder contains static resources such as machine learning models, icons, and templates. It can be changed using the environment variable `PHOTOPRISM_ASSETS_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#storage), or a [YAML configuration file](../../getting-started/config-files/index.md#storage).
+The *assets* folder contains static resources such as machine learning models, icons, and templates. Its path can be changed using the environment variable `PHOTOPRISM_ASSETS_PATH`, the [corresponding CLI flag](../../getting-started/config-options.md#storage), or a [YAML configuration file](../../getting-started/config-files/index.md#storage).
 
 [Learn more ›](../../getting-started/config-options.md#storage)
