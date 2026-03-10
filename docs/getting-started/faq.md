@@ -17,7 +17,7 @@ Please let us know about any issues with a particular camera or file format.
 
 For maximum browser compatibility, [video codecs and containers](../developer-guide/media/index.md) supported by [FFmpeg](https://en.wikipedia.org/wiki/FFmpeg#Supported_codecs_and_formats) can be transcoded to [MPEG-4 AVC](https://en.wikipedia.org/wiki/Advanced_Video_Coding) on demand, just as still images can be extracted for thumbnail creation.
 
-Make sure you have JSON sidecar files enabled if you have videos, live photos, and/or [animated GIFs](https://github.com/photoprism/photoprism/issues/590) so that video-specific metadata such as codec, frames, and duration can be extracted, indexed, and searched.
+Make sure you have JSON sidecar files enabled if you have videos, live photos, and/or animated GIFs so that video-specific metadata such as codec, frames, and duration can be extracted, indexed, and searched.
 
 For a complete list of file formats and extensions, see our downloadable [Feature Overview](https://link.photoprism.app/overview).
 
@@ -37,7 +37,7 @@ but a different extension:
 New sidecar files are saved in the *storage* folder by default, so the *originals* folder can be mounted read-only.
 
 !!! tldr ""
-    Even if `PHOTOPRISM_DISABLE_EXIFTOOL` is set to `“true”` or `PHOTOPRISM_SIDECAR_YAML` is set to `“false”`, the indexer will look for existing sidecar files and use them.
+    Even if `PHOTOPRISM_DISABLE_EXIFTOOL` is set to `"true"` or `PHOTOPRISM_SIDECAR_YAML` is set to `"false"`, the indexer will look for existing sidecar files and use them.
 
 ### What metadata sidecar file types are supported?
 
@@ -47,7 +47,7 @@ Currently, three types of [file formats](../developer-guide/media/index.md) are 
 
 If not disabled via `PHOTOPRISM_DISABLE_EXIFTOOL` or `--disable-exiftool`, [ExifTool](https://exiftool.org/) is used
 to automatically create a JSON sidecar for each media file. **In this way, embedded XMP and video metadata can also be indexed.**
-Native metadata extraction is limited to common Exif headers. Note that this causes small amount of overhead when
+Native metadata extraction is limited to common Exif headers. Note that this causes a small amount of overhead when
 indexing for the first time.
 
 JSON files can also be useful for debugging, as they contain the full metadata and can be processed with common 
@@ -349,7 +349,7 @@ You can use one of the following services to view your public IP address, i.e. t
 
 When [indexing a media library](../user-guide/library/originals.md), many files are opened and processed very quickly, which is not a typical workload compared to other containerized applications and services. Various libraries and external applications simultaneously interact with each other in complex ways, so a few spikes are inevitable. Some memory is also used by the kernel for buffered I/O to improve performance, although the extent to which caching counts towards a limit may vary.
 
-We therefore recommend not to set a hard memory limit, unless you are familiar with memory management and understand the implications. Instead, you should [reduce the number of indexing workers](https://docs.photoprism.app/getting-started/config-options/#indexing) and [limit file size and resolution](config-options.md#storage) if you are low on resources or want to limit memory usage for other reasons. Also make sure you have [at least 4 GB of swap](troubleshooting/docker.md#adding-swap) configured.
+We therefore recommend not setting a hard memory limit unless you are familiar with memory management and understand the implications. Instead, you should [reduce the number of indexing workers](config-options.md#indexing) and [limit file size and resolution](config-options.md#storage) if you are low on resources or want to limit memory usage for other reasons. Also make sure you have [at least 4 GB of swap](troubleshooting/docker.md#adding-swap) configured.
 
 [View System Requirements ›](index.md#system-requirements){ class="pr-3 block-xs" } [Get Performance Tips ›](troubleshooting/performance.md#troubleshooting)
 
@@ -371,7 +371,7 @@ In many cases, performance can be improved through optimizations. Since these ca
 
 We kindly ask you not to open a problem report on GitHub Issues for poor performance on older hardware until a full cause and feasibility analysis has been performed. [GitHub Discussions](https://github.com/photoprism/photoprism/discussions) or any of our other public forums and communities are great places to start a discussion.
 
-That being said, one of the advantages of [open-source software](https://docs.photoprism.app/developer-guide/) is that users can submit [pull requests](https://docs.photoprism.app/developer-guide/pull-requests/) with performance and other enhancements they would like to see implemented. This will result in a much faster solution than waiting for a core team member to remotely analyze your problem and then provide a fix.
+That being said, one of the advantages of [open-source software](../developer-guide/index.md) is that users can submit [pull requests](../developer-guide/pull-requests.md) with performance and other enhancements they would like to see implemented. This will usually result in a much faster solution than waiting for a core team member to remotely analyze your problem and then provide a fix.
 
 ### Is a Raspberry Pi fast enough?
 
@@ -395,7 +395,7 @@ Support for animated GIFs was [added in April 2022](https://github.com/photopris
 
 ### Why is my storage folder so large? What is in it?
 
-The *storage* folder contains sidecar, cache, and configuration files. It may also contain index database files if you are [using SQLite](#should-i-use-sqlite-mariadb-or-mysql). Most of the space there is taken up by your thumbnails: These are high-quality, scaled-down versions of your originals. Thumbnails are necessary because web browsers are bad at [resizing large images to fit the screen](../user-guide/settings/advanced.md#downscaling-filter). Using full-resolution originals for slideshows and in search results would also consume a lot of browser memory and significantly reduce indexing performance.
+The *storage* folder contains sidecar, cache, and configuration files. It may also contain index database files if you are [using SQLite](#should-i-use-sqlite-mariadb-or-mysql). Most of the space there is taken up by your thumbnails: These are high-quality, scaled-down versions of your originals. Thumbnails are necessary because web browsers are bad at [resizing large images to fit the screen](../user-guide/settings/advanced.md#downscaling-filters). Using full-resolution originals for slideshows and in search results would also consume a lot of browser memory and significantly reduce indexing performance.
 
 We are working to implement storage optimizations whenever there is an opportunity. It is also possible to [increase the JPEG compression and/or limit the resolution](../user-guide/settings/advanced.md#preview-images) if you are happy with lower quality thumbnails.
 
@@ -432,7 +432,7 @@ To reduce startup time, do not set `PHOTOPRISM_INIT` to avoid running additional
 
 ### Why are files uploaded via WebDAV not indexed/imported immediately?
 
-`PHOTOPRISM_AUTO_INDEX` and `PHOTOPRISM_AUTO_IMPORT` let you specify how long PhotoPrism should [wait before indexing or importing](https://docs.photoprism.app/getting-started/config-options/#indexing) newly uploaded files. The default setting is 300 seconds, or 5 minutes. This is a safety mechanism for users with slow uploads to avoid incomplete file sets, for example when uploading pictures with sidecar files. You can therefore reduce the delay if you have a fast connection and usually do not upload [stacks of related files](../user-guide/organize/stacks.md) such as RAW images with sidecar JPEG and XMP files.
+`PHOTOPRISM_AUTO_INDEX` and `PHOTOPRISM_AUTO_IMPORT` let you specify how long PhotoPrism should [wait before indexing or importing](config-options.md#indexing) newly uploaded files. The default setting is 300 seconds, or 5 minutes. This is a safety mechanism for users with slow uploads to avoid incomplete file sets, for example when uploading pictures with sidecar files. You can therefore reduce the delay if you have a fast connection and usually do not upload [stacks of related files](../user-guide/organize/stacks.md) such as RAW images with sidecar JPEG and XMP files.
 
 In some cases, it is also possible that [the index is already being updated](../user-guide/library/originals.md), so you will have to wait until the process is complete before indexing new files.
 
@@ -453,9 +453,9 @@ folder to find new files.
 
 You have complete freedom in how you name your files and folders. So if you don't like the unique names and folders used by the import feature, you can instead use external tools like [ExifTool](https://ninedegreesbelow.com/photography/exiftool-commands.html#rename), [PhockUp](https://github.com/ivandokov/phockup), or [Photo Organizer](https://www.systweak.com/photo-organizer) to reorganize your files based on their metadata.
 
-In addition, starting with the [next release](https://docs.photoprism.app/release-notes/), advanced users will be able to configure the [import destination file path pattern](../user-guide/library/import.md#changing-the-import-file-path) through the [`settings.yml`](config-files/settings.md#library) config file. However, this will not (yet) allow you to rename files that have already been imported, as this may cause conflicts with other tools or instances that may be accessing your files. Renaming existing files may also result in storage and/or transfer overhead with backup tools that do not recognize that files have been moved, i.e. they may create and/or transfer a new backup copy.
+Advanced users can configure the [import destination file path pattern](../user-guide/library/import.md#changing-the-import-file-path) through the [`settings.yml`](config-files/settings.md#library) config file. However, this does not allow you to rename files that have already been imported, as this may cause conflicts with other tools or instances that may be accessing your files. Renaming existing files may also result in storage and/or transfer overhead with backup tools that do not recognize that files have been moved, i.e. they may create and/or transfer a new backup copy.
 
-Thad said, we will consider adding an integrated file renaming feature once we have had time to test possible implementations for usability, performance, and security.
+That said, we will consider adding an integrated file-renaming feature once we have had time to test possible implementations for usability, performance, and security.
 
 [Learn more ›](../user-guide/library/import.md#changing-the-import-file-path)
 
@@ -482,8 +482,8 @@ Setting up PhotoPrism behind a [reverse proxy](proxies/traefik.md) in a sub-dire
 ### I could not find a documentation of config parameters?
 
 We maintain a complete list of [config options](config-options.md) in *Getting Started*.
-When you run `photoprism help` in a [terminal](docker-compose.md#command-line-interface), 
-all commands and parameters available in your currently installed [version](https://docs.photoprism.app/release-notes/) 
+When you run `photoprism help` in a [terminal](docker-compose.md#command-line-interface),
+all commands and parameters available in your currently installed [version](../release-notes.md)
 are listed:
 
 ```bash
@@ -493,13 +493,13 @@ docker compose exec photoprism photoprism help
 Our [Docker Compose](docker-compose.md) [examples](https://dl.photoprism.app/docker/) are continuously 
 updated and inline documentation has been added to simplify installation.
 
-### What exactly does the read-only mode?
+### What exactly does read-only mode do?
 
-When *read-only mode* is enabled, all features that require write permission to the *originals* folder are disabled, e.g. [WebDAV](../user-guide/sync/webdav.md), uploading and deleting files. To do this, set `PHOTOPRISM_READONLY` to `"true"` in the `environment` section of [your `compose.yaml` file](docker-compose.md). You can additionally [mount volumes with the `:ro` flag](https://docs.docker.com/compose/compose-file/compose-file-v3/#short-syntax-3) so that writes are also blocked by Docker.
+When *read-only mode* is enabled, all features that require write permission to the *originals* folder are disabled, e.g. [WebDAV](../user-guide/sync/webdav.md), uploading, and deleting files. To do this, set `PHOTOPRISM_READONLY` to `"true"` in the `environment` section of [your `compose.yaml` file](docker-compose.md). You can additionally [mount volumes with the `:ro` flag](https://docs.docker.com/reference/compose-file/services/#volumes) so that writes are also blocked by Docker.
 
 ### In which cases could files in the originals folder get modified?
 
-PhotoPrism generally does not write to the *originals* folder, with the following exceptions: (1) You rotate an image in the user interface, so its Exif header must be updated. (2) You unstack files that were stacked based on their name, so they must be renamed. (3) You add files using the import functionality or the web upload. (4) You manually delete files in the user interface. (5) You have configured the *originals* folder as your sidecar folder. (6) You access the *originals* folder with a WebDAV client to manage your files without [having *read-only mode* enabled](#what-exactly-does-the-read-only-mode).
+PhotoPrism generally does not write to the *originals* folder, with the following exceptions: (1) You rotate an image in the user interface, so its Exif header must be updated. (2) You unstack files that were stacked based on their name, so they must be renamed. (3) You add files using the import functionality or the web upload. (4) You manually delete files in the user interface. (5) You have configured the *originals* folder as your sidecar folder. (6) You access the *originals* folder with a WebDAV client to manage your files without [having *read-only mode* enabled](#what-exactly-does-read-only-mode-do).
 
 ### How can I uninstall PhotoPrism?
 
@@ -510,13 +510,13 @@ this command will stop and remove the Docker container:
 docker compose rm -s -v
 ```
 
-Please refer to the official Docker [documentation](https://docs.docker.com/compose/reference/rm/) 
+Please refer to the official Docker [documentation](https://docs.docker.com/reference/cli/docker/compose/rm/)
 for further details.
 
 ### How can I mount network shares with Docker?
 
 Shared folders that have already been mounted on your host under a drive letter or path can be used with Docker containers like [any other directory](docker-compose.md#volumes).
-In addition, certain types of network storage like NFS (Unix/Linux) and CIFS (Windows/Mac) can also be *mounted directly* with [Docker Compose](https://docs.docker.com/compose/compose-file/compose-file-v3/#driver_opts).
+In addition, certain types of network storage like NFS (Unix/Linux) and CIFS (Windows/Mac) can also be *mounted directly* with [Docker Compose](https://docs.docker.com/reference/compose-file/volumes/#driver_opts).
 
 For more information, see the [Network Storage](troubleshooting/docker.md#network-storage) section of our [Docker Troubleshooting Guide](troubleshooting/docker.md).
 
@@ -530,12 +530,11 @@ This is a common issue with NFS shares. For security reasons, the permissions mu
 
 ### Do you support Podman?
 
-Podman works just fine both in rootless and under root. Mind the SELinux which is enabled on 
-Red Hat compatible systems, you may hit permission error problems. 
+Podman works both rootless and as root. Keep SELinux in mind on Red Hat-compatible systems, as it can otherwise lead to file-permission errors.
 
-More details on how to run PhotoPrism with [Podman](https://podman.io/) on CentOS in 
-[this blog post](https://lukas.zapletalovi.com/2020/01/deploy-photoprism-in-centos-80.html), 
-it includes all the details including root and rootless modes, user mapping and SELinux.
+More details on how to run PhotoPrism with [Podman](https://podman.io/) on CentOS are available in
+[this blog post](https://lukas.zapletalovi.com/2020/01/deploy-photoprism-in-centos-80.html),
+including rootless and root modes, user mapping, and SELinux.
 
 [Learn more ›](troubleshooting/docker.md#podman-compose)
 
@@ -561,7 +560,7 @@ Please note that it is currently not possible to use [other standard](https://op
 
 ### Who can I contact if I have a complaint about your software?
 
-Please read this documentation and [determine the cause of your problem](https://docs.photoprism.app/getting-started/troubleshooting/) before opening [invalid, duplicate and/or incomplete bug reports](https://www.photoprism.app/kb/reporting-bugs), starting a public "shitstorm" or insulting other community members in our forums and chat rooms. Not only is this annoying for everyone, but it also keeps our team from working on features and improvements that our users are waiting for.
+Please read this documentation and [determine the cause of your problem](troubleshooting/index.md) before opening [invalid, duplicate, and/or incomplete bug reports](https://www.photoprism.app/kb/reporting-bugs) or insulting other community members in our forums and chat rooms. Not only is this disruptive for everyone, but it also keeps our team from working on features and improvements that users are waiting for.
 
 [Learn more ›](https://www.photoprism.app/code-of-conduct)
 
