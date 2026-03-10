@@ -1,6 +1,6 @@
 # PhotoPrism® Docs Repository Guidelines
 
-**Last Updated:** November 15, 2025
+**Last Updated:** March 10, 2026
 
 ## Purpose
 
