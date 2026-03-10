@@ -1,4 +1,4 @@
-# Advanced Settings #
+# Advanced Settings
 
 System [config options](../../getting-started/config-options.md) such as the image quality can be changed 
 on the advanced settings page. You can also disable specific features and enable the debug or read-only mode.
@@ -9,29 +9,29 @@ on the advanced settings page. You can also disable specific features and enable
 !!! note ""
     Changing advanced settings always **requires a restart** to take effect. Selecting a different thumbnail
     quality or size won't replace existing thumbnails. You can regenerate them using the 
-    [command-line interface](https://docs.photoprism.app/getting-started/docker-compose/#command-line-interface).
+    [command-line interface](../../getting-started/docker-compose.md#command-line-interface).
 
 ![](img/settings-advanced-0912.jpg){ class="shadow" }
 
-All [config options](../../getting-started/config-options.md) can be set in your `compose.yaml` or `docker-compose.yml` or
-via command-line parameters as well. Manually changed values are saved in a config file. It is stored in
+All [config options](../../getting-started/config-options.md) can also be set in your `compose.yaml` or `docker-compose.yml`
+or via command-line parameters. Values changed through the web interface are saved in a config file stored in
 the `storage/config` folder by default.
 
 ## Global Options
 
 ### Debug Logs
-When enabled, debug logs are shown in *Library>Logs*.
-Requires restart.
+When enabled, debug logs are shown in *Library > Logs*.
+Requires a restart.
 
 The corresponding [config toggle](../../getting-started/config-options.md#logging) is `PHOTOPRISM_DEBUG`.
 
 ### Experimental Features
-When enabled, your instance will be updated with experimental features.
+When enabled, your instance exposes new features that may still be incomplete or unstable.
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_EXPERIMENTAL`.
 
 ### Read-only Mode
-When enabled, importing, uploading and deleting files is not possible.
+When enabled, importing, uploading, and deleting files is not possible.
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_READONLY`.
 
@@ -46,8 +46,8 @@ If TensorFlow is enabled and this option is not active, pictures that might be o
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_UPLOAD_NSFW`. -->
 
 ### Disable WebDAV
-This option prevents building WebDav connections.
-Requires restart for changes to be applied.
+This option prevents other apps from connecting to PhotoPrism via the built-in WebDAV server.
+Requires a restart for changes to be applied.
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_WEBDAV`.
 
@@ -72,11 +72,11 @@ Note that you must have [ExifTool](https://exiftool.org/) enabled to extract vid
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_EXIFTOOL`.
 
-### Disable TensorFlow - Deprecated
+### Disable TensorFlow (Deprecated)
 !!! warning ""
-    Note that this option is deprecated. To disable image classification and facial recognition, use the configuration options `PHOTOPRISM_DISABLE_FACES` and `PHOTOPRISM_DISABLE_CLASSIFICATION` instead. For more details, see the related [Github Issue](https://github.com/photoprism/photoprism/issues/5310).
+    This option is deprecated. To disable image classification and facial recognition, use the configuration options `PHOTOPRISM_DISABLE_FACES` and `PHOTOPRISM_DISABLE_CLASSIFICATION` instead. For more details, see the related [GitHub issue](https://github.com/photoprism/photoprism/issues/5310).
 
-When selected, image classification and facial recognition will be disabled as both rely on tensorflow.
+When selected, image classification and facial recognition will be disabled because both rely on TensorFlow.
 
 The corresponding [config toggle](../../getting-started/config-options.md#feature-flags) is `PHOTOPRISM_DISABLE_TENSORFLOW`.
 
@@ -150,8 +150,7 @@ when viewing pictures in full-screen mode.
 
 ### Dynamic Previews
 
-Enable generating thumbnails on-the-fly as they're required (either for viewing or analysing with TensorFlow).  This saves disk space, but is more processor-intensive and so not recommended
-when hosting on less powerful devices (such as Raspberry Pi).
+Enable generating thumbnails on the fly as they are needed for viewing or analysis. This saves disk space, but is more processor-intensive and is therefore not recommended on less powerful devices such as Raspberry Pi.
 
 !!! tip ""
     Thumbnails in sizes up to the configured [static size limit](#static-and-dynamic-size-limits) [will always be generated during indexing](../../getting-started/faq.md#can-i-skip-creating-thumbnails-completely).
@@ -228,7 +227,7 @@ The corresponding [config option](../../getting-started/config-options.md) is `P
 
 This sets the maximum size of the JPEG files created when converting original RAW images.
 
-The corresponding [config toggle](../../getting-started/config-options.md) is `PHOTOPRISM_JPEG_SIZE`.
+The corresponding [config option](../../getting-started/config-options.md#preview-images) is `PHOTOPRISM_JPEG_SIZE`.
 
 !!! tldr ""
     [RawTherapee and "heif-convert" cannot limit the resolution](../../known-issues.md#jpeg-size-limit) of JPEG files when converting files from other formats such as RAW, DNG, HEIC or AVIF.
@@ -237,7 +236,7 @@ The corresponding [config toggle](../../getting-started/config-options.md) is `P
 
 This sets the maximum size of the PNG files created when converting original images.
 
-The corresponding [config toggle](../../getting-started/config-options.md) is `PHOTOPRISM_PNG_SIZE`.
+The corresponding [config option](../../getting-started/config-options.md#preview-images) is `PHOTOPRISM_PNG_SIZE`.
 
 ## File Conversion
 

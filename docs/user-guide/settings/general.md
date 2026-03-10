@@ -4,10 +4,13 @@ In the *General* settings tab, you can configure basic user interface settings a
 
 ![](img/settings-general-0512.jpg){ class="shadow" }
 
-## User Interface ##
-You can change the *theme* and *language* of the User interface and define a *start page* and *time zone*.
+!!! info ""
+    Feature switches in this tab are primarily intended for instance-wide customization. Some options are only shown to super admins and are not available in every edition or session type.
 
-To make PhotoPrism suit your individual needs, the following sections and functionalities can be en- or disabled.
+## User Interface ##
+You can change the *theme* and *language* of the user interface and define a *start page* and *time zone*.
+
+To make PhotoPrism suit your individual needs, the following sections and features can be enabled or disabled.
 Disabled sections do not appear in the main navigation.
 
 #### :material-account: People ####
@@ -23,17 +26,17 @@ When disabled, there is no *Moments* section.
 When disabled, there is no *Labels* section and you cannot add or edit labels.
 
 #### :material-lock: Private ####
-Excludes content marked as private from search results, shared albums, labels and places.
+Hides content marked as private from global views while keeping it accessible in the *Private* section.
 
 #### :material-cloud-upload: Upload ####
-When disabled, uploading files via [*upload*](../library/upload.md) is not possible. 
-This might be useful when you grant others access to your PhotoPrism but do not want them to upload photos.
+When disabled, uploading files via [Web Upload](../library/upload.md) is not possible.
+This can be useful when you grant others access to your instance but do not want them to upload files.
 
 #### :material-download: Download ####
-When disabled, no files can be downloaded using the PhotoPrism UI. Please note that it may still be possible to download files using the integrated browser functionalities.
+When disabled, no files can be downloaded from the PhotoPrism web interface. Please note that browser features such as saving already displayed content may still work.
 
 #### :material-folder-plus: Import ####
-When disabled, there is no possibility to [*import*](../library/import.md) photos. You need to use [*index*](../library/originals.md) instead to add new photos.
+When disabled, files can no longer be [imported](../library/import.md) from the import folder. You must use [indexing](../library/originals.md) instead to discover newly added originals.
 
 #### :material-pencil: Edit ####
 When disabled, it is not possible to edit photo details.
@@ -42,25 +45,25 @@ When disabled, it is not possible to edit photo details.
 When disabled, it is not possible to batch edit photo details.
 
 #### :material-share-variant: Share ####
-When disabled, album sharing and upload to remote services like ownCloud is not possible.
+When disabled, users cannot create share links or share content with connected services.
 
 #### :material-sync: Services ####
-Allow sharing pictures with [apps and services](./sync.md).
+Allows configuration and use of connected [apps and services](sync.md) for remote uploads and synchronization.
 
 #### :material-package-down: Archive ####
-When disabled, there is no *Archive*. Photos that have been archived beforehand will appear again in search results.
+When disabled, there is no *Archive* section. Pictures that were archived before will appear in search results again.
 
 #### :material-delete: Delete ####
-When disabled, permanent deletion of files from the archive is not possible.
+When disabled, files can no longer be permanently deleted from the archive.
 
 #### :material-film: Library ####
-When disabled, there is no *Library* section.
+When disabled, there is no *Library* section for indexing and maintenance tasks.
 
 #### :material-file-tree: Originals ####
-When disabled, there is no *Originals* section.
+When disabled, there is no *Originals* file-browser section.
 
 #### :material-playlist-check: Logs ####
-When disabled, server logs are not shown.
+When disabled, logs are not shown in the web interface.
 
 #### :material-shield-account-variant: Account ####
 When disabled, there is no *Account* section.
@@ -70,8 +73,7 @@ When disabled, there is no *Places* section.
 
 ## Places ##
 
-At the bottom of the *General* settings tab, you may choose your preferred map style and animation length for *Places*.
-PhotoPrism includes four high-resolution world maps to see where you've been, and for rediscovering long-forgotten shots.
+At the bottom of the *General* settings tab, you can choose your preferred map style and animation length for *Places*.
+PhotoPrism includes multiple high-resolution world maps so you can browse your library by location.
 
-To enhance your photos with location data such as state, city and category, we've also launched our own geo-information service based on OpenStreetMap.
-A future release will additionally provide public events' data, so that albums of popular music festivals, or sports gatherings, can be created automatically.
+To enhance your photos with location data such as country, state, city, and category, PhotoPrism also includes reverse geocoding based on OpenStreetMap data.

@@ -1,11 +1,13 @@
-# Account Settings #
+# Account Settings
 
 !!! tldr ""
-    For security reasons, changing account-related settings through the user interface requires password authentication, so these settings will not be available to you when [public mode](../../getting-started/config-options.md#authentication) is enabled.
+    For security reasons, changing account-related settings through the user interface requires authentication, so these settings are not available when [public mode](../../getting-started/config-options.md#authentication) is enabled.
 
 ![Screenshot](img/settings-account-2502.jpg){ class="shadow" }
 
 ## Change Password ##
+
+The *Change Password* button is available for accounts that use local password authentication.
 
 1. Go to *Settings*
 2. Open *Account* tab
@@ -33,9 +35,11 @@ Example for generating an app password that you can use with [WebDAV-compatible]
 ![Screenshot](img/app-password-2502.jpg){ class="shadow" }
 
 !!! tldr ""
-    By selecting the *WebDAV* [scope](../users/client-credentials.md#authorization-scopes), you ensure that the app password cannot be used to log in through the regular user interface or for other actions. Apps will also not be able to change your password or manage user accounts, even if you grant them *Full Access*.
+    By selecting the *WebDAV* [scope](../users/client-credentials.md#authorization-scopes), you ensure that the app password cannot be used to log in through the regular user interface. Apps also cannot change your password or manage user accounts, even if you grant them *Full Access*.
 
 ## Connect via WebDAV ##
+
+This button is only shown when WebDAV access is enabled for your account and the built-in WebDAV server is available.
 
 To open a dialog that shows you the URLs required to connect an app or computer via WebDAV:
 
