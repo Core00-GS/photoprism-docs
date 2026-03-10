@@ -27,7 +27,7 @@ Unraid does not ship with Docker Compose, but the Community Apps plugin offers *
 
 1. Navigate to **Docker ▸ Add New Stack**.
 2. Enter a name such as `photoprism`, click the **Advanced** toggle, and set the stack path to `/mnt/user/appdata/photoprism` (keeps compose files off the USB thumb drive).
-3. After the stack is created, select the gear icon ▸ **Edit Stack**, paste the compose file below, and edit the passwords, timezone, and host paths before saving:
+3. After the stack is created, select the gear icon ▸ **Edit Stack**, paste the compose file below, and edit the passwords and host paths before saving:
 
     ```yaml
     services:
@@ -54,9 +54,11 @@ Unraid does not ship with Docker Compose, but the Community Apps plugin offers *
         environment:
           # initial admin password (8-72 characters)
           PHOTOPRISM_ADMIN_PASSWORD: "choose-a-strong-password"
-          # canonical URL used to generate share links
+          # canonical URL used to generate links
           PHOTOPRISM_SITE_URL: "http://YOUR_UNRAID_IP:2342/"
+          # disables built-in HTTPS/TLS when set to "true"
           PHOTOPRISM_DISABLE_TLS: "false"
+          # uses a self-signed certificate if the site URL starts with https://
           PHOTOPRISM_DEFAULT_TLS: "true"
           PHOTOPRISM_DEFAULT_LOCALE: "en"
           PHOTOPRISM_PLACES_LOCALE: "local"
@@ -91,6 +93,8 @@ Unraid does not ship with Docker Compose, but the Community Apps plugin offers *
     By default, our Docker images use the volume mount paths `/photoprism/storage` and `/photoprism/originals`, so no [additional variables](../config-options.md#storage) are required to configure them.
 
 4. (Optional) Use the **Edit Env** tab if you prefer to keep secrets (passwords, tokens) outside the compose file.
+
+    If you want HTTPS on your NAS, we recommend using a [reverse proxy](../proxies/traefik.md) and then changing `PHOTOPRISM_SITE_URL` to the external `https://` address.
 
 ### 3. Start and verify
 

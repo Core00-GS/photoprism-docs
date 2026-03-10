@@ -38,8 +38,8 @@ Once the installation is complete, you will find PhotoPrism on your home screen,
 
 ![Screenshot](img/asustor/asustor-step-4.jpg){ class="shadow" }
 
-You can also navigate to port 32770 on your device if you want to open PhotoPrism directly.
-When you see the login screen, enter the username "admin" and password "admin321" to sign in:
+You can also navigate directly to port `32770` on your device.
+When you see the login screen, enter the username `admin` and password `admin321` to sign in:
 
 ![Screenshot](img/asustor/asustor-login.jpg){ class="shadow" }
 

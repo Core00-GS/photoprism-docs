@@ -12,7 +12,7 @@ When using the *Web editor*, please make sure that related values remain on the 
 
 #### Volumes ####
 
-You need to explicitly [specify the directories](https://docs.docker.com/compose/compose-file/compose-file-v3/#volumes) you want to use on your NAS device, since PhotoPrism can't see files in folders that have not been shared. This is an important security feature and allows for a flexible configuration without having to change any other variables.
+You need to explicitly [specify the directories](https://docs.docker.com/reference/compose-file/services/#volumes) you want to use on your NAS device, since PhotoPrism can't see files in folders that have not been shared. This is an important security feature and allows for a flexible configuration without having to change any other variables.
 
 !!! danger ""
     **It is important that all folders specified in the "volumes" sections are located on a persistent volume on your device.** We recommend changing the relative paths used in our example to absolute paths in order to avoid potential data loss, e.g. if the default application folder managed by Portainer changes or is reset after an update.
@@ -97,7 +97,7 @@ services:
 [Imported files](../../user-guide/library/import.md) receive a canonical filename and will be organized by year and month. You should never configure the *import* folder to be inside the *originals* folder, as this will cause a loop by importing already indexed files.
 
 !!! tldr ""
-    Even if you don't specify an *import* folder, adding files via [Web Upload](../../user-guide/library/upload.md) and [WebDAV](../../user-guide/sync/webdav.md) remains possible unless [read-only mode](../config-options.md) is enabled or the [features have been disabled](../../user-guide/settings/general.md).
+    Even if you don't specify an *import* folder, adding files via [Web Upload](../../user-guide/library/upload.md) and [WebDAV](../../user-guide/sync/webdav.md) remains possible unless [read-only mode](../config-options.md#feature-flags) is enabled or the [features have been disabled](../../user-guide/settings/general.md).
 
 ### Step 2: Finalize Setup ###
 
@@ -117,7 +117,7 @@ When you're done, scroll down and click "Deploy the stack" without changing any 
 
 ![Screenshot](step-3-deploy.png){ class="shadow" }
 
-After waiting a few moments, you should be able to log in as `admin` with the password specified in `PHOTOPRISM_ADMIN_PASSWORD` when you navigate to <http://localhost:2342/>.
+After waiting a few moments, you should be able to log in as `admin` with the password specified in `PHOTOPRISM_ADMIN_PASSWORD` when you navigate to `http://<NAS-IP>:2342/`.
 
 !!! tldr ""
     If you have modified the server hostname, port, or protocol in your configuration, the URL to use changes accordingly. 

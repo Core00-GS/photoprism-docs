@@ -42,7 +42,7 @@ mkdir -p /share/Container/photoprism/{storage,import,database}
 
 1. Open **Container Station ▸ Applications ▸ Create**.
 2. Enter an application name such as `photoprism`.
-3. Paste the Compose configuration below into the YAML editor and adjust passwords, paths, and timezone values before clicking **Validate** and **Create**:
+3. Paste the Compose configuration below into the YAML editor and adjust passwords and paths before clicking **Validate** and **Create**:
 
     ```yaml
     services:
@@ -70,11 +70,11 @@ mkdir -p /share/Container/photoprism/{storage,import,database}
         environment:
           # initial admin password (8-72 characters)
           PHOTOPRISM_ADMIN_PASSWORD: "choose-a-strong-password"
-          # public URL so share links and redirects include the right origin
+          # public URL so links and redirects use the correct origin
           PHOTOPRISM_SITE_URL: "http://YOUR_NAS_IP:2342/"
-          # force HTTP even if HTTPS is configured
+          # disables built-in HTTPS/TLS when set to "true"
           PHOTOPRISM_DISABLE_TLS: "false"
-          # create a self-signed certificate as fallback
+          # uses a self-signed certificate if the site URL starts with https://
           PHOTOPRISM_DEFAULT_TLS: "true"
           # default UI language (e.g., en, de, fr)
           PHOTOPRISM_DEFAULT_LOCALE: "en"
@@ -126,6 +126,8 @@ mkdir -p /share/Container/photoprism/{storage,import,database}
      By default, our Docker images use the volume mount paths `/photoprism/storage` and `/photoprism/originals`, so no [additional variables](../config-options.md#storage) are required to configure them.
 
 4. Double-check that each host path points to the correct absolute `/share/...` location so you don't lose data when updating or redeploying the stack. After the application is created, open **Applications ▸ photoprism ▸ Settings** and set a default web port shortcut (Service `photoprism`, Port `2342`) so the “Open” button launches the UI.
+
+    If you want HTTPS on your NAS, we recommend using a [reverse proxy](../proxies/traefik.md) and then changing `PHOTOPRISM_SITE_URL` to the external `https://` address.
 
 #### 4. Start and verify
 

@@ -27,7 +27,7 @@ To do this, first connect to the server running OpenMediaVault via SSH or open a
 sudo podman ps
 ```
 
-In the output, you should see PhotoPrism running under a name like `photoprism-app`, which you can specify to open a terminal session as follows:
+In the output, you should see PhotoPrism running under a name like `photoprism-app`, which you can then use to open a terminal session:
 
 ```bash
 sudo podman exec -ti photoprism-app /bin/bash

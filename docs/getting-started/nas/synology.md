@@ -21,7 +21,7 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
 #### 1. Prerequisites
 
 - Install **[Container Manager](https://www.synology.com/en-global/releaseNote/ContainerManager)** from *Package Center ▸ Search ▸ “Container”*. DSM replaces the legacy Docker app with this package starting in [DSM 7.2](https://www.synology.com/en-global/dsm).
-- Confirm your NAS has a 64‑bit CPU and at least 4 GB RAM; LinuxLinks found PhotoPrism unstable below that threshold when indexing on DSM hardware.
+- Confirm your NAS has a 64-bit CPU and enough memory for your library size. In practice, 4 GB RAM plus at least 4 GB of swap is a good baseline for indexing on consumer NAS hardware.
 - Decide where originals live. Fast SSD volumes for the `storage` directory (cache, thumbnails, database dumps) significantly improve indexing performance.
 
 #### 2. Create shared folders
@@ -72,11 +72,11 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
         environment:
           # initial admin password (8-72 characters)
           PHOTOPRISM_ADMIN_PASSWORD: "choose-a-strong-password"
-          # canonical URL used to generate share links
+          # canonical URL used to generate links
           PHOTOPRISM_SITE_URL: "http://YOUR_NAS_IP:2342/"
-          # force HTTP even if HTTPS is configured
+          # disables built-in HTTPS/TLS when set to "true"
           PHOTOPRISM_DISABLE_TLS: "false"
-          # create a self-signed certificate as fallback
+          # uses a self-signed certificate if the site URL starts with https://
           PHOTOPRISM_DEFAULT_TLS: "true"
           # default UI language (e.g., en, de, fr)
           PHOTOPRISM_DEFAULT_LOCALE: "en"
@@ -127,7 +127,9 @@ Follow the steps below if you prefer Synology's built-in [Container Manager](htt
 
      By default, our Docker images use the volume mount paths `/photoprism/storage` and `/photoprism/originals`, so no [additional variables](../config-options.md#storage) are required to configure them.
 
-4. Update the placeholders (passwords, timezone, `/volume1/docker/photoprism`, and your actual originals share such as `/volume1/photo`) before clicking **Next ▸ Create**. Container Manager stores the Compose file with the project so you can edit it later without retyping.
+4. Update the placeholders (passwords, `/volume1/docker/photoprism`, and your actual originals share such as `/volume1/photo`) before clicking **Next ▸ Create**. Container Manager stores the Compose file with the project so you can edit it later without retyping.
+
+    If you want HTTPS on your NAS, we recommend using a [reverse proxy](../proxies/traefik.md) and then changing `PHOTOPRISM_SITE_URL` to the external `https://` address.
 
 #### 5. Deploy and verify
 
