@@ -8,20 +8,20 @@ The OAuth 2.0 specification is an authorization framework that contains a set of
 The access token can then be passed to an API endpoint, which checks it to determine validity and [authorization scope](auth.md#authorization-scopes).
 
 !!! example ""
-    Support for the [Authorization Code Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow) is planned for a future release.
+    PhotoPrism currently supports practical token-based API access via the token endpoint. The authorization endpoint exists, but the [Authorization Code Flow](https://auth0.com/docs/get-started/authentication-and-authorization-flow/authorization-code-flow) is not usable yet.
 
 ## Server Endpoints
 
-| Resource                                                              | Endpoint                  | Methods   |
-|-----------------------------------------------------------------------|---------------------------|-----------|
-| [Authorization](https://github.com/photoprism/photoprism/issues/4368) | `/api/v1/oauth/authorize` | GET, POST |
-| [Token](https://github.com/photoprism/photoprism/issues/3943)         | `/api/v1/oauth/token`     | POST      |
-| [UserInfo](https://github.com/photoprism/photoprism/issues/4369)      | `/api/v1/oauth/userinfo`  | GET, POST |
-| Registration                                                          | not implemented yet       |           | 
-| Introspection                                                         | not implemented yet       |           |
-| [Revocation](https://github.com/photoprism/photoprism/issues/3943)    | `/api/v1/oauth/revoke`    | POST      |
-| End Session                                                           | not implemented yet       |           |
-| Device Authorization                                                  | not implemented yet       |           |
+| Resource                                                              | Endpoint                  | Methods |
+|-----------------------------------------------------------------------|---------------------------|---------|
+| [Authorization](https://github.com/photoprism/photoprism/issues/4368) | `/api/v1/oauth/authorize` | `GET`   |
+| [Token](https://github.com/photoprism/photoprism/issues/3943)         | `/api/v1/oauth/token`     | `POST`  |
+| [UserInfo](https://github.com/photoprism/photoprism/issues/4369)      | `/api/v1/oauth/userinfo`  | `GET`   |
+| [Revocation](https://github.com/photoprism/photoprism/issues/3943)    | `/api/v1/oauth/revoke`    | `POST`  |
+| Registration                                                          | not implemented           |         |
+| Introspection                                                         | not implemented           |         |
+| End Session                                                           | not implemented           |         |
+| Device Authorization                                                  | not implemented           |         |
 
 Clients can query the `/.well-known/oauth-authorization-server` and `/.well-known/openid-configuration` endpoints for automatic service discovery:
 
@@ -29,7 +29,7 @@ Clients can query the `/.well-known/oauth-authorization-server` and `/.well-know
 - <https://demo.photoprism.app/.well-known/openid-configuration>
 
 !!! example ""
-    Note that the [Authorization](https://github.com/photoprism/photoprism/blob/develop/internal/api/oauth_authorize.go) and [UserInfo](https://github.com/photoprism/photoprism/blob/develop/internal/api/oauth_userinfo.go) endpoints cannot be used yet as they are still [under development](https://github.com/photoprism/photoprism/issues/4368).
+    The token endpoint accepts `client_credentials` requests and PhotoPrism-specific `password` and `session` grants. The authorization and userinfo endpoints are currently placeholders that return `405 Method Not Allowed`, and the discovery metadata intentionally advertises only the interoperable parts that are implemented today.
 
 ## Access Tokens
 

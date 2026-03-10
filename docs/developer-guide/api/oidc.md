@@ -120,11 +120,13 @@ To restore a previously deleted account, admins can follow the same steps as for
 
 ## Service Discovery
 
-It is not yet possible to use PhotoPrism as an [Identity Provider](#identity-providers), since not all the required [endpoints](https://github.com/photoprism/photoprism/issues/4368) and [grant types](oauth2.md) have been fully implemented.
+It is not yet possible to use PhotoPrism as a complete [Identity Provider](#identity-providers), since not all required [endpoints](https://github.com/photoprism/photoprism/issues/4368) and [grant types](oauth2.md) have been implemented.
 
-However, querying the `/.well-known/openid-configuration` endpoint shows what has already been implemented, so the missing capabilities can be identified and added over time:
+However, querying the `/.well-known/openid-configuration` endpoint shows what has already been implemented, including the advertised token, revocation, and JWKS endpoints:
 
 - <https://demo.photoprism.app/.well-known/openid-configuration>
+
+At the moment, the authorization and userinfo endpoints are still placeholders, and the published metadata primarily documents the currently implemented OAuth2/OIDC surface plus the JWKS used for JWT verification.
 
 ## Related Issues
 

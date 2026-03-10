@@ -4,7 +4,7 @@
 
 Like most commercial image hosting services, we have chosen to implement a **cookie-free** thumbnail API to minimize request latency by avoiding unnecessary network traffic:
 
-- When a browser requests static files such as images from a server over HTTPS, it is generally unnecessary to send a cookie with each request if the URLs cannot be guessed, so for most practical use cases
+- When a browser requests static files such as images over HTTPS, it is usually unnecessary to send a cookie with every request if the URLs cannot be guessed
 - One possible use of cookies may be to prevent the user from intentionally or accidentally sharing confidential thumbnail URLs with others
 - This is possible with most image hosting services/social media sites, and could also be considered a feature if you just want to share a few thumbnails without a lot of bells and whistles
 - Once an image has been downloaded by someone else, blocking the original URL provides little additional security, as digital copies are just as good as the original, see info box below
@@ -64,14 +64,14 @@ If the instance requires authentication, you must also specify a valid [security
 /api/v1/videos/51843134d75f4cbde534270cdd5954067f887ee6/10d68214/avc
 ```
 
-With public mode enabled, you can instead use "public" as [security token](search.md#response-headers) placeholder:
+With public mode enabled, you can instead use `public` as the [security token](search.md#response-headers) placeholder:
 
 ```
 /api/v1/videos/51843134d75f4cbde534270cdd5954067f887ee6/public/avc
 ```
 
 !!! example ""
-    The only target format currently available for transcoding is `avc` (MPEG-4 AVC). Additional formats will become available in a future release.
+    The only target format currently available for transcoding is `avc` (MPEG-4 AVC / H.264).
 
 ## Thumbnail Sizes
 
