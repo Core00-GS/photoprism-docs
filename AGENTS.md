@@ -43,7 +43,9 @@ This file serves as a single, up-to-date reference for agents and contributors w
 - `LICENSE` (root) covers the repository; `docs/license/docs.md` spells out the documentation license (CC BY-NC-SA 4.0). Keep legal text in sync with the main application repository when terms change.
 - Helper directories: `venv/` (local virtualenv), `site/` (build output), and `todo/` (drafts) are workspace artifacts; they should remain uncommitted and are safe to delete when resetting your environment.
 
-## Content Standards
+## Style Notes
+
+### Content Standards
 
 - Headings, link titles, and navigation labels must use **Title Case** (in APA or AP style), matching the main repository’s style requirement. When copying headings from other sources, normalize them before committing.
 - Prefer Markdown over raw HTML; use MkDocs Material components (admonitions, tabs, tooltips) configured in `mkdocs.yml`. When HTML is unavoidable, keep it minimal and validate that `mkdocs serve` renders it correctly in dark/light themes.
