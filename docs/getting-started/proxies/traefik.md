@@ -5,7 +5,7 @@
     - [Traefik](https://doc.traefik.io/traefik/) issues and renews [Let’s Encrypt](https://letsencrypt.org/) certificates automatically
     - Integrates cleanly with Docker labels, Kubernetes ingress, and static config files
 
-To run PhotoPrism behind Traefik, create a `traefik.yaml` configuration and then add a `traefik` service to your `compose.yaml` or `docker-compose.yml` file, as shown in the following example:
+To run PhotoPrism behind Traefik, create a `traefik.yaml` configuration and then add a `traefik` service to your `compose.yaml` or `docker-compose.yml` file, as shown in the following example. Set [the public Site URL](../config-options.md#site-information) to the external `https://` address. If Traefik reaches PhotoPrism from an address outside Docker’s default internal range, also add its IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server).
 
 !!! example "compose.yaml"
     ```yaml
@@ -19,7 +19,7 @@ To run PhotoPrism behind Traefik, create a `traefik.yaml` configuration and then
         volumes:
           - "./traefik.yaml:/etc/traefik/traefik.yaml"
           - "./traefik/data:/data"
-          - "/var/run/docker.sock:/var/run/docker.sock"
+          - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
       photoprism:
         image: photoprism/photoprism:latest

@@ -3,7 +3,9 @@
 !!! danger "Getting Support"
     Since [NGINX](https://www.nginx.com/) is [easy to misconfigure](https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/tutorials/config_pitfalls/), we cannot [provide individual support](https://www.photoprism.app/kb/getting-support) for proxy-related issues such as [failed uploads](https://github.com/photoprism/photoprism/discussions/2698#discussioncomment-9056567), [connection errors](../troubleshooting/index.md#connection-fails), [broken thumbnails](../troubleshooting/index.md#broken-thumbnails), or [video playback problems](../troubleshooting/index.md#videos-dont-play). Please ask the NGINX community for help or consider [Traefik](traefik.md) when you prefer a simpler proxy.
 
-NGINX sits in front of PhotoPrism to terminate TLS, enforce HTTP/2, and shield uploads / downloads with additional rate limiting or request filtering. Keep PhotoPrism’s internal TLS disabled (`PHOTOPRISM_DISABLE_TLS="true"`) so NGINX can manage certificates, and ensure the proxy host has enough free disk space for TLS assets and logs.
+NGINX sits in front of PhotoPrism to terminate TLS, enforce HTTP/2, and shield uploads and downloads with additional rate limiting or request filtering. Keep PhotoPrism’s internal TLS disabled (`PHOTOPRISM_DISABLE_TLS="true"`) so NGINX can manage certificates, and ensure the proxy host has enough free disk space for TLS assets and logs.
+
+Also set [the public Site URL](../config-options.md#site-information) to your external `https://` address. If NGINX reaches PhotoPrism from an address outside Docker’s default internal range, add the proxy IP or CIDR to [`PHOTOPRISM_TRUSTED_PROXY`](../config-options.md#web-server) so forwarded client and protocol headers are accepted.
 
 ## Requirements
 
@@ -49,6 +51,7 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Host $host;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade;
     }
@@ -57,7 +60,7 @@ server {
 
 Adapt `server_name`, certificate paths, and the upstream address to match your environment. After editing, run `sudo nginx -t` followed by `sudo systemctl reload nginx` to apply the changes.
 
-More examples are available in the [NGINX documentation](https://nginx.org/en/docs/) and this [WebSocket tutorial](https://www.serverlab.ca/tutorials/linux/web-servers-linux/how-to-configure-nginx-for-websockets/). Also see our [advanced guide](../advanced/nginx-proxy-setup.md) when you need extra hardening tips.
+More examples are available in the [NGINX documentation](https://nginx.org/en/docs/). Also see our [advanced guide](../advanced/nginx-proxy-setup.md) when you need extra hardening tips, WebDAV notes, and operator checklists.
 
 [View "Pitfalls and Common Mistakes" ›](https://www.nginx.com/nginx-wiki/build/dirhtml/start/topics/tutorials/config_pitfalls/)
 

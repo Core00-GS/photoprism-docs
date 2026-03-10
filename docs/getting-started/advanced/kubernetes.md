@@ -109,7 +109,7 @@ ingress:
       secretName: photos-tls
 ```
 
-Because TLS typically terminates at the ingress or proxy layer, the chart keeps `PHOTOPRISM_DISABLE_TLS` set to `true`. Only enable PhotoPrism’s internal TLS if your cluster design requires end-to-end encryption and you manage the certificates yourself.
+Because TLS typically terminates at the ingress or proxy layer, the chart keeps `PHOTOPRISM_DISABLE_TLS` set to `true`. Only enable PhotoPrism’s internal TLS if your cluster design requires end-to-end encryption and you manage the certificates yourself. If your ingress controller reaches PhotoPrism from an address outside the trusted proxy ranges, set `config.PHOTOPRISM_TRUSTED_PROXY` accordingly so forwarded client and protocol headers are accepted.
 
 ## PhotoPrism® Plus
 

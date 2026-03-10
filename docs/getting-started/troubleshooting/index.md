@@ -27,6 +27,7 @@ Before reporting a bug:
     - [ ] Avoid using IP addresses other than `127.0.0.1` directly, as [they can change](https://github.com/photoprism/photoprism/discussions/2791#discussioncomment-3985376)
     - [ ] We recommend [configuring a local hostname](https://dl.photoprism.app/img/docs/pihole-local-dns.png) to access other hosts on your network
 - [ ] If you use a [firewall](firewall.md), ensure that it is configured correctly and that [outgoing connections to our geocoding API are allowed](../index.md#maps-places)
+- [ ] If you use a reverse proxy, make sure [the public Site URL](../config-options.md#site-information) matches the external address and that `PHOTOPRISM_TRUSTED_PROXY` includes the proxy IP or CIDR; otherwise forwarded client and protocol headers are ignored
 - [ ] Note that HTTP security headers will prevent the app from loading in a frame (override them)
 - [ ] Verify your computer meets the [system requirements](../index.md#system-requirements)
 - [ ] Go through the [checklist for fatal server errors](#fatal-server-errors)
@@ -47,11 +48,11 @@ mariadb: mysqld: Shutdown complete
 
 #### Firewall
 
-**Maps & Places:** As explained in our [Privacy Policy](https://www.photoprism.app/privacy#section-7), reverse geocoding and interactive world maps depend on retrieving the necessary information [from us](https://www.photoprism.app/contact) and [MapTiler AG](https://www.maptiler.com/contacts/), headquartered in Switzerland. You therefore need **allow requests to these API endpoints** if you have a firewall installed and make sure your Internet connection is working.
+**Maps & Places:** As explained in our [Privacy Policy](https://www.photoprism.app/privacy#section-7), reverse geocoding and interactive world maps depend on retrieving the necessary information [from us](https://www.photoprism.app/contact) and [MapTiler AG](https://www.maptiler.com/contacts/), headquartered in Switzerland. If you have a firewall installed, make sure it allows requests to these API endpoints and that your Internet connection is working.
 
 [Learn more ›](firewall.md)
 
-**IPTables:** On Linux, Docker manipulates the `iptables` rules to provide network isolation. This does have some implications for what you need to do if you want to have your own policies in addition to the rules Docker manages.
+**IPTables:** On Linux, Docker manipulates the `iptables` rules to provide network isolation. This has implications when you want to enforce your own policies in addition to the rules Docker manages.
 
 [Learn more ›](https://docs.docker.com/network/iptables/)
 
@@ -66,7 +67,7 @@ services:
       PHOTOPRISM_LOG_LEVEL: "debug"
 ```
 
-If you need even more detailed logs for debugging, you can enable [trace log mode](../config-options.md#logging) by setting `PHOTOPRISM_LOG_LEVEL` to `“trace”` in the `environment:` section of the `photoprism` service (or use the `--trace` flag when running the `photoprism` command directly):
+If you need even more detailed logs for debugging, you can enable [trace log mode](../config-options.md#logging) by setting `PHOTOPRISM_LOG_LEVEL` to `"trace"` in the `environment:` section of the `photoprism` service (or use the `--trace` flag when running the `photoprism` command directly):
 
 ```yaml
 services:
@@ -156,7 +157,7 @@ connection or the server was started only a few seconds ago. In case this does n
 If [password authentication is enabled](../config-options.md#authentication) and the user interface loads, but you cannot log in with what you assume is the correct password:
 
 - [ ] There is a problem with the [integrity, stability or connection of the database](mariadb.md) that you should be able to diagnose by [watching the logs for errors and warnings](docker.md#viewing-logs)
-- [ ] You had too many failed login attempts, therefore another attempt from your computer is temporarily not possible
+- [ ] You had too many failed login attempts, so another attempt from your IP address is temporarily blocked by the login rate limit (wait a moment or review `PHOTOPRISM_LOGIN_LIMIT`)
 - [ ] Caps Lock is enabled on your keyboard, your computer has the wrong input locale set, or somebody else might have changed the password without telling you
 - [ ] `PHOTOPRISM_ADMIN_PASSWORD` does not have a minimum length of 8 characters, so PhotoPrism has been started without a password since there is no default
 - [ ] Your password [contains one or more `$` signs that were not properly escaped](../../developer-guide/technologies/yaml.md#dollar-signs) in your `compose.yaml` or `docker-compose.yml` file ([escape them](../../developer-guide/technologies/yaml.md#dollar-signs) and [reset your database](../docker-compose.md#examples) or [manually set a new password](../../user-guide/users/cli.md#changing-a-password))
@@ -189,7 +190,8 @@ If you [followed our step-by-step guide](../../user-guide/sync/webdav.md) and st
 - [ ] Your WebDAV client requires a secure connection ([connect via HTTPS](../index.md#https))
 - [ ] Your instance or reverse proxy uses an invalid [HTTPS/TLS certificate](../config-options.md#web-server)
 - [ ] As a Windows user, you may need to [change the basic authentication level](windows.md#connecting-via-webdav)
-- [ ] Your browser cannot communicate properly with the server, e.g. because a [reverse proxy](../proxies/nginx.md), VPN, or CDN is configured incorrectly (check its configuration and try without)
+- [ ] Your WebDAV client cannot communicate properly with the server, e.g. because a [reverse proxy](../proxies/nginx.md), VPN, or CDN is configured incorrectly (check its configuration and try without)
+- [ ] If you use a reverse proxy or a subdirectory install, make sure it forwards the public host and protocol and preserves or rewrites WebDAV `Destination` headers correctly for copy and move requests
 - [ ] You are connected to the wrong server, VPN, or a DNS record has not been updated yet
 - [ ] An upload path has been assigned to your user account, limiting write access to that specific path only (check user settings or remove the upload path restriction)
     - [ ] If an upload path is set, you need to synchronize with `.../originals/upload-path/` when using WebDAV to add files to the originals folder
@@ -263,7 +265,7 @@ In case the application logs do not contain anything helpful:
 - [ ] You browse [non-JPEG](../faq.md#what-media-file-types-are-supported) files under *Library > Originals* which have an icon but no preview
 - [ ] *Preview Images* are disabled under *Settings > Content* (enable them)
 - [ ] *Dynamic Previews* are disabled under *Settings > Advanced* or your server is not powerful enough
-- [ ] The sizes in *Settings > Advanced* have been changed so the request can't be fulfilled
+- [ ] The sizes in *Settings > Advanced* have been changed so the requested preview cannot be generated
 - [ ] FFmpeg and/or RAW converters are disabled under *Settings > Advanced* (enable them)
 - [ ] Your [*storage* folder is full](docker.md#disk-space), or a quota/[inode limit](https://serverfault.com/questions/104986/what-is-the-maximum-number-of-files-a-file-system-can-contain) has been reached (increase it)
 - [ ] Your [*storage* folder is not writable or mounted read-only](docker.md#file-permissions) (change [permissions](docker.md#file-permissions))
@@ -281,8 +283,7 @@ In case the application logs do not contain anything helpful:
 We also recommend checking your [Docker Logs](docker.md#viewing-logs) for messages like *disk full*, *disk quota exceeded*,
 *no space left on device*, *read-only file system*, *error creating path*, *wrong permissions*, and *killed*:
 
-- [ ] If a service has been "killed" or otherwise automatically terminated, this points to a
-memory problem
+- [ ] If a service has been "killed" or otherwise automatically terminated, this points to a [memory problem](docker.md#adding-swap) (add swap and/or memory; remove or increase usage limits)
 - [ ] In case the logs show "disk full", "quota exceeded", or "no space left" errors, either [the disk containing the *storage* folder is full](docker.md#disk-space) (add storage) or a disk usage limit is configured (remove or increase it)
 - [ ] Errors such as "read-only file system", "error creating path", "failed to create folder", "permission denied", or "wrong permissions" indicate a [filesystem permission problem](docker.md#file-permissions)
 
