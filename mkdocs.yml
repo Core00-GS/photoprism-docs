@@ -91,7 +91,7 @@ nav:
     # - Sync and Back Up:
     # - WebDAV Sync
     #    - Nextcloud: user-guide/nextcloud.md
-    - Searching:
+    - Search:
       - Introduction: user-guide/search/index.md
       - Result Views: user-guide/search/views.md
       - Search Filters: user-guide/search/filters.md
@@ -118,17 +118,25 @@ nav:
     - Sharing:
       - Introduction: user-guide/share/index.md
       - Uploading Files: user-guide/share/services-share.md
+    - Remote Sync:
+      - Using WebDAV: user-guide/sync/webdav.md
+      - Mobile Devices: user-guide/sync/mobile-devices.md
+      - Apps and Services: user-guide/sync/services-sync.md
+      - Syncing with Dropbox: user-guide/sync/dropbox.md
     - Settings:
       - General: user-guide/settings/general.md
       - Content: user-guide/settings/library.md
       - Advanced: user-guide/settings/advanced.md
       - Services: user-guide/settings/sync.md
       - Account: user-guide/settings/account.md
-    - Remote Sync:
-      - Using WebDAV: user-guide/sync/webdav.md
-      - Mobile Devices: user-guide/sync/mobile-devices.md
-      - Apps and Services: user-guide/sync/services-sync.md
-      - Syncing with Dropbox: user-guide/sync/dropbox.md
+    - AI Models:
+      - Introduction: user-guide/ai/index.md
+      - Ollama Setup: user-guide/ai/using-ollama.md
+      - Ollama Cloud: user-guide/ai/ollama-cloud.md
+      - Ollama Models: user-guide/ai/ollama-models.md
+      - OpenAI API: user-guide/ai/using-openai.md
+      - Face Recognition: user-guide/ai/face-recognition.md
+      - CLI Commands: user-guide/ai/cli.md
     - Backup Guide:
       - Creating Backups: user-guide/backups/index.md
       - Restoring Backups: user-guide/backups/restore.md
@@ -145,17 +153,9 @@ nav:
       - CLI Commands: user-guide/users/cli.md
       - Account Roles: user-guide/users/roles.md
       - Sharing with Guests: user-guide/users/sharing.md
-      - Multiple Libraries: user-guide/users/libraries.md
+      # - Multiple Libraries: user-guide/users/libraries.md
       - Setting Up 2FA: user-guide/users/2fa.md
       - Client Credentials: user-guide/users/client-credentials.md
-    - Using AI Models:
-      - Introduction: user-guide/ai/index.md
-      - Ollama Setup: user-guide/ai/using-ollama.md
-      - Ollama Cloud: user-guide/ai/ollama-cloud.md
-      - Ollama Models: user-guide/ai/ollama-models.md
-      - OpenAI API: user-guide/ai/using-openai.md
-      - Face Recognition: user-guide/ai/face-recognition.md
-      - CLI Commands: user-guide/ai/cli.md
     - Mobile App (PWA): user-guide/pwa.md
     - iOS and Android: user-guide/native-apps/index.md
     - Release Notes: release-notes.md
