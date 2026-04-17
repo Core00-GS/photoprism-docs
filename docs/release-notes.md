@@ -15,6 +15,7 @@ What's new?
 - OIDC: [Provider initialization is retried after transient discovery failure](https://github.com/photoprism/photoprism/issues/5478)
 - Index: [Added support for layered TIFF and Adobe Photoshop PSD images](https://github.com/photoprism/photoprism/issues/5383)
 - Labels: [Added support for homophones and homophone-aware lookups](https://github.com/photoprism/photoprism/issues/5227) by [@keif888](https://github.com/keif888)
+- Search: [Added NOT & AND operators to the label filter](https://github.com/photoprism/photoprism/issues/5535)
 - WebDAV: [Added fallback for servers that only allow PROPFIND with a Depth of 1](https://github.com/photoprism/photoprism/issues/3541)
 - WebDAV: [Hardened timeouts, cancellation, and Depth-1 fallback diagnostics](https://github.com/photoprism/photoprism/issues/5474)
 - Logs: [Information about long-running processes is logged every 15 minutes](https://github.com/photoprism/photoprism/pull/5481) by [@keif888](https://github.com/keif888)
@@ -24,6 +25,7 @@ What's new?
 - Frontend: [Upgraded Vuetify to v3.12 with VList fixes](https://github.com/photoprism/photoprism/issues/5452)
 - Folders: [Fixed child paths overwriting parent folder albums](https://github.com/photoprism/photoprism/issues/5366)
 - AI: [Added support for the Model Context Protocol (MCP)](https://github.com/photoprism/photoprism/issues/5024)
+- CLI: [Fixed `vision run` not saving sidecar YAML files](https://github.com/photoprism/photoprism/issues/5493)
 - Security: [Upgraded Go to v1.26.2, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.26.2)
 
 ### March 5, 2026
