@@ -24,7 +24,7 @@ What's new?
 - Frontend: [Upgraded Vuetify to v3.12 with VList fixes](https://github.com/photoprism/photoprism/issues/5452)
 - Folders: [Fixed child paths overwriting parent folder albums](https://github.com/photoprism/photoprism/issues/5366)
 - AI: [Added support for the Model Context Protocol (MCP)](https://github.com/photoprism/photoprism/issues/5024)
-- Security: [Upgraded Go to v1.26.1, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.26.1)
+- Security: [Upgraded Go to v1.26.2, which includes fixes and improvements](https://github.com/golang/go/issues?q=milestone%3AGo1.26.2)
 
 ### March 5, 2026
 <span class="build">Build 260305-fad9d5395</span>
