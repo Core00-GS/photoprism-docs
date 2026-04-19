@@ -3,6 +3,9 @@
 !!! note ""
     Additional [guidance with specific configuration examples](../../user-guide/ai/ollama-models.md) can be found in our User Guide. [Learn more ›](../../user-guide/ai/ollama-models.md)
 
+!!! tip "Newer Models Available"
+    The evaluation below compares **Qwen2.5-VL** and **Gemma 3**, which were the leading vision-capable Ollama models when the tests were conducted. Since then, Google has released [**Gemma 4**](https://ollama.com/library/gemma4) (a drop-in replacement that runs at similar latency) and Alibaba has released [**Qwen3-VL**](https://ollama.com/library/qwen3-vl). A newer community variant, [**`frob/qwen3.5-instruct:4b`**](https://ollama.com/frob/qwen3.5-instruct), is also a capable alternative — it uses the same Options profile as `qwen3-vl:4b-instruct` and, in our spot-checks, has shown a quality edge on less-common subjects. For currently recommended models and configuration examples, see [Ollama Models](../../user-guide/ai/ollama-models.md) in the User Guide.
+
 ## Caption Generation
 
 We tested the ability of the following [Ollama Vision models](https://ollama.com/search?c=vision) to generate accurate, natural-sounding captions for 100 different images, including photos, drawings, and memes:
@@ -102,7 +105,7 @@ Example: *A snow-covered church stands prominently on a winter street.*
 
 #### Summary
 
-If you prioritize **speed** and **simplicity** over detailed captions, the `gemma3:4b` / `gemma3:latest` model is a great choice. To generate captions in other languages, keep the prompt in English and specify the desired language.
+If you prioritize **speed** and **simplicity** over detailed captions, the `gemma3:4b` / `gemma3:latest` model is a great choice. Google has since released [**Gemma 4**](https://ollama.com/library/gemma4), a drop-in successor at similar latency — we recommend `gemma4:latest` for new deployments and keep Gemma 3 as a reliable fallback. To generate captions in other languages, keep the prompt in English and specify the desired language.
 
 ### Key Takeaways
 
@@ -110,6 +113,7 @@ If you prioritize **speed** and **simplicity** over detailed captions, the `gemm
 * **Qwen2.5-VL:3B** → Nearly as good, faster, less strong at OCR.
 * **Gemma 3:4B** → Lightweight, single-sentence captions, best for quick results.
 * Other models, including Moondream, MiniCPM-V, Llama3.2-Vision, and Granite3.2-Vision, performed poorly in at least one quality criterion and had higher hallucination and error rates.
+* **Newer options** (not part of this study, but recommended for new deployments): [`gemma4:latest`](https://ollama.com/library/gemma4) as a drop-in successor to Gemma 3 at similar latency, and [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl) (or the community variant [`frob/qwen3.5-instruct:4b`](https://ollama.com/frob/qwen3.5-instruct)) as the Qwen-family successor. See the [User Guide](../../user-guide/ai/ollama-models.md) for configuration examples and per-family option profiles.
 
 !!! example ""
     We welcome contributions to our computer vision documentation. If you have any additions or suggestions for improvements, please click the :material-file-edit-outline: button in the upper right corner of the page to send a pull request.

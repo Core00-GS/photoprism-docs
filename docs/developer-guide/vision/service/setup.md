@@ -73,7 +73,7 @@ The file consists of a list of `Models` and a `Thresholds` section.
     ```yaml
     Models:
     - Type: caption
-      Model: gemma3:latest
+      Model: gemma4:latest
       Prompt: Create a caption with exactly one sentence in the active voice that describes
         the main visual content. Begin with the main subject and clear action. Avoid text
         formatting, meta-language, and filler words.

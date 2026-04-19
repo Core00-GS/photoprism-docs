@@ -1,17 +1,19 @@
 # Ollama Models
 
-We recommend choosing a [vision model](https://ollama.com/search?c=vision) that balances speed, accuracy, and reliability. Two models that meet these criteria and that we can recommend are [Gemma 3](https://ollama.com/library/gemma3) and [Qwen3-VL](https://ollama.com/library/qwen3-vl):
+We recommend choosing a [vision model](https://ollama.com/search?c=vision) that balances speed, accuracy, and reliability. Two models that meet these criteria and that we can recommend are [Gemma 4](https://ollama.com/library/gemma4) and [Qwen3-VL](https://ollama.com/library/qwen3-vl):
 
 | Model        | Use Case                                                   | Notes                                                                                     |
 |--------------|------------------------------------------------------------|-------------------------------------------------------------------------------------------|
-| **Gemma 3**  | Standard caption and label generation                      | Light, reliable JSON output; good default.                                                |
+| **Gemma 4**  | Standard caption and label generation                      | Light, reliable JSON output; good default.                                                |
 | **Qwen3-VL** | Advanced vision and reasoning tasks (OCR, complex prompts) | Better visual grounding and multi-language support; available in many sizes and variants. |
 
-[**Gemma 3**](https://ollama.com/library/gemma3) is very consistent in terms of performance, with errors occurring rarely. However, it is less suitable for long/complex prompts and captions. We recommend using the [standard variant](https://ollama.com/library/gemma3/tags), `gemma3:latest`, for most [use cases](#gemma-3-labels).
+[**Gemma 4**](https://ollama.com/library/gemma4) is very consistent in terms of performance, with errors occurring rarely. However, it is less suitable for long/complex prompts and captions. We recommend using the [standard variant](https://ollama.com/library/gemma4/tags), `gemma4:latest` (currently aliases `gemma4:e4b`), for most [use cases](#gemma-4-labels). The smaller [`gemma4:e2b`](https://ollama.com/library/gemma4/tags) variant is noticeably faster and a good choice if a single primary-subject label per photo is enough. If you already have [Gemma 3](https://ollama.com/library/gemma3) configured, it continues to work fine — Gemma 4 is a drop-in replacement that runs at similar latency (around 2 seconds for label generation on an NVIDIA RTX 4060 in our testing).
 
-[**Qwen3-VL**](https://ollama.com/library/qwen3-vl) tends to be somewhat less predictable and consistent in the [smaller `2b` and `4b` variants](https://ollama.com/library/qwen3-vl/tags), where performance and error rates can vary widely [unless controlled as shown in the examples](#qwen3-vl-labels) below. The standard `qwen3-vl:latest` (`8b`) version generally works well without major adjustments. One drawback is slightly lower performance compared to Gemma 3 on an NVIDIA RTX 4060, with [label generation taking 2–3 seconds](#qwen3-vl-labels) versus [1–2 seconds](#gemma-3-labels).
+[**Qwen3-VL**](https://ollama.com/library/qwen3-vl) tends to be somewhat less predictable and consistent in the [smaller `2b` and `4b` variants](https://ollama.com/library/qwen3-vl/tags), where performance and error rates can vary widely [unless controlled as shown in the examples](#qwen3-vl-labels) below. The standard `qwen3-vl:latest` (`8b`) version generally works well without major adjustments. Label generation on an NVIDIA RTX 4060 typically takes [2–3 seconds](#qwen3-vl-labels), roughly comparable to [Gemma 4](#gemma-4-labels).
 
-Performance also depends on your hardware, so e.g., [Qwen3-VL variants](https://ollama.com/search?q=qwen3-vl) might outperform Gemma 3 when running on Apple Silicon or NVIDIA Blackwell GPUs. Our recommendation is therefore to test both models to see which one works best for you. If you generate both captions and labels, stick with this model so that Ollama doesn't need to swap models between requests.
+A newer community variant, [`frob/qwen3.5-instruct:4b`](https://ollama.com/frob/qwen3.5-instruct), has been a capable alternative in our testing — it uses the same Options profile as `qwen3-vl:4b-instruct` (see [below](#qwen3-vl-labels)) and delivers similar latency. In limited testing, we've observed slightly better recognition of less-common subjects (for example, correctly labeling a chameleon as "chameleon" rather than as the generic "lizard" that some other 4B models return). As with any Qwen-family model, it requires the strict options and "AT MOST N labels" prompt shape — without them it will over-generate and truncate the JSON response.
+
+Performance also depends on your hardware, so e.g., [Qwen3-VL variants](https://ollama.com/search?q=qwen3-vl) might outperform Gemma 4 when running on Apple Silicon or NVIDIA Blackwell GPUs. Our recommendation is therefore to test both models to see which one works best for you. If you generate both captions and labels, stick with this model so that Ollama doesn't need to swap models between requests.
 
 !!! tldr ""
     Without GPU acceleration, Ollama models will be significantly slower, taking anywhere from 10 seconds to over a minute to complete. This may be acceptable if you only want to process a few pictures or are willing to wait.
@@ -58,12 +60,12 @@ For other languages, keep the base instructions in English and add the desired l
 
 The following drop-in examples can be specified in your `vision.yml` file, which is located in the config directory (default: `storage/config`). [Learn more ›](index.md#visionyml-reference).
 
-### Gemma 3: Labels
+### Gemma 4: Labels
 
 ```yaml
 Models:
 - Type: labels
-  Model: gemma3:latest
+  Model: gemma4:latest
   Engine: ollama
   Run: auto
   Service:
@@ -74,13 +76,14 @@ Why this works:
 
 - **Engine:** Applies suitable **Resolution**, **Format**, **Prompt** and **Options** defaults (720 px thumbnails, JSON prompts for labels). Specifying a custom prompt is not required.
 - **Run:** `auto` allows manual, after indexing, and scheduled runs ￫ [Run Modes](index.md#run-modes).
+- **Model:** `gemma4:latest` currently aliases `gemma4:e4b` and returns three to four labels per photo with graded topicality. For a faster single-label-per-photo primary-subject classifier, switch to `gemma4:e2b`.
 
-### Gemma 3: Caption
+### Gemma 4: Caption
 
 ```yaml
 Models:
 - Type: caption
-  Model: gemma3:latest
+  Model: gemma4:latest
   Engine: ollama
   Run: auto
   Prompt: >
@@ -128,7 +131,7 @@ Models:
 
 Why this works:
 
-- **Model:** [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) is a lightweight version of Qwen3-VL. You can alternatively try [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
+- **Model:** [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) is a lightweight version of Qwen3-VL. You can alternatively try [`frob/qwen3.5-instruct:4b`](https://ollama.com/frob/qwen3.5-instruct) (a newer community variant; uses the same options profile and has shown a quality edge on less-common subjects in our testing), [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
 - **Engine:** Applies suitable **Resolution**, **Format**, and **Options** defaults.
 - **Run:** `on-demand` allows manual, metadata worker, and scheduled jobs ￫ [Run Modes](index.md#run-modes).
 - **Prompt:** Ensures low latency, prevents repetition, and controls the type and number of labels returned. For other languages, keep the base instructions in English and add the desired language (e.g., "Respond in German").
@@ -171,7 +174,7 @@ Models:
 
 Why this works:
 
-- **Model:** Using [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) for both labels and captions avoids time-consuming Ollama model swaps. You can alternatively try [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
+- **Model:** Using [`qwen3-vl:4b-instruct`](https://ollama.com/library/qwen3-vl/tags) for both labels and captions avoids time-consuming Ollama model swaps. You can alternatively try [`frob/qwen3.5-instruct:4b`](https://ollama.com/frob/qwen3.5-instruct) (a newer community variant; uses the same options profile and has shown a quality edge on less-common subjects in our testing), [`huihui_ai/qwen3-vl-abliterated:4b-instruct`](https://ollama.com/huihui_ai/qwen3-vl-abliterated), [`qwen3-vl:latest`](https://ollama.com/library/qwen3-vl), or other [variants](https://ollama.com/search?c=vision&q=qwen3-vl).
 - **Engine:** Applies suitable **Resolution**, **Format**, and **Options** defaults.
 - **Run:** `on-schedule` allows manual and scheduled jobs ￫ [Run Modes](index.md#run-modes).
 - **System:** Tells the model to describe images in natural language.
