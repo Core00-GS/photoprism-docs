@@ -61,6 +61,14 @@ When you **add or rename a redirect**, update the redirect entries in **both** c
 
 Work happens on `develop`. **Merging `develop` → `deploy` (e.g. `make merge`) triggers the GitHub Actions pipeline** (`.github/workflows/ci.yml`) which installs `mkdocs-material` + `requirements.txt` and runs `mkdocs gh-deploy --force --config-file mkdocs.deploy.yml`, publishing to `gh-pages`. The `web2` server then pulls `gh-pages` every 5 minutes and serves `docs.photoprism.app`. So: **`deploy` branch updates are production releases**, not a staging environment.
 
+**Standard release flow — always perform all steps so `develop` and `deploy` contain the same commits and the local checkout ends on `develop`:**
+
+1. Commit on `develop` and `git push origin develop`.
+2. Run `make merge` (or, manually: `git checkout deploy && git pull origin deploy && git merge develop && git push origin deploy`). This fast-forwards `deploy` to match `develop` and kicks off the CI build.
+3. Return to `develop` locally: `make merge` does this automatically with a trailing `git checkout develop`; if you ran the steps manually, switch back yourself so the next edit session doesn't accidentally land on `deploy`.
+
+Verify with `git rev-parse develop deploy origin/develop origin/deploy` — all four should print the same SHA when the release is clean.
+
 `make deploy` pushes to `gh-pages` from your laptop — reserved for emergencies, and coordinate with maintainers first so the CI pipeline does not overwrite your push.
 
 ## Style Rules Specific to This Repo
