@@ -121,7 +121,7 @@ These are the Go libraries worth evaluating if the hand-rolled reader is replace
 
 **XMP-Specific**
 
-- [`trimmer-io/go-xmp`](https://github.com/trimmer-io/go-xmp) — MIT. Last commit **November 2021** (dormant ~4 years). Native Go implementation of ISO 16684-1 with typed models per XMP namespace and round-trip read/write. PhotoPrism already hit gaps on real sample files here, and upstream is effectively unmaintained — not recommended as a 2026 choice unless an active fork emerges.
+- [`trimmer-io/go-xmp`](https://github.com/trimmer-io/go-xmp) — MIT. **Not recommended; listed for historic reference only.** Last commit November 2021; the author has moved on to other domains and no further updates are expected. Originally a native Go implementation of ISO 16684-1 with typed models per XMP namespace and round-trip read/write. PhotoPrism evaluated it when prototyping the current sidecar reader and hit gaps on real sample files.
 - [`evanoberholster/imagemeta`](https://github.com/evanoberholster/imagemeta) — MIT. **Actively maintained** (commits through April 2026). Broader image-metadata library with an `xmp` sub-package for sidecars and embedded XMP; decodes dates and rationals into Go types and handles nested `rdf:Description`. **Read-only**, so only a partial replacement if we also want to write sidecars.
 
 **Generic XML / DOM (for a hand-rolled XMP Parser)**
