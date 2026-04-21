@@ -115,11 +115,40 @@ We would be happy to receive more [XMP files for testing](https://github.com/pho
 - [Adobe XMP Files Plugin SDK](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Files_Plugin_SDK.pdf)
 - [Adobe BSD 3-Clause License](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_License.txt) and [XMP Toolkit SDK](https://github.com/adobe/XMP-Toolkit-SDK)
 
+## Candidate Libraries for a Future Rewrite
+
+These are the Go libraries worth evaluating if the hand-rolled reader is replaced or extended. Maintenance state is as of **April 2026** — re-check before committing to one.
+
+**XMP-Specific**
+
+- [`trimmer-io/go-xmp`](https://github.com/trimmer-io/go-xmp) — MIT. Last commit **November 2021** (dormant ~4 years). Native Go implementation of ISO 16684-1 with typed models per XMP namespace and round-trip read/write. PhotoPrism already hit gaps on real sample files here, and upstream is effectively unmaintained — not recommended as a 2026 choice unless an active fork emerges.
+- [`evanoberholster/imagemeta`](https://github.com/evanoberholster/imagemeta) — MIT. **Actively maintained** (commits through April 2026). Broader image-metadata library with an `xmp` sub-package for sidecars and embedded XMP; decodes dates and rationals into Go types and handles nested `rdf:Description`. **Read-only**, so only a partial replacement if we also want to write sidecars.
+
+**Generic XML / DOM (for a hand-rolled XMP Parser)**
+
+- [`beevik/etree`](https://github.com/beevik/etree) — BSD-2-Clause. Actively maintained (latest commit August 2025, ~1.7k stars). DOM-style XML with XPath-like selectors; strong fit for namespace-priority fallback (walk once, cherry-pick `dc:title`, then `photoshop:Headline` via prefix-aware paths) and supports writing. Rational/date coercion still has to be implemented manually.
+- [`subchen/go-xmldom`](https://github.com/subchen/go-xmldom) — Apache-2.0. Same niche as `etree` with a smaller community; prefer `etree` unless its XPath dialect is specifically needed.
+
+**RDF Parsers (XMP Is RDF/XML Under the Hood)**
+
+- [`knakk/rdf`](https://github.com/knakk/rdf) — MIT. Actively maintained (commits through March 2026). Turtle / N-Triples / RDF-XML parser that produces triples. Cleanest semantic match for XMP in theory (namespace-agnostic property lookup, `xml:lang` alternatives via language-tagged literals), but we would reconstruct XMP-specific structures ourselves and it does not write RDF/XML back.
+- [`deiu/rdf2go`](https://github.com/deiu/rdf2go) — MIT. Graph API with Turtle + JSON-LD I/O; RDF/XML parsing is weaker than `knakk/rdf`.
+
+**ExifTool Wrapper (Alternative Strategy)**
+
+- [`barasher/go-exiftool`](https://github.com/barasher/go-exiftool) — Apache-2.0. Actively maintained (~300 stars, latest commit August 2025). Wraps the Phil Harvey `exiftool` binary. Sidesteps parsing entirely — ExifTool already resolves namespace priority, `xml:lang` alternatives, rationals, and dates. PhotoPrism already shells out to `exiftool` for the embedded-XMP path (see [`convert_sidecar_json.go`](https://github.com/photoprism/photoprism/blob/develop/internal/photoprism/convert_sidecar_json.go)), so adopting this wrapper for `.xmp` sidecars too would unify both paths — at the cost of making ExifTool (and its Perl runtime) a hard dependency for sidecar reading as well.
+
+**Notes on `encoding/xml` Itself**
+
+Go 1.23 added well-formedness enforcement (with an `AllowIllFormed` escape hatch), but namespace handling and `xml:lang` semantics are **unchanged** from what PhotoPrism originally hit — see [golang/go#14407](https://github.com/golang/go/issues/14407), still open. A materially better `encoding/xml` is unlikely to land in the standard library; any real fix will almost certainly come via a third-party package.
+
+No maintained Go binding for [`libexempi`](https://libopenraw.freedesktop.org/exempi/) (the GNOME XMP Toolkit port) was found; the Go ecosystem has converged on native implementations.
+
 ## Open Issues
 
 - Extend the built-in `.xmp` sidecar reader to cover GPS (`exif:GPSLatitude` / `exif:GPSLongitude` / `exif:GPSAltitude`), `xmp:Rating`, `xmp:Label`, `xmpMM:DocumentID` / `xmpMM:InstanceID`, `xmp:CreatorTool`, and `xmpRights:UsageTerms`.
-- Add a namespace-priority mechanism to the direct sidecar reader, analogous to the ExifTool path's `meta:"A,B,C"` left-to-right fallback. Two natural options: (a) extend the hand-written accessors in `xmp_document.go` so each falls back across equivalent namespaces (e.g. `Title()` reads `dc:title`, then `photoshop:Headline`; `Copyright()` reads `dc:rights`, then `xmpRights:WebStatement`); or (b) make the existing `xmp:"..."` struct tags on `meta.Data` load-bearing — drive the reader from them via reflection once the parser can resolve namespace-qualified element names.
-- Replace the hand-written struct in `xmp_document.go` with a generic RDF-aware parser so arbitrary namespace prefixes and nested `rdf:Description` blocks parse correctly.
+- Add a namespace-priority mechanism to the direct sidecar reader, analogous to the ExifTool path's `meta:"A,B,C"` left-to-right fallback. Two natural options: (a) extend the hand-written accessors in `xmp_document.go` so each falls back across equivalent namespaces (e.g. `Title()` reads `dc:title`, then `photoshop:Headline`; `Copyright()` reads `dc:rights`, then `xmpRights:WebStatement`); or (b) make the existing `xmp:"..."` struct tags on `meta.Data` load-bearing — drive the reader from them via reflection once the parser can resolve namespace-qualified element names. [`beevik/etree`](https://github.com/beevik/etree) is a promising foundation for option (a); option (b) fits better with an RDF-aware parser such as [`knakk/rdf`](https://github.com/knakk/rdf).
+- Replace the hand-written struct in `xmp_document.go` with a generic RDF-aware parser so arbitrary namespace prefixes and nested `rdf:Description` blocks parse correctly. See [Candidate Libraries](#candidate-libraries-for-a-future-rewrite) above — `evanoberholster/imagemeta`, `beevik/etree`, and `knakk/rdf` are the main contenders; `barasher/go-exiftool` is an alternative if we're willing to make ExifTool a hard dependency for sidecars too.
 - Experiment with Adobe Lightroom to see how it currently uses sidecar files. Recent versions of Lightroom no longer appear to sync metadata to XMP by default, probably because Adobe focuses on cloud storage. Needs further investigation.
 - Create a matrix showing which fields are used/supported by which application (Photoshop, Lightroom, Darktable, and others — see also [RAW Image Conversion](../media/raw.md)).
 - Read [Camera Raw Schema (exiv2 reference)](http://www.exiv2.org/tags-xmp-crs.html).
@@ -131,6 +160,6 @@ We would be happy to receive more [XMP files for testing](https://github.com/pho
 
 ## External Resources
 
-- [`trimmer-io/go-xmp`](https://github.com/trimmer-io/go-xmp) — a native Go SDK for the Extensible Metadata Platform (XMP); evaluated when prototyping the sidecar reader.
-- [XMP code in GIMP](https://gitlab.gnome.org/GNOME/gimp/tree/master/plug-ins/metadata) — mostly comments; included here for reference.
 - [ExifTool Tag Names: XMP](https://exiftool.org/TagNames/XMP.html) — authoritative list of the XMP tags ExifTool exposes.
+- [XMP code in GIMP](https://gitlab.gnome.org/GNOME/gimp/tree/master/plug-ins/metadata) — mostly comments; included here for reference.
+- See [Candidate Libraries](#candidate-libraries-for-a-future-rewrite) above for maintained Go XML / XMP / RDF libraries we could evaluate.
