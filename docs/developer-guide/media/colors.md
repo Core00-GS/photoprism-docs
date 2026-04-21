@@ -6,12 +6,13 @@
 
 ## ICC Profiles
 
-An [ICC color profile](https://en.wikipedia.org/wiki/ICC_profile) for [wide-gamut displays](https://en.wikipedia.org/wiki/Gamut) can optionally be embedded in image and video files. For color profiles other than [sRGB](https://en.wikipedia.org/wiki/SRGB) and [Display P3](https://en.wikipedia.org/wiki/DCI-P3#P3_colorimetry), the thumbnails must be generated with `libvips` by setting the `PHOTOPRISM_THUMB_LIBRARY` config option to `vips` or `auto` so that the [ICC profiles are preserved](https://github.com/photoprism/photoprism/issues/1474): 
+An [ICC color profile](https://en.wikipedia.org/wiki/ICC_profile) for [wide-gamut displays](https://en.wikipedia.org/wiki/Gamut) can optionally be embedded in image and video files. PhotoPrism renders all thumbnails with `libvips` (via govips), which [preserves ICC profiles](https://github.com/photoprism/photoprism/issues/1474) beyond [sRGB](https://en.wikipedia.org/wiki/SRGB) and [Display P3](https://en.wikipedia.org/wiki/DCI-P3#P3_colorimetry) by default:
 
-|          Environment           |       CLI Flag        | Default |                                         Description                                          |
-|--------------------------------|-----------------------|---------|----------------------------------------------------------------------------------------------|
-| PHOTOPRISM_THUMB_LIBRARY       | --thumb-library       | auto    | image processing `LIBRARY` to be used for generating thumbnails (auto, imaging, vips)        |
-| PHOTOPRISM_THUMB_COLOR         | --thumb-color         | auto    | standard color `PROFILE` for thumbnails (auto, preserve, srgb, none)                         |
+| Environment            | CLI Flag      | Default | Description                                                          |
+|------------------------|---------------|---------|----------------------------------------------------------------------|
+| PHOTOPRISM_THUMB_COLOR | --thumb-color | auto    | Standard color `PROFILE` for thumbnails (auto, preserve, srgb, none) |
+
+`PHOTOPRISM_THUMB_LIBRARY` is retained for backwards compatibility but has no effect — libvips is the only supported image-processing library since the April 2026 release.
 
 Image colors may otherwise not be displayed correctly, which is particularly noticeable with ProPhoto RGB and Adobe RGB, as these cover a wide range of colors:
 

@@ -108,15 +108,10 @@ This section controls how JPEG preview and thumbnail images are rendered. These 
 
 ### Downscaling Filter
 
-This lets you select the algorithm used to resize your original images when creating thumbnails.
-A detailed description of the available filters can be found in the [section below](#downscaling-filters).
-
-For a good trade-off between quality and performance, we recommend choosing the *lanczos* filter. It may be a little slower in creating thumbnails, but produces very high quality images. In comparison, the less sophisticated *cubic* filter may be 30% faster.
-
-The corresponding [config option](../../getting-started/config-options.md#preview-images) is `PHOTOPRISM_THUMB_FILTER`.
+PhotoPrism renders thumbnails with `libvips`, which always uses a high-quality Lanczos 3-lobe kernel for downscaling. The `PHOTOPRISM_THUMB_FILTER` [config option](../../getting-started/config-options.md#preview-images) and the "Downscaling Filter" dropdown are retained for backwards compatibility but no longer change the rendered output.
 
 !!! info ""
-    This option is only available if the native `imaging` image processing library has been enabled by setting `PHOTOPRISM_THUMB_LIBRARY` to `“imaging”` in your `compose.yaml` or `docker-compose.yml` configuration file.
+    The legacy native `imaging` image-processing library was removed in the April 2026 release. Thumbnails are now always generated with libvips, so the previously-selectable filters (blackman, lanczos, cubic, linear, nearest) have no effect.
 
 ### Static and Dynamic Size Limits
 **Static Size Limit**: During initial indexing or import (as thumbnails are generated),
@@ -166,32 +161,32 @@ The smallest configurable static and dynamic size limit is 720px, so most sizes 
 
 The following overview shows the name, dimensions, and aspect ratio for each thumbnail size as well as a description of how it is used:
 
-|   Name    | Width | Height | Aspect Ratio | Available |       Usage       |
+| Name      | Width | Height | Aspect Ratio | Available | Usage             |
 |-----------|-------|--------|--------------|-----------|-------------------|
-| colors    |     3 |      3 | 1:1          | Always    | Color Detection   |
-| tile_50   |    50 |     50 | 1:1          | Always    | List View         |
-| tile_100  |   100 |    100 | 1:1          | Always    | Places View       |
-| left_224  |   224 |    224 | 1:1          | On-Demand | AI                |
-| right_224 |   224 |    224 | 1:1          | On-Demand | AI                |
-| tile_224  |   224 |    224 | 1:1          | Always    | AI, Mosaic View   |
-| left_384  |   384 |    384 | 1:1          | Optional  | AI                |
-| right_384 |   384 |    384 | 1:1          | Optional  | AI                |
-| tile_384  |   384 |    384 | 1:1          | Optional  | AI                |
-| left_480  |   480 |    480 | 1:1          | Optional  | AI                |
-| right_480 |   480 |    480 | 1:1          | Optional  | AI                |
-| tile_480  |   480 |    480 | 1:1          | Optional  | AI                |
-| tile_500  |   500 |    500 | 1:1          | Always    | Cards View        |
-| fit_720   |   720 |    720 | Preserved    | Always    | SD TV, Mobile     |
-| tile_1080 |  1080 |   1080 | 1:1          | Optional  | Instagram         |
-| fit_1280  |  1280 |   1024 | Preserved    | On-Demand | HD TV, SXGA       |
-| fit_1600  |  1600 |    900 | Preserved    | Optional  | Social Media      |
-| fit_1920  |  1920 |   1200 | Preserved    | On-Demand | Full HD           |
-| fit_2048  |  2048 |   2048 | Preserved    | Optional  | DCI 2K, Tablets   |
-| fit_2560  |  2560 |   1600 | Preserved    | On-Demand | Quad HD           |
-| fit_3840  |  3840 |   2400 | Preserved    | Optional  | 4K Ultra HD       |
-| fit_4096  |  4096 |   4096 | Preserved    | On-Demand | DCI 4K, Retina 4K |
-| fit_5120  |  5120 |   5120 | Preserved    | On-Demand | Retina 5K         |
-| fit_7680  |  7680 |   4320 | Preserved    | On-Demand | 8K Ultra HD 2     |
+| colors    | 3     | 3      | 1:1          | Always    | Color Detection   |
+| tile_50   | 50    | 50     | 1:1          | Always    | List View         |
+| tile_100  | 100   | 100    | 1:1          | Always    | Places View       |
+| left_224  | 224   | 224    | 1:1          | On-Demand | AI                |
+| right_224 | 224   | 224    | 1:1          | On-Demand | AI                |
+| tile_224  | 224   | 224    | 1:1          | Always    | AI, Mosaic View   |
+| left_384  | 384   | 384    | 1:1          | Optional  | AI                |
+| right_384 | 384   | 384    | 1:1          | Optional  | AI                |
+| tile_384  | 384   | 384    | 1:1          | Optional  | AI                |
+| left_480  | 480   | 480    | 1:1          | Optional  | AI                |
+| right_480 | 480   | 480    | 1:1          | Optional  | AI                |
+| tile_480  | 480   | 480    | 1:1          | Optional  | AI                |
+| tile_500  | 500   | 500    | 1:1          | Always    | Cards View        |
+| fit_720   | 720   | 720    | Preserved    | Always    | SD TV, Mobile     |
+| tile_1080 | 1080  | 1080   | 1:1          | Optional  | Instagram         |
+| fit_1280  | 1280  | 1024   | Preserved    | On-Demand | HD TV, SXGA       |
+| fit_1600  | 1600  | 900    | Preserved    | Optional  | Social Media      |
+| fit_1920  | 1920  | 1200   | Preserved    | On-Demand | Full HD           |
+| fit_2048  | 2048  | 2048   | Preserved    | Optional  | DCI 2K, Tablets   |
+| fit_2560  | 2560  | 1600   | Preserved    | On-Demand | Quad HD           |
+| fit_3840  | 3840  | 2400   | Preserved    | Optional  | 4K Ultra HD       |
+| fit_4096  | 4096  | 4096   | Preserved    | On-Demand | DCI 4K, Retina 4K |
+| fit_5120  | 5120  | 5120   | Preserved    | On-Demand | Retina 5K         |
+| fit_7680  | 7680  | 4320   | Preserved    | On-Demand | 8K Ultra HD 2     |
 
 !!! tldr ""
     Generated thumbnail files are stored in the `storage/cache/thumbnails` folder, where the path and file name depend on the size and file hash, e.g. `storage/cache/thumbnails/1/a/3/1a30c1f...9_100x100_center.jpg`.
@@ -290,6 +285,9 @@ The corresponding [config toggle](../../getting-started/config-options.md) is `P
 Disables support for vector graphics.
 
 ### Downscaling Filters
+
+!!! info ""
+    With the current `libvips`-based pipeline, PhotoPrism always uses **Lanczos** for thumbnail generation. The algorithm overviews below are retained for background reading and to explain the choices available in earlier releases.
 
 #### Linear
 
