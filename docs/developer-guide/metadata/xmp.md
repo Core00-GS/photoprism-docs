@@ -1,18 +1,99 @@
 # Adobe XMP
 
-XMP (Extensible Metadata Platform) is the standard sidecar file format supported by Adobe Lightroom. While [YAML](../technologies/yaml.md) files might be easier to understand, read and edit for humans, using the XML-based XMP format simplifies importing metadata from Lightroom and we can leverage a documented standard. Ideally, data can be kept in sync continuously between PhotoPrism and other photo management applications.
+**Last Updated:** April 21, 2026
 
-A proof-of-concept for reading `Title`, `Copyright`, `Artist` and `Description` is implemented but full support is a lot more work, contributions welcome. One issue is proper XML parsing in Go as basic types like date and time are not supported by `xml.Unmarshaler`. GPS coordinates are not stored as float but as a string like `52,27.5814N`.
+XMP (Extensible Metadata Platform) is an XML-based metadata container developed by Adobe. It can be embedded in common image and video formats (JPEG, HEIC, TIFF, DNG, MP4, MOV, PSD, …) and is also used as a standalone sidecar format — typically named the same as the original with an `.xmp` extension — to carry Dublin Core, IPTC, EXIF, and vendor-specific fields.
 
-The original plan to build upon `go-xmp` didn't work out as we couldn't read many fields, so we're using pure Go for now until we find a way to get the data we need with `go-xmp`. It might be a bug and/or it's an issue with our specific XMP files.
+## How PhotoPrism Reads XMP
+
+PhotoPrism has two separate code paths for XMP, and it is important to understand which one handles your files:
+
+### Embedded XMP via ExifTool (Primary Path)
+
+For XMP packets embedded in a media file, PhotoPrism does **not** parse the XML itself. Instead, the indexer runs [ExifTool](https://exiftool.org/) once per file and caches its output as a JSON document. ExifTool flattens EXIF, XMP, IPTC, Maker Notes, QuickTime atoms, and vendor tags into a single object; PhotoPrism then reads the values it recognises from that JSON.
+
+The relevant code:
+
+- `internal/photoprism/convert_sidecar_json.go` — runs `exiftool -n -m -api LargeFileSupport -j <file>` (adds `-ee` for videos) and writes the result to the cache.
+- `internal/photoprism/mediafile_meta.go` — calls `CreateExifToolJson` when the cached JSON is missing and then `ReadExifToolJson` to feed the cache into the metadata.
+- `internal/meta/json_exiftool.go` — iterates the fields of `meta.Data` and, for each `meta:"..."` struct tag, assigns the first non-empty value found in the ExifTool JSON.
+
+ExifTool normalises tag names across groups by default, so an ExifTool JSON key such as `Description` may originate from `XMP-dc:description`, `IPTC:Caption-Abstract`, or `EXIF:ImageDescription` — whichever group ExifTool selected for that file. If you need to see the origin explicitly, pass `-g` to ExifTool (`exiftool -g -j <file>`) when debugging.
+
+This path also covers the XMP that `exiftool` extracts from RAW, HEIC, and video containers — so **all XMP support beyond a handful of sidecar fields depends on ExifTool being enabled**. If `PHOTOPRISM_DISABLE_EXIFTOOL` is set, embedded XMP is not indexed.
+
+### `.xmp` Sidecar Files via the Built-In Reader (Proof of Concept)
+
+When the indexer encounters a standalone `.xmp` file (see `internal/photoprism/index_mediafile.go`, `case m.IsXMP()`), it does **not** invoke ExifTool. It parses the XML directly with the built-in reader in:
+
+- `internal/meta/xmp.go` — entry point `meta.XMP(fileName)`; assigns a fixed set of values to `meta.Data`.
+- `internal/meta/xmp_document.go` — hard-coded Go struct with `encoding/xml` tags, plus accessor methods such as `Title()`, `Description()`, and `Keywords()`.
+
+This reader is an **initial, proof-of-concept implementation** that only recognises a small subset of the fields the ExifTool-backed path covers. It supports only actual `.xmp` sidecar files and does **not** read XMP that is embedded in another media file.
+
+## Fields Extracted from XMP
+
+The table below lists the XMP elements PhotoPrism currently consumes, their primary XMP namespace, and whether each path reads them. ExifTool-JSON keys are the default (un-grouped) names as they appear in the output of `exiftool -n -j`; PhotoPrism looks them up case-sensitively via the `meta:"..."` struct tags on `meta.Data`.
+
+| PhotoPrism `Data` Field | XMP Namespace and Element                                                       | ExifTool JSON Key(s)                                                                  | Embedded (ExifTool) | `.xmp` Sidecar (Direct) |
+|-------------------------|---------------------------------------------------------------------------------|---------------------------------------------------------------------------------------|---------------------|-------------------------|
+| `Title`                 | `dc:title` (Dublin Core); also `photoshop:Headline`                             | `Title`, `Headline`                                                                   | ✓                   | ✓                       |
+| `Caption`               | `dc:description`                                                                | `Description`, `ImageDescription`, `Caption`, `Caption-Abstract`                      | ✓                   | ✓                       |
+| `Artist`                | `dc:creator`; also `photoshop:AuthorsPosition`, `photoshop:OwnerName`           | `Artist`, `Creator`, `By-line`, `OwnerName`, `Owner`                                  | ✓                   | ✓                       |
+| `Copyright`             | `dc:rights`; `xmpRights:WebStatement`                                           | `Rights`, `Copyright`, `CopyrightNotice`, `WebStatement`                              | ✓                   | ✓                       |
+| `License`               | `xmpRights:UsageTerms`                                                          | `UsageTerms`, `License`                                                               | ✓                   | —                       |
+| `Subject`               | `dc:subject`; `lr:hierarchicalSubject` (Lightroom); `Iptc4xmpExt:PersonInImage` | `Subject`, `HierarchicalSubject`, `PersonInImage`, `CatalogSets`, `ObjectName`        | ✓                   | —                       |
+| `Keywords`              | `dc:subject` (aggregated); `lr:hierarchicalSubject`                             | `Keywords`                                                                            | ✓                   | ✓ (from `dc:subject`)   |
+| `TakenAt`               | `xmp:CreateDate`; `photoshop:DateCreated`; `exif:DateTimeOriginal`              | `SubSecDateTimeOriginal`, `DateTimeOriginal`, `CreationDate`, `DateTimeDigitized`     | ✓                   | ✓ (from `DateCreated`)  |
+| `CreatedAt`             | `xmp:CreateDate`; QuickTime `CreateDate`                                        | `SubSecCreateDate`, `CreateDate`, `MediaCreateDate`, `TrackCreateDate`                | ✓                   | —                       |
+| `Software`              | `xmp:CreatorTool`; `xmpMM:History/softwareAgent`                                | `Software`, `CreatorTool`, `HistorySoftwareAgent`, `ProcessingSoftware`               | ✓                   | —                       |
+| `CameraMake`            | `tiff:Make`                                                                     | `Make`, `CameraMake`                                                                  | ✓                   | ✓                       |
+| `CameraModel`           | `tiff:Model`; `aux:UniqueCameraModel`                                           | `Model`, `CameraModel`, `UniqueCameraModel`                                           | ✓                   | ✓                       |
+| `CameraSerial`          | `aux:SerialNumber`                                                              | `SerialNumber`                                                                        | ✓                   | —                       |
+| `LensMake`              | `aux:LensMake` / `exifEX:LensMake`                                              | `LensMake`                                                                            | ✓                   | —                       |
+| `LensModel`             | `aux:Lens` / `exifEX:LensModel`                                                 | `LensModel`, `Lens`, `LensID`                                                         | ✓                   | ✓                       |
+| `FocalLength`           | `exif:FocalLength`, `exifEX:FocalLengthIn35mmFilm`                              | `FocalLength`, `FocalLengthIn35mmFormat`                                              | ✓                   | —                       |
+| `Exposure`              | `exif:ExposureTime`, `exif:ShutterSpeedValue`                                   | `ExposureTime`, `ShutterSpeedValue`, `ShutterSpeed`                                   | ✓                   | —                       |
+| `Aperture` / `FNumber`  | `exif:ApertureValue`, `exif:FNumber`                                            | `ApertureValue`, `Aperture`, `FNumber`                                                | ✓                   | —                       |
+| `Iso`                   | `exif:ISOSpeedRatings`                                                          | `ISO`                                                                                 | ✓                   | —                       |
+| `Flash`                 | `exif:Flash/Fired`                                                              | `FlashFired`                                                                          | ✓                   | —                       |
+| `Rotation`              | `xmp:Rotation`; `tiff:Orientation`                                              | `Rotation`, `Orientation`                                                             | ✓                   | —                       |
+| `Width` / `Height`      | `tiff:ImageWidth` / `ImageLength`; `exif:PixelXDimension` / `PixelYDimension`   | `ImageWidth`, `ExifImageWidth`, `PixelXDimension`, `ImageHeight`, `ExifImageHeight`   | ✓                   | —                       |
+| `GPSLatitude`           | `exif:GPSLatitude`                                                              | `GPSLatitude`, `GPSPosition`                                                          | ✓                   | —                       |
+| `GPSLongitude`          | `exif:GPSLongitude`                                                             | `GPSLongitude`, `GPSPosition`                                                         | ✓                   | —                       |
+| `Altitude`              | `exif:GPSAltitude`                                                              | `GlobalAltitude`, `GPSAltitude`                                                       | ✓                   | —                       |
+| `TakenGps`              | `exif:GPSTimeStamp` / `GPSDateStamp`                                            | `GPSDateTime`, `GPSDateStamp`                                                         | ✓                   | —                       |
+| `Projection`            | `GPano:ProjectionType` (Google Photo Sphere)                                    | `ProjectionType`                                                                      | ✓                   | —                       |
+| `ColorProfile`          | `photoshop:ICCProfile`                                                          | `ICCProfileName`, `ProfileDescription`                                                | ✓                   | —                       |
+| `DocumentID`            | `xmpMM:OriginalDocumentID` / `DocumentID`; MWG `ImageUniqueID`                  | `ContentIdentifier`, `OriginalDocumentID`, `DocumentID`, `ImageUniqueID`, `BurstUUID` | ✓                   | —                       |
+| `InstanceID`            | `xmpMM:InstanceID`                                                              | `InstanceID`                                                                          | ✓                   | —                       |
+| `Favorite`              | Custom `http://www.fstopapp.com/xmp/ favorite` attribute (F-Stop app)           | `Favorite` (when present)                                                             | ✓ (via tag alias)   | ✓                       |
+| `HasThumbEmbedded`      | `photoshop:Thumbnail`                                                           | `ThumbnailImage`, `PhotoshopThumbnail`                                                | ✓                   | —                       |
+| `HasVideoEmbedded`      | Google Motion Photo (`GCamera:MicroVideo`), Samsung `MotionPhoto`               | `EmbeddedVideoFile`, `MotionPhoto`, `MotionPhotoVideo`, `MicroVideo`                  | ✓                   | —                       |
+
+**Notes**
+
+- The XMP element column lists the *primary* namespace mapping. Many fields are aliased across several namespaces (for example, `dc:title` ↔ `photoshop:Headline` ↔ `IPTC:Headline`) and ExifTool merges them, which is why PhotoPrism usually lists multiple ExifTool keys per field.
+- The authoritative mapping for the ExifTool path lives in the `meta:"..."` struct tags on `meta.Data` in [`internal/meta/data.go`](https://github.com/photoprism/photoprism/blob/develop/internal/meta/data.go). For the direct sidecar reader, the authoritative mapping is the XML struct in [`internal/meta/xmp_document.go`](https://github.com/photoprism/photoprism/blob/develop/internal/meta/xmp_document.go).
+- Standalone `.xmp` sidecar fields that the XML struct parses into memory but that the current reader does not yet assign to `meta.Data` (for example `GPSLatitude`, `GPSLongitude`, `Rating`, `Rotation`, and the full EXIF block) are intentionally left as `—` above. Wiring these up is a natural next step — see "Open Issues" below.
+
+## Sidecar Reader Limitations
+
+The built-in `.xmp` sidecar reader is a proof-of-concept and has several known shortcomings:
+
+- Only the fields marked as supported in the table above are applied; everything else in the sidecar is ignored, even if it is valid XMP.
+- It has no generic XMP/RDF parser. The [`XmpDocument` struct](https://github.com/photoprism/photoprism/blob/develop/internal/meta/xmp_document.go) is a hand-written mapping of the elements observed in sample files, so sidecars that nest fields differently (for example, inside additional `rdf:Description` nodes or with non-default namespace prefixes) may not parse as expected.
+- GPS coordinates are stored in XMP as strings like `52,27.5814N`. The struct fields exist but are not converted to decimal latitude/longitude — the indexer therefore never sees GPS data from `.xmp` sidecars.
+- Go's `encoding/xml` does not natively unmarshal timestamps or rational numbers, so values like EXIF dates, apertures, and focal lengths would have to be parsed manually. Only `photoshop:DateCreated` is currently handled, via `txt.ParseTime`.
+- The reader was originally prototyped on `trimmer-io/go-xmp`, but that library did not produce the values we needed for our sample files, so the current implementation uses `encoding/xml` directly.
+
+Pull requests that extend the supported field set (or replace the reader with a generic RDF-aware parser) are welcome.
 
 ## RAW Conversion
 
-PhotoPrism currently supports Darktable and RawTherapee as RAW image converters (as well as Sips on macOS). Darktable fully supports XMP sidecar files, RawTherapee might only partially. However, XMP is only a "container" format, so the fields (namespaces) used there to indicate how an image should be converted (as well as other metadata) differ between Lightroom/Photoshop, Darktable, and RawTherapee.
-    
-In other words, just because an application generally supports XMP that doesn't mean it can use metadata created with another application or by another vendor like Adobe. If you think that's confusing, well, that's because it is. You have an open format, but you still suffer from vendor lock-in - probably not entirely unintentional on Adobe's part.
+PhotoPrism currently supports Darktable and RawTherapee as RAW image converters (as well as Sips on macOS). Darktable fully supports XMP sidecar files; RawTherapee only partially. XMP is a container format, so the fields (namespaces) used to describe how an image should be rendered differ between Lightroom/Photoshop, Darktable, and RawTherapee — an application that "supports XMP" in general may still be unable to interpret edits written by another vendor.
 
-From our experience, some basic edits done with Adobe tools - such as cropping - might be preserved when you convert the same RAW image with other software like Darktable. Advanced edits, such as lens or color corrections, will likely not be applied.
+From our experience, some basic edits done with Adobe tools — such as cropping — can survive conversion with Darktable, while advanced edits like lens or colour corrections usually do not.
 
 [Learn more ›](../media/raw.md)
 
@@ -24,16 +105,18 @@ We would be happy to receive more [XMP files for testing](https://github.com/pho
 
 - [Part 1: Data and Serialization Model](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_1.pdf)
 - [Part 2: Standard Schemas](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_2.pdf)
-- [Part 3: Storage in Files](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_3.pdf) 
+- [Part 3: Storage in Files](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_3.pdf)
 - [Adobe XMP Programmers Guide](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Programmers_Guide.pdf)
 - [Adobe XMP Files Plugin SDK](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Files_Plugin_SDK.pdf)
 - [Adobe BSD 3-Clause License](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_License.txt) and [XMP Toolkit SDK](https://github.com/adobe/XMP-Toolkit-SDK)
 
 ## Open Issues
 
-- Experiment with Adobe Lightroom to see how it uses sidecar files. The new version doesn't seem to use XMP to automatically sync metadata anymore, probably because Adobe focuses on cloud storage. Needs further investigation.
-- Create a matrix showing what fields are used/supported by which application/tool (Photoshop, Lightroom, Darktable and others, [see](../media/raw.md)
-- Read http://www.exiv2.org/tags-xmp-crs.html (Camera Raw Schema)
+- Extend the built-in `.xmp` sidecar reader to cover GPS (`exif:GPSLatitude` / `exif:GPSLongitude` / `exif:GPSAltitude`), `xmp:Rating`, `xmp:Label`, `xmpMM:DocumentID` / `xmpMM:InstanceID`, `xmp:CreatorTool`, and `xmpRights:UsageTerms`.
+- Replace the hand-written struct in `xmp_document.go` with a generic RDF-aware parser so arbitrary namespace prefixes and nested `rdf:Description` blocks parse correctly.
+- Experiment with Adobe Lightroom to see how it currently uses sidecar files. Recent versions of Lightroom no longer appear to sync metadata to XMP by default, probably because Adobe focuses on cloud storage. Needs further investigation.
+- Create a matrix showing which fields are used/supported by which application (Photoshop, Lightroom, Darktable, and others — see also [RAW Image Conversion](../media/raw.md)).
+- Read [Camera Raw Schema (exiv2 reference)](http://www.exiv2.org/tags-xmp-crs.html).
 
 ## Released Features
 
@@ -42,5 +125,6 @@ We would be happy to receive more [XMP files for testing](https://github.com/pho
 
 ## External Resources
 
-- https://github.com/trimmer-io/go-xmp - A native Go SDK for the Extensible Metadata Platform (XMP)
-- [XMP code in GIMP](https://gitlab.gnome.org/GNOME/gimp/tree/master/plug-ins/metadata) - Nothing beyond some comments. It was a code drop, we needed the feature, but unfortunately the original contributor left.
+- [`trimmer-io/go-xmp`](https://github.com/trimmer-io/go-xmp) — a native Go SDK for the Extensible Metadata Platform (XMP); evaluated when prototyping the sidecar reader.
+- [XMP code in GIMP](https://gitlab.gnome.org/GNOME/gimp/tree/master/plug-ins/metadata) — mostly comments; included here for reference.
+- [ExifTool Tag Names: XMP](https://exiftool.org/TagNames/XMP.html) — authoritative list of the XMP tags ExifTool exposes.

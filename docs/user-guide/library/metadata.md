@@ -1,7 +1,7 @@
 # Metadata Support
 
 Original media and sidecar files are scanned for Exif and XMP data, as well as proprietary metadata, including Google Photos JSON.
-For this, PhotoPrism has a [built-in Exif parser](../../developer-guide/metadata/exif/index.md), a [simple XMP reader](../../developer-guide/metadata/xmp.md) and can also use [ExifTool](https://exiftool.org/) to extract metadata in various formats such as Exif, XMP and IPTC:
+For this, PhotoPrism has a [built-in Exif parser](../../developer-guide/metadata/exif/index.md), a [simple XMP reader](../../developer-guide/metadata/xmp.md) for standalone `.xmp` sidecar files, and can also use [ExifTool](https://exiftool.org/) to extract metadata in various formats such as Exif, XMP, and IPTC from the media files themselves:
 
 [View Supported Tags ›](https://www.photoprism.app/kb/metadata)
 
@@ -17,6 +17,8 @@ If you update one of these tags with external tools such as [ExifTool](https://e
 ### XMP Sidecar Files
 
 When a field is populated with data from an XMP sidecar file, that data is the only source for the field. This means that keywords from XMP override other keywords from PhotoPrism, such as those derived from colors or folder names.
+
+Note that the built-in reader for standalone `.xmp` sidecars is an initial proof-of-concept and only supports a subset of XMP fields; for the full picture, including the associated namespaces and the ExifTool path used for XMP embedded in media files, see [Adobe XMP](../../developer-guide/metadata/xmp.md) in the developer guide.
 
 ### Cloud Migration
 

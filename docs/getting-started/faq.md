@@ -66,10 +66,16 @@ text editors. However, changes are not synchronized with the original index, as 
 #### XMP ####
 
 XMP (Extensible Metadata Platform) is an XML-based metadata container format [developed by Adobe](https://www.adobe.com/products/xmp.html).
-It provides many more fields (as part of embedded models like Dublin Core) than Exif. This also makes it difficult - if not 
-impossible - to provide full support. Reading title, copyright, artist, and caption from XMP sidecar files is 
-implemented as a proof-of-concept, [contributions are welcome](../developer-guide/metadata/xmp.md). Indexing of 
-embedded XMP is only possible via [ExifTool](https://exiftool.org/), see above.
+It provides many more fields (as part of embedded models like Dublin Core) than Exif. This also makes it difficult - if not
+impossible - to provide full support.
+
+PhotoPrism handles XMP through two separate code paths. **XMP embedded in media files is indexed via [ExifTool](https://exiftool.org/)**,
+which flattens XMP, Exif, and IPTC into a single JSON document that the indexer then reads; PhotoPrism never parses the embedded
+XML directly. If ExifTool is disabled, embedded XMP is not indexed. **Standalone `.xmp` sidecar files are read by a built-in
+proof-of-concept XML reader** that does *not* use ExifTool and currently recognises only a limited set of fields
+(title, caption, creator/artist, copyright, keywords, capture date, camera make/model, lens model, and the F-Stop favorite flag).
+See the [XMP developer guide](../developer-guide/metadata/xmp.md) for the full field list, the associated namespaces, and known
+limitations. [Contributions are welcome](../developer-guide/metadata/xmp.md).
 
 ### Does your software depend on any external services?
 
