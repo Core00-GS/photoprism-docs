@@ -102,7 +102,9 @@ From our experience, some basic edits done with Adobe tools — such as cropping
 
 [Learn more ›](../media/raw.md)
 
-## File Samples
+## Resources
+
+### File Samples
 
 We would be happy to receive more [XMP files for testing](https://github.com/photoprism/photoprism/tree/develop/internal/meta/testdata). There are two ways to contribute:
 
@@ -111,22 +113,24 @@ We would be happy to receive more [XMP files for testing](https://github.com/pho
 
 A short note about the camera or software that produced the sidecar, which fields are relevant, and what PhotoPrism currently gets wrong about the file helps us triage quickly.
 
-## Specification
+### References
 
-- [Part 1: Data and Serialization Model](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_1.pdf)
-- [Part 2: Standard Schemas](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_2.pdf)
-- [Part 3: Storage in Files](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_3.pdf)
+- [XMP Part 1: Data and Serialization Model](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_1.pdf)
+- [XMP Part 2: Standard Schemas](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_2.pdf)
+- [XMP Part 3: Storage in Files](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_Part_3.pdf)
 - [Adobe XMP Programmers Guide](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Programmers_Guide.pdf)
 - [Adobe XMP Files Plugin SDK](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Files_Plugin_SDK.pdf)
 - [Adobe BSD 3-Clause License](https://dl.photoprism.app/pdf/specifications/20120101-Adobe_XMP_Specification_License.txt) and [XMP Toolkit SDK](https://github.com/adobe/XMP-Toolkit-SDK)
+- [ExifTool Tag Names: XMP](https://exiftool.org/TagNames/XMP.html) — authoritative list of the XMP tags ExifTool exposes.
+- [XMP code in GIMP](https://gitlab.gnome.org/GNOME/gimp/tree/master/plug-ins/metadata) — mostly comments; included here for reference.
+- [Camera Raw Schema (exiv2 reference)](http://www.exiv2.org/tags-xmp-crs.html)
 
-## Candidate Libraries for a Future Rewrite
+### XML/XMP Libraries
 
-These are the Go libraries worth evaluating if the hand-rolled reader is replaced or extended. Maintenance state is as of **April 2026** — re-check before committing to one.
+The following Go libraries are worth considering as replacements or additions to the existing reader. Their documented maintenance state is as of April 2026.
 
 **XMP-Specific**
 
-- [`trimmer-io/go-xmp`](https://github.com/trimmer-io/go-xmp) — MIT. **Not recommended; listed for historic reference only.** Last commit November 2021; the author has moved on to other domains and no further updates are expected. Originally a native Go implementation of ISO 16684-1 with typed models per XMP namespace and round-trip read/write. PhotoPrism evaluated it when prototyping the current sidecar reader and hit gaps on real sample files.
 - [`evanoberholster/imagemeta`](https://github.com/evanoberholster/imagemeta) — MIT. **Actively maintained** (commits through April 2026). Broader image-metadata library with an `xmp` sub-package for sidecars and embedded XMP; decodes dates and rationals into Go types and handles nested `rdf:Description`. **Read-only**, so only a partial replacement if we also want to write sidecars.
 
 **Generic XML / DOM (for a hand-rolled XMP Parser)**
@@ -151,20 +155,15 @@ No maintained Go binding for [`libexempi`](https://libopenraw.freedesktop.org/ex
 
 ## Open Issues
 
-- Extend the built-in `.xmp` sidecar reader to cover GPS (`exif:GPSLatitude` / `exif:GPSLongitude` / `exif:GPSAltitude`), `xmp:Rating`, `xmp:Label`, `xmpMM:DocumentID` / `xmpMM:InstanceID`, `xmp:CreatorTool`, and `xmpRights:UsageTerms`.
-- Add a namespace-priority mechanism to the direct sidecar reader, analogous to the ExifTool path's `meta:"A,B,C"` left-to-right fallback. Two natural options: (a) extend the hand-written accessors in `xmp_document.go` so each falls back across equivalent namespaces (e.g. `Title()` reads `dc:title`, then `photoshop:Headline`; `Copyright()` reads `dc:rights`, then `xmpRights:WebStatement`); or (b) make the existing `xmp:"..."` struct tags on `meta.Data` load-bearing — drive the reader from them via reflection once the parser can resolve namespace-qualified element names. [`beevik/etree`](https://github.com/beevik/etree) is a promising foundation for option (a); option (b) fits better with an RDF-aware parser such as [`knakk/rdf`](https://github.com/knakk/rdf).
-- Replace the hand-written struct in `xmp_document.go` with a generic RDF-aware parser so arbitrary namespace prefixes and nested `rdf:Description` blocks parse correctly. See [Candidate Libraries](#candidate-libraries-for-a-future-rewrite) above — `evanoberholster/imagemeta`, `beevik/etree`, and `knakk/rdf` are the main contenders; `barasher/go-exiftool` is an alternative if we're willing to make ExifTool a hard dependency for sidecars too.
-- Experiment with Adobe Lightroom to see how it currently uses sidecar files. Recent versions of Lightroom no longer appear to sync metadata to XMP by default, probably because Adobe focuses on cloud storage. Needs further investigation.
-- Create a matrix showing which fields are used/supported by which application (Photoshop, Lightroom, Darktable, and others — see also [RAW Image Conversion](../media/raw.md)).
-- Read [Camera Raw Schema (exiv2 reference)](http://www.exiv2.org/tags-xmp-crs.html).
+- [ ] Replace the hand-written struct in `xmp_document.go` with a generic RDF-aware parser so arbitrary namespace prefixes and nested `rdf:Description` blocks parse correctly. See [**XML/XMP Libraries**](#xmlxmp-libraries) above — `evanoberholster/imagemeta`, `beevik/etree`, and `knakk/rdf` are the main contenders; `barasher/go-exiftool` is an alternative if we're willing to make ExifTool a hard dependency for sidecars too.
+- [ ] Add a namespace-priority mechanism to the direct sidecar reader, analogous to the ExifTool path's `meta:"A,B,C"` left-to-right fallback. Two natural options:
+    1. extend the hand-written accessors in `xmp_document.go` so each falls back across equivalent namespaces (e.g. `Title()` reads `dc:title`, then `photoshop:Headline`; `Copyright()` reads `dc:rights`, then `xmpRights:WebStatement`)
+    2. make the existing `xmp:"..."` struct tags on `meta.Data` load-bearing — drive the reader from them via reflection once the parser can resolve namespace-qualified element names. [`beevik/etree`](https://github.com/beevik/etree) is a promising foundation for option (a); option (b) fits better with an RDF-aware parser such as [`knakk/rdf`](https://github.com/knakk/rdf).
+- [ ] Extend the built-in `.xmp` sidecar reader to cover GPS (`exif:GPSLatitude` / `exif:GPSLongitude` / `exif:GPSAltitude`), `xmp:Rating`, `xmp:Label`, `xmpMM:DocumentID` / `xmpMM:InstanceID`, `xmp:CreatorTool`, and `xmpRights:UsageTerms`.
+- [ ] Experiment with Adobe Lightroom to see how it currently uses sidecar files. Recent versions of Lightroom no longer appear to sync metadata to XMP by default, probably because Adobe focuses on cloud storage. Needs further investigation.
+- [ ] Create a matrix showing which fields are used/supported by which application (Photoshop, Lightroom, Darktable, and others — see also [RAW Image Conversion](../media/raw.md)).
 
-## Released Features
+### Released Features
 
 - [Store metadata in the filesystem #4](https://github.com/photoprism/photoprism/issues/4)
 - [Compare the quality and XMP compatibility of different RAW converters #65](https://github.com/photoprism/photoprism/issues/65)
-
-## External Resources
-
-- [ExifTool Tag Names: XMP](https://exiftool.org/TagNames/XMP.html) — authoritative list of the XMP tags ExifTool exposes.
-- [XMP code in GIMP](https://gitlab.gnome.org/GNOME/gimp/tree/master/plug-ins/metadata) — mostly comments; included here for reference.
-- See [Candidate Libraries](#candidate-libraries-for-a-future-rewrite) above for maintained Go XML / XMP / RDF libraries we could evaluate.
