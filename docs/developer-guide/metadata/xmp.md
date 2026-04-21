@@ -104,7 +104,12 @@ From our experience, some basic edits done with Adobe tools — such as cropping
 
 ## File Samples
 
-We would be happy to receive more [XMP files for testing](https://github.com/photoprism/photoprism/tree/develop/internal/meta/testdata), either via [pull request](../pull-requests.md) or [email](https://www.photoprism.app/contact).
+We would be happy to receive more [XMP files for testing](https://github.com/photoprism/photoprism/tree/develop/internal/meta/testdata). There are two ways to contribute:
+
+- **Pull request** against [`internal/meta/testdata`](https://github.com/photoprism/photoprism/tree/develop/internal/meta/testdata) — see the [Pull Requests](../pull-requests.md) guide. Use this for files you are clearly licensed to share publicly (files you created yourself, or files from an openly licensed corpus).
+- **Email to [samples@photoprism.app](mailto:samples@photoprism.app)** — for files you cannot or would rather not commit directly. Please include the file format and the related [GitHub issue number](https://github.com/photoprism/photoprism/issues) (or other helpful reference) in the subject line, and let us know whether we have permission to upload your files to [dl.photoprism.app/samples](https://dl.photoprism.app/samples/) so other contributors can use them for regression testing.
+
+A short note about the camera or software that produced the sidecar, which fields are relevant, and what PhotoPrism currently gets wrong about the file helps us triage quickly.
 
 ## Specification
 
