@@ -71,6 +71,15 @@ Verify with `git rev-parse develop deploy origin/develop origin/deploy` — all 
 
 `make deploy` pushes to `gh-pages` from your laptop — reserved for emergencies, and coordinate with maintainers first so the CI pipeline does not overwrite your push.
 
+**`deploy` is a protected branch.** Pushes print `remote: Bypassed rule violations for refs/heads/deploy:` and `Cannot update this protected ref.` in the log but still succeed with exit 0 — the user has an admin override. Don't treat those lines as errors.
+
+## Editing Guardrails
+
+- **`docs/getting-started/config-options.md` is auto-generated on release.** Do not hand-edit it — changes will be overwritten. When a new env var or flag needs to surface in docs, update the manually-maintained page that describes the feature (e.g. `docs/developer-guide/vision/face-recognition.md`, `docs/user-guide/settings/advanced.md`) and link to the auto-generated table for the full list.
+- **Package READMEs in the main PhotoPrism repo are canonical.** Before rewriting a developer-guide page, check `/workspace/src/photoprism/photoprism/internal/<package>/README.md` — e.g. `internal/ai/face/README.md`, `internal/thumb/README.md`, `internal/meta/README.md`. These are kept more current than docs and usually contain the exact thresholds, benchmarks, and test recipes you need. Link to them from the dev-guide page rather than duplicating the content.
+- **Don't rewrite historical `release-notes.md` entries** to reflect later removals or changes. Past entries (e.g. "Replaced `disintegration/imaging`…") stay as-is — they are the record of what shipped that release. Update the *current* pages that describe the feature instead.
+- **The user sometimes edits docs manually between sessions.** Before starting work, `git status` + `git pull --ff-only origin develop` so local changes don't trample their edits (and so you aren't rebuilding content that has already been revised).
+
 ## Style Rules Specific to This Repo
 
 - **Title Case (APA/AP)** on every heading, nav label, and link title. Rules are spelled out in `AGENTS.md`. Always spell the product name `PhotoPrism` (proper noun, exception to generic rules).
